@@ -67,7 +67,7 @@ export default {
   },
 
   warning: {
-    main: "#fb8c00",
+    main: "#fff400",
     focus: "#fc9d26",
   },
 
@@ -120,7 +120,7 @@ export default {
     },
 
     warning: {
-      main: "#FFA726",
+      main: "#fff400",
       state: "#FB8C00",
     },
 
@@ -224,7 +224,7 @@ export default {
     },
 
     warning: {
-      background: "#ffd59f",
+      background: "#fff400",
       text: "#c87000",
     },
 
