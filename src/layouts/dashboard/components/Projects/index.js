@@ -68,7 +68,7 @@ function Projects() {
       >
         <MDBox>
           <MDTypography variant="h6" gutterBottom>
-            Projects
+            Hi
           </MDTypography>
           <MDBox display="flex" alignItems="center" lineHeight={0}>
             <Icon

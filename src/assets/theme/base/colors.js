@@ -65,8 +65,8 @@ export default {
   },
 
   warning: {
-    main: "#fb8c00",
-    focus: "#fc9d26",
+    main: "#fff400",
+    focus: "#fff400",
   },
 
   error: {
@@ -118,8 +118,8 @@ export default {
     },
 
     warning: {
-      main: "#FFA726",
-      state: "#FB8C00",
+      main: "#fff400",
+      state: "#FC0",
     },
 
     error: {
@@ -222,7 +222,7 @@ export default {
     },
 
     warning: {
-      background: "#ffd59f",
+      background: "#fff400",
       text: "#c87000",
     },
 
