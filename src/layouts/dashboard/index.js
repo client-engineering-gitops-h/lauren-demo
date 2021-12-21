@@ -109,7 +109,7 @@ function Dashboard() {
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsBarChart
-                  color="info"
+                  color="dark"
                   title="Error Rate"
                   description={
                     <>
@@ -124,7 +124,7 @@ function Dashboard() {
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="success"
+                  color="dark"
                   title="No. of Reservations"
                   description={
                     <>
