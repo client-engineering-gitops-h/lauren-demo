@@ -33,7 +33,6 @@ import Configurator from "examples/Configurator";
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
 
-
 // Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 
@@ -142,7 +141,7 @@ export default function App() {
       <CssBaseline />
       {layout === "dashboard" && (
         <>
-          <Sidenav
+          {/* <Sidenav
             color={sidenavColor}
             brand={
               (transparentSidenav && !darkMode) || whiteSidenav
@@ -153,7 +152,7 @@ export default function App() {
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
-          />
+          /> */}
 
           <Configurator />
         </>
