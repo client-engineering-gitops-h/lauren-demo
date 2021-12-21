@@ -109,9 +109,13 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsBarChart
                   color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
+                  title="Error Rate"
+                  description={
+                    <>
+                      (<strong>-10%</strong>) decrease since last week.
+                    </>
+                  }
+                  date="updated 2 min ago"
                   chart={reportsBarChartData}
                 />
               </MDBox>
@@ -120,10 +124,10 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="success"
-                  title="daily sales"
+                  title="No. of Reservations"
                   description={
                     <>
-                      (<strong>+15%</strong>) increase in today sales.
+                      (<strong>+15%</strong>) increase since last week.
                     </>
                   }
                   date="updated 4 min ago"
@@ -135,7 +139,7 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="dark"
-                  title="completed tasks"
+                  title="Rental API Latency"
                   description="Last Campaign Performance"
                   date="just updated"
                   chart={tasks}
@@ -146,16 +150,12 @@ function Dashboard() {
         </MDBox>
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <OrdersOverview />
             </Grid>
           </Grid>
         </MDBox>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 }
