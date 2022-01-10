@@ -23,7 +23,7 @@ const { xxl } = boxShadows;
 export default {
   styleOverrides: {
     paper: {
-      borderRadius: borderRadius.lg,
+      //borderRadius: borderRadius.lg,
       boxShadow: xxl,
     },
 

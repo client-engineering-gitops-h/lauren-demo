@@ -116,25 +116,25 @@ export default function App() {
       return null;
     });
 
-  const configsButton = (
-    <MDBox
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      width="3.25rem"
-      height="3.25rem"
-      bgColor="white"
-      shadow="sm"
-      borderRadius="50%"
-      position="fixed"
-      right="2rem"
-      bottom="2rem"
-      zIndex={99}
-      color="dark"
-      sx={{ cursor: "pointer" }}
-      onClick={handleConfiguratorOpen}
-    ></MDBox>
-  );
+  // const configsButton = (
+  //   <MDBox
+  //     display="flex"
+  //     justifyContent="center"
+  //     alignItems="center"
+  //     width="3.25rem"
+  //     height="3.25rem"
+  //     bgColor="white"
+  //     shadow="sm"
+  //     borderRadius="50%"
+  //     position="fixed"
+  //     right="2rem"
+  //     bottom="2rem"
+  //     zIndex={99}
+  //     color="dark"
+  //     sx={{ cursor: "pointer" }}
+  //     onClick={handleConfiguratorOpen}
+  //   ></MDBox>
+  // );
 
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
