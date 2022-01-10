@@ -1,2 +1,8 @@
-FROM nginx:1.17
-COPY example/build/ /usr/share/nginx/html
+FROM node:alpine
+WORKDIR /app
+COPY package.json ./
+COPY package-lock.json ./
+COPY ./ ./
+RUN npm i
+EXPOSE 3000
+CMD ["npm", "run", "start"]
