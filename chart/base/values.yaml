@@ -34,6 +34,12 @@ partOf: ''
 connectsTo: ''
 runtime: js
 
+nodeSelector:
+  kubernetes.io/hostname: 10.23.5.110
+
+env:
+  - name: PORT
+    value: 8080
 
 
 
