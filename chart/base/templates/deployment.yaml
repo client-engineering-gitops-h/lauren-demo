@@ -5,10 +5,10 @@ metadata:
   annotations:
   {{- if and .Values.vcsInfo.repoUrl .Values.vcsInfo.branch }}
     app.openshift.io/vcs-ref: {{ .Values.vcsInfo.branch }}
-    app.openshift.io/vcs-uri: {{ trimSuffix ".git" .Values.vcsInfo.repoUrl }}
+    app.openshift.io/vcs-uri: {{ .Values.vcsInfo.repoUrl }}
   {{- end }}
   {{- if .Values.connectsTo }}
-    app.openshift.io/connects-to: {{ printf "[{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"name\":%s}]" (toJson .Values.connectsTo) | squote }}
+    app.openshift.io/connects-to: {{ .Values.connectsTo }}
   {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "starter-kit.name" . }}
@@ -33,59 +33,27 @@ spec:
         app.kubernetes.io/name: {{ include "starter-kit.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ .Values.name }}
       {{- if .Values.image.secretName }}
       imagePullSecrets:
         - name: {{ .Values.image.secretName }}
-      {{- end }}
-      volumes:
-      {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
-        - name: {{ .Values.ccdt.volumeName }}
-          configMap:
-            name: {{ .Values.ccdt.configMapName }}
-      {{- end }}
-      {{- if eq .Values.security true }}
-        - name: {{ .Values.certs.volumeName }}
-          secret:
-            secretName: {{ .Values.certs.certSecretName }}
-            defaultMode: 384
-            optional: false
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-          {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
-            - name: {{ .Values.ccdt.volumeName }}
-              mountPath: {{ .Values.ccdt.volumeMountPath }}
-          {{- end }}
-          {{- if eq .Values.security true }}
-            - name: {{ .Values.certs.volumeName }}
-              mountPath: {{ .Values.certs.volumeMountPath }}
-          {{- end }}
+
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness
-              port: {{ .Values.image.port }}
-              scheme: HTTP
-            timeoutSeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
+              path: /
+              port: http
           readinessProbe:
             httpGet:
-              path: /actuator/health/readiness
-              port: {{ .Values.image.port }}
-              scheme: HTTP
-            timeoutSeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3
+              path: /
+              port: http
           env:
             - name: INGRESS_HOST
               value: ""
@@ -93,76 +61,101 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
-            {{- if eq .Values.ccdt.enabled true }}
-            - name: SPRING_PROFILES_ACTIVE
-              value: ccdt
-            - name: CCDT_URL
-              value: {{ .Values.ccdt.CCDT_URL }}
-            {{- end }}
-            {{- if eq .Values.security true }}
-            - name: SPRING_PROFILES_ACTIVE
-              value: securemq
-            {{- end }}
-            {{- if and (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
-            - name: SPRING_PROFILES_ACTIVE
-              value: ccdt,securemq
-            {{- end }}
-            {{- if eq .Values.security true }}
-            - name: CLIENT_SSL_TRUST_STORE
-              value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.trustStoreFileName }}
-            - name: CLIENT_SSL_KEY_STORE
-              value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.keyStoreFileName }}
-            {{- end }}
-            - name: QM
-              valueFrom:
-                configMapKeyRef:
-                  key: QM
-                  name: {{ include "mq-spring-app.fullname" . }}
-            - name: CHANNEL
-              valueFrom:
-                configMapKeyRef:
-                  key: CHANNEL
-                  name: {{ include "mq-spring-app.fullname" . }}
-            - name: CONNECTION_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: CONNECTION_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}
-            {{- if eq .Values.security true }}
-            - name: USER
+            - name: CLIENT_CERT
               valueFrom:
                 secretKeyRef:
-                  key: USER
-                  name: {{ include "mq-spring-app.fullname" . }}
-            - name: PASSWORD
+                  name: lauren-demo
+                  key: CLIENT_CERT
+            - name: CLIENT_KEY
               valueFrom:
                 secretKeyRef:
-                  key: PASSWORD
-                  name: {{ include "mq-spring-app.fullname" . }}
-            {{- end }}
-            - name: QUEUE_NAME
+                  name: lauren-demo
+                  key: CLIENT_KEY
+            - name: CLIENT_CA
               valueFrom:
-                configMapKeyRef:
-                  key: QUEUE_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}
-            - name: APP_NAME
+                secretKeyRef:
+                  name: lauren-demo
+                  key: CLIENT_CA
+            - name: DB_HOST
               valueFrom:
-                configMapKeyRef:
-                  key: APP_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}
-            - name: OPENTRACING_JAEGER_ENABLED
-              value: {{ .Values.jaeger.enabled | quote }}
-          envFrom:
-            - configMapRef:
-                name: {{ default "jaeger-config" .Values.jaeger.configName }}
-                optional: true
-            - secretRef:
-                name: {{ default "jaeger-access" .Values.jaeger.secretName }}
-                optional: true
-            {{- if eq .Values.security true }}
-            - secretRef:
-                name: {{ .Values.certs.certPasswordSecretName }}
-            {{- end }}
+                secretKeyRef:
+                  name: lauren-demo
+                  key: DB_HOST
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: DB_NAME
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: DB_PASS
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: DB_USER
+            - name: HERE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: HERE_API_KEY
+            - name: APP_ID_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_CLIENT_ID
+            - name: APP_ID_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_TENANT_ID
+            - name: APP_ID_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_SECRET
+            - name: APP_ID_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_NAME
+            - name: APP_ID_OAUTH_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_OAUTH_SERVER_URL
+            - name: APP_ID_PROFILES_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_PROFILES_URL
+            - name: APP_ID_DISCOVERY_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_DISCOVERY_ENDPOINT
+            - name: APP_ID_REDIRECT_URI
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_REDIRECT_URI
+            - name: APP_ID_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: APP_ID_TYPE
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: SESSION_SECRET
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
