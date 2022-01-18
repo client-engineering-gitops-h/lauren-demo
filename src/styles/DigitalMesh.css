@@ -1,0 +1,28 @@
+.DigitalMesh {
+
+  @import '~@blueprintjs/core/src/common/_variables';
+  @import '~@blueprintjs/core/src/blueprint.css';
+  @import '~normalize.css';
+  
+  background-color: #F3F4F8;
+
+}
+.dashboard {
+  background-color: #F3F4F8;
+}
+.top-bar {
+  border-bottom: solid 5px;
+  border-bottom-color: #fed60a;
+  background-color: #FFFFFF;
+
+}
+.logo {
+  width: 6rem;
+  padding-left: 20px;
+}
+
+.submit-card{
+  padding: 10px;
+}
+
+
