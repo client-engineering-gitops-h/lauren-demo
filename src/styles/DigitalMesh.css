@@ -21,13 +21,15 @@
 }
 
 .car-card {
-  margin: 20px;
-  height: 200px;
-  width: 200px;
+  margin: 10px 0px;
+  height: 40vh;
+  width: 20vw;
 }
 
 .card-container {
   display: grid;
+  margin: auto;
+  justify-content: start;
   width: 80vw;
 }
 
