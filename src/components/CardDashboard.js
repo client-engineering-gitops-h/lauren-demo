@@ -1,8 +1,7 @@
 import React from "react";
-
 import { Button, Card, Elevation } from "@blueprintjs/core";
 
-const Dashboard = () => {
+const CardDashboard = () => {
   return (
     <div className="card-container">
       <Card className="car-card" interactive={true} elevation={Elevation.TWO}>
@@ -16,4 +15,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CardDashboard;
