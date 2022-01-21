@@ -1,28 +1,48 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 .DigitalMesh {
-
-  @import '~@blueprintjs/core/src/common/_variables';
-  @import '~@blueprintjs/core/src/blueprint.css';
-  @import '~normalize.css';
-  
-  background-color: #F3F4F8;
-
+  height: 100%;
+  background-color: #f3f4f8;
 }
-.dashboard {
-  background-color: #F3F4F8;
+
+.map-container {
+  display: grid;
+  margin: auto;
+  justify-content: center;
+  width: 100%;
 }
+
+.leaflet-container {
+  margin: 10px;
+  height: 60vh;
+  width: 80vw;
+}
+
+.car-card {
+  margin: 10px 0px;
+  height: 40vh;
+  width: 20vw;
+}
+
+.card-container {
+  display: grid;
+  margin: auto;
+  justify-content: start;
+  width: 80vw;
+}
+
 .top-bar {
   border-bottom: solid 5px;
   border-bottom-color: #fed60a;
-  background-color: #FFFFFF;
-
+  background-color: #ffffff;
 }
 .logo {
   width: 6rem;
   padding-left: 20px;
 }
 
-.submit-card{
+.submit-card {
   padding: 10px;
 }
-
-

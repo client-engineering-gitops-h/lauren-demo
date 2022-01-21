@@ -3,16 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "@types/leaflet": "^1.7.8",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^3.0.1"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.52.0",
+    "blueprintjs": "0.0.8",
     "express": "^4.15.3",
-    "nodemon": "^2.0.3"
+    "leaflet": "^1.7.1",
+    "nodemon": "^2.0.3",
+    "normalize.css": "^8.0.1",
+    "react-leaflet": "^3.2.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,11 +36,6 @@
       ">0.2%",
       "not dead",
       "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
     ]
   }
 }
