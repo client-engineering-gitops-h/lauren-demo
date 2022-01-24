@@ -23,8 +23,8 @@ function App() {
   return (
     <div className="DigitalMesh">
       <Topbar />
-      <CardDashboard />
-      <div className="map-container">
+      <div classname="map-and-cards">
+        <CardDashboard />
         <HertzMap />
       </div>
     </div>
