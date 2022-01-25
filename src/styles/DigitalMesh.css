@@ -23,13 +23,18 @@
 }
 
 .car-card {
-  margin: 10px 0px;
-  height: 20vh;
-  width: 15vw;
+  margin-left: 10px;
+  width: 33vw;
+}
+
+.map-card {
+  padding: 0px;
 }
 
 .card-container {
-  width: 20vw;
+  display: flex;
+  margin: 10px 0px;
+  margin-left: 10px;
 }
 
 .top-bar {
@@ -51,7 +56,7 @@
 
 .menu-items {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 1rem;
 }
 

@@ -25,7 +25,6 @@ function App() {
       <Topbar />
       <div classname="map-and-cards">
         <CardDashboard />
-        <HertzMap />
       </div>
     </div>
   );
