@@ -6,33 +6,24 @@ const CarCard = () => {
   const [cars, setCars] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:3002/vehicles").then(({ data }) => {
-      console.log("data response", data);
-      const id = data.vid;
-      const newCar = {};
-      newCar[id] = data;
-      console.log("new car", newCar);
-      setCars({ ...cars, newCar });
-    });
-  }, []);
-
-  useEffect(() => {
     axios
       .get("http://localhost:3002/mileage-location") //has to accept parameters
       .then(({ data }) => {
         const id = data.vid;
-        console.log("response from mileage", data);
-        const newCarData = {};
-        const oldCarData = cars[id];
-        console.log("old car data", cars);
-        newCarData[id] = { ...oldCarData, ...data };
-        console.log("combined data", newCarData);
-        setCars({ ...cars, newCarData });
+        setCars({ ...cars, [id]: { ...cars[id], ...data } });
       })
-      .then(() => {
-        console.log(cars);
-      });
+      .then(
+        axios.get("http://localhost:3002/vehicles").then(({ data }) => {
+          const id = data.vid;
+          const currentCar = cars[id];
+          setCars({ ...cars, [id]: { ...currentCar, ...data } });
+        })
+      );
   }, []);
+
+  useEffect(() => {
+    console.log("updated", cars);
+  }, [cars]);
 
   return (
     <div>
