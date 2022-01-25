@@ -3,20 +3,45 @@ import { Card, Elevation } from "@blueprintjs/core";
 import axios from "axios";
 
 const CarCard = () => {
-  const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState({});
+
   useEffect(() => {
     axios.get("http://localhost:3002/vehicles").then(({ data }) => {
-      console.log("cars", data);
-      setCars([data]);
+      console.log("data response", data);
+      const id = data.vid;
+      const newCar = {};
+      newCar[id] = data;
+      console.log("new car", newCar);
+      setCars({ ...cars, newCar });
     });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3002/mileage-location") //has to accept parameters
+      .then(({ data }) => {
+        const id = data.vid;
+        console.log("response from mileage", data);
+        const newCarData = {};
+        const oldCarData = cars[id];
+        console.log("old car data", cars);
+        newCarData[id] = { ...oldCarData, ...data };
+        console.log("combined data", newCarData);
+        setCars({ ...cars, newCarData });
+      })
+      .then(() => {
+        console.log(cars);
+      });
+  }, []);
+
   return (
     <div>
       {cars &&
-        cars.map((car) => {
-          console.log("cars in map", cars);
+        Object.keys(cars).map((key, i) => {
+          const car = cars[key];
           return (
             <Card
+              key={i}
               className="car-card"
               interactive={true}
               elevation={Elevation.One}
