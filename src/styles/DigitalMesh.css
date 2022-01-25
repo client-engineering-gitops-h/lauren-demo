@@ -27,16 +27,21 @@
   width: 33vw;
   padding: 0px;
 }
+
 .fleet-title-styling {
+  display: flex;
+  justify-content:space-between;
   padding-left: 12px;
+  padding-right: 1rem;
   padding-bottom: 20px;
-  border-bottom:#7476813a solid 1px ;
+  margin-bottom: 0px;
+  /* border-bottom:#7476813a solid 1px ; */
 }
 
 .car-card {
   border-radius: 0;
-  padding-top: 0px;
-  box-shadow:#7476813a 0px 1px 0px;
+  /* box-shadow:#7476813a 0px 1px 0px; */
+  
 }
 
 .map-card {
@@ -72,3 +77,6 @@
   margin: 1rem;
 }
 
+.location-details{ 
+  padding-top: 10px;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 
 const CarCard= () => {
     return (
@@ -8,18 +8,18 @@ const CarCard= () => {
             <h3><a href="#">IBM_1</a></h3>
             <div className="customer-details">
                 <div>
-                IMEI: 867688033558168
+                    IMEI: 867688033558168
                 </div>
                 <div>
-                Customer: IBM
+                    Customer: IBM
                 </div>
                 <div>
-                Onboarded: (created_at)
+                    Onboarded: (created_at)
                 </div>
                 <div>
-                Last Active: (updated_at)
+                    Last Active: (updated_at)
                 </div>
-                <div>
+                <div style={{paddingTop:"10px"}}>
                     Make: (make)
                 </div>
                 <div>
@@ -28,15 +28,17 @@ const CarCard= () => {
                     Color: (colour)
             </div>
             <div className="location-details">
-                Approx. Address: (get vehicle location)
+                    Approx. Address: (get vehicle location)
                 <div>
-                Mileage: (tracker_mileage): 365
-                Lat:(latitude): 26.977220535278
-                Long: (longitude): -82.31909942627
+                    Mileage: (tracker_mileage): 365
+                </div>
+                <div>
+                    Lat:(latitude): 26.977220535278
+                </div>
+                <div>
+                    Long: (longitude): -82.31909942627
                 </div>
             </div>
-
-            <Button>Submit</Button>
         </Card>
         </div>
     );

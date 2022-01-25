@@ -9,7 +9,7 @@ const Topbar=() => {
                 <img className='logo' src={HertzLogo} alt='hertz logo'/>
             </div>
             <div className='menu-items'>
-                <Icon style={{paddingRight:"15px"}} icon="user" size={20}/>
+                <Icon style={{paddingRight:"15px"}} icon="help" size={20}/>
             </div>
         </div>
     )

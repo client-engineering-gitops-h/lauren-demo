@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
+import CollapsableCard from "./CollapseCard";
 
 const Dashboard = () => {
   return (
@@ -13,9 +14,11 @@ const Dashboard = () => {
       </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <h1 className="fleet-title-styling">Your Fleet</h1>
+        <h1 className="fleet-title-styling">Your Fleet 
+        <Button>Get Fleet</Button></h1>
         <CarCard />
       </Card>
+      {/* <CollapsableCard /> NOT CURRENTLY A WORKING COMPONENT*/}
     </div>
   );
 };
