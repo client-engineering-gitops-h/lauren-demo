@@ -22,9 +22,21 @@
   width: 65vw;
 }
 
-.car-card {
+.fleet-card {
   margin-left: 10px;
   width: 33vw;
+  padding: 0px;
+}
+.fleet-title-styling {
+  padding-left: 12px;
+  padding-bottom: 20px;
+  border-bottom:#7476813a solid 1px ;
+}
+
+.car-card {
+  border-radius: 0;
+  padding-top: 0px;
+  box-shadow:#7476813a 0px 1px 0px;
 }
 
 .map-card {

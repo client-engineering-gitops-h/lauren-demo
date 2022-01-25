@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/DigitalMesh.css";
-import CardDashboard from "./components/CardDashboard";
+import Dashboard from "./components/Dashboard";
 import Topbar from "./components/Topbar";
 import HertzMap from "./components/HertzMap";
 
@@ -20,13 +20,17 @@ function App() {
     .then((result) => console.log(result))
     .catch((error) => console.log("Rentalmatics", error));
 
+  // added fetch code for location and mileage the same way as above
+  fetch("https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location", requestOptions)
+    .then((locationresponse) => locationresponse.json())
+    .then((locationresult) => console.log(locationresult))
+    .catch((error) => console.log("Rentalmatics", error));
+  
   return (
     <div className="DigitalMesh">
       <Topbar />
-      <div classname="map-and-cards">
-        <CardDashboard />
+      <Dashboard />
       </div>
-    </div>
   );
 }
 
