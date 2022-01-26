@@ -15,7 +15,6 @@ server.listen(port, function () {
 
 setTimeout(() => {
   app.use(cors());
-  console.log(process.env);
   app.get("/vehicles", (req, res) => {
     axios
       .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
