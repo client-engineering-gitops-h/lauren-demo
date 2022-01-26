@@ -4,19 +4,19 @@ import axios from "axios";
 
 const CarCard = () => {
   const [cars, setCars] = useState({});
+  const [mileage, setMileage] = useState();
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/mileage-location") //has to accept parameters
+      .get("http://localhost:3002/vehicles") //has to accept parameters
       .then(({ data }) => {
         const id = data.vid;
-        setCars({ ...cars, [id]: { ...cars[id], ...data } });
+        setCars({ ...cars, [id]: { ...data } });
       })
       .then(
-        axios.get("http://localhost:3002/vehicles").then(({ data }) => {
+        axios.get("http://localhost:3002/mileage-location").then(({ data }) => {
           const id = data.vid;
-          const currentCar = cars[id];
-          setCars({ ...cars, [id]: { ...currentCar, ...data } });
+          setMileage({ ...mileage, [id]: { ...data } });
         })
       );
   }, []);
@@ -25,11 +25,19 @@ const CarCard = () => {
     console.log("updated", cars);
   }, [cars]);
 
+  useEffect(() => {
+    console.log("updated", mileage);
+  }, [mileage]);
+
   return (
     <div>
       {cars &&
+        mileage &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
+          console.log("car", car);
+          const carMileage = mileage[key];
+          console.log("carMileage", carMileage);
           return (
             <Card
               key={i}
@@ -42,19 +50,46 @@ const CarCard = () => {
               </h3>
 
               <div className="customer-details">
-                <div>IMEI: {car.imei}</div>
-                <div>Customer: IBM</div>
-                <div>Onboarded: {car.created_at}</div>
-                <div>Last Active: {car.updated_at}</div>
-                <div style={{ paddingTop: "10px" }}>Make: {car.make}</div>
-                <div>Model: {car.model}</div>
-                Color: {car.colour}
+                <div>
+                  <strong>IMEI: </strong>
+                  {car.imei || "N/A"}
+                </div>
+                <div>
+                  <strong>Customer: </strong>IBM
+                </div>
+                <div>
+                  <strong>Onboarded: </strong>
+                  {new Date(car.created_at).toLocaleString() || "N/A"}
+                </div>
+                <div>
+                  <strong>Last Active: </strong>
+                  {new Date(car.updated_at).toLocaleString() || "N/A"}
+                </div>
+                <div style={{ paddingTop: "10px" }}>
+                  <strong>Make: </strong>
+                  {car.make || "N/A"}
+                </div>
+                <div>
+                  <strong>Model: </strong>
+                  {car.model || "N/A"}
+                </div>
+                <strong>Color: </strong>
+                {car.colour || "N/A"}
               </div>
               <div className="location-details">
-                Approx. Address: (get vehicle location)
-                <div>Mileage: (tracker_mileage): 365</div>
-                <div>Lat:(latitude): 26.977220535278</div>
-                <div>Long: (longitude): -82.31909942627</div>
+                <strong>Approx. Address: </strong>
+                <div>
+                  <strong>Mileage: </strong>
+                  {carMileage.tracker_mileage || "N/A"}
+                </div>
+                <div>
+                  <strong>Lat: </strong>
+                  {carMileage.latitude.toFixed(3) || "N/A"}
+                </div>
+                <div>
+                  <strong>Long: </strong>
+                  {carMileage.longitude.toFixed(3) || "N/A"}
+                </div>
               </div>
             </Card>
           );
