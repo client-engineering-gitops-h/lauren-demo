@@ -1,0 +1,82 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+.DigitalMesh {
+  height: 100%;
+  background-color: #f3f4f8;
+}
+
+.map-and-cards{
+  display: flex;
+  flex-direction: row;
+  
+}
+.map-container {
+  display: grid;
+  margin: auto;
+}
+
+.leaflet-container {
+  height: 90vh;
+  width: 65vw;
+}
+
+.fleet-card {
+  margin-left: 10px;
+  width: 33vw;
+  padding: 0px;
+}
+
+.fleet-title-styling {
+  display: flex;
+  justify-content:space-between;
+  padding-left: 12px;
+  padding-right: 1rem;
+  padding-bottom: 20px;
+  margin-bottom: 0px;
+  /* border-bottom:#7476813a solid 1px ; */
+}
+
+.car-card {
+  border-radius: 0;
+  /* box-shadow:#7476813a 0px 1px 0px; */
+  
+}
+
+.map-card {
+  padding: 0px;
+}
+
+.card-container {
+  display: flex;
+  margin: 10px 0px;
+  margin-left: 10px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 5px;
+  border-bottom-color: #FFD50D;
+  background-color: #ffffff;
+}
+.logo {
+  width: 6rem;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.submit-card {
+  padding: 10px;
+}
+
+.menu-items {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem;
+}
+
+.location-details{ 
+  padding-top: 10px;
+}
