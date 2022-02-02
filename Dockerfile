@@ -34,4 +34,4 @@ LABEL com.example.version="1.0"
 ARG ENV=production
 ENV NODE_ENV $ENV
 ENV NODE_VERSION $NODEJS_VERSION
-CMD ["npm", "run", "${$NODE_ENV}"]
+CMD ["npm", "run", "${NODE_ENV}"]
