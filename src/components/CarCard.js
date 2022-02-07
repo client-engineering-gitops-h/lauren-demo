@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
 import axios from "axios";
 
-const CarCard = () => {
+const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({});
   const [mileage, setMileage] = useState();
+  const [counter, setCounter] = useState(0);
+  const [isOpen, setIsOpen]= useState(false);
+  const handleClick = () => {
+    setIsOpen(!isOpen)
+  }
+
+  // useEffect(() => {
+  //   const intervalCount = setInterval(() => {
+  //     setCounter(counter + 1);
+  //   }, 1500);
+  //   return () => {
+  //     clearInterval(intervalCount);
+  //   };
+  // });
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/vehicles") //has to accept parameters
+    .get("http://localhost:3002/vehicles", {
+      params: { cars: ["IBM_1", "IBM_2", "IBM_3"] },
+    })
       .then(({ data }) => {
         const id = data.vid;
         setCars({ ...cars, [id]: { ...data } });
@@ -19,14 +35,15 @@ const CarCard = () => {
           setMileage({ ...mileage, [id]: { ...data } });
         })
       );
-  }, []);
+  }, [counter]);
 
   useEffect(() => {
     console.log("updated", cars);
   }, [cars]);
 
   useEffect(() => {
-    console.log("updated", mileage);
+    console.log("updated mileage", mileage);
+    setCarCoordinates(mileage);
   }, [mileage]);
 
   return (
@@ -45,10 +62,23 @@ const CarCard = () => {
               interactive={true}
               elevation={Elevation.One}
             >
-              <h3>
-                <a href="#">IBM_1</a>
-              </h3>
-
+            <Button className="collapse-card-button" minimal={true} 
+            onClick={ () => {
+              handleClick()
+              setSelectedCar(car.vid)
+            }
+            }> 
+            <div className="collapse-card">
+            <div className="card-title-vin">
+              <Icon size={30} icon='drive-time'/>
+              <h2 style={{paddingLeft:"1rem"}}>IBM_1</h2>
+            </div> 
+            <div className="icon-collapse-card">
+              <Icon size={20} icon='chevron-down' />
+            </div>
+            </div> 
+            </Button>
+            <Collapse isOpen={isOpen}>
               <div className="customer-details">
                 <div>
                   <strong>IMEI: </strong>
@@ -80,7 +110,7 @@ const CarCard = () => {
                 <strong>Approx. Address: </strong>
                 <div>
                   <strong>Mileage: </strong>
-                  {carMileage.tracker_mileage || "N/A"}
+                  {carMileage.tracker_mileage || "N/A"} mi
                 </div>
                 <div>
                   <strong>Lat: </strong>
@@ -91,7 +121,9 @@ const CarCard = () => {
                   {carMileage.longitude.toFixed(3) || "N/A"}
                 </div>
               </div>
+            </Collapse>
             </Card>
+
           );
         })}
     </div>

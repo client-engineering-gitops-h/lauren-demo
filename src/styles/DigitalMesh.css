@@ -80,3 +80,33 @@
 .location-details{ 
   padding-top: 10px;
 }
+
+.collapse-card{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:29vw;
+}
+
+.icon-collapse-card{
+  padding-right: 1rem;
+}
+
+.bp3-card .bp3-minimal :hover {
+  background-color: white;
+}  
+
+.collapse-card-button{
+  padding: 0;
+}
+
+.card-title-vin{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.selected-car-marker{
+  background-color: #FFD50D;
+  color: #FFD50D;
+}
