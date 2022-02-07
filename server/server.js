@@ -15,6 +15,10 @@ server.listen(port, function () {
 
 setTimeout(() => {
   app.use(cors());
+  app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
+
   app.get("/vehicles", (req, res) => {
     axios
       .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
