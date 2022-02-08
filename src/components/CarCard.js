@@ -40,6 +40,10 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       );
   }, [counter]);
 
+  useEffect(() => {
+    setCarCoordinates(mileage);
+  }, [mileage]);
+
   return (
     <div>
       {cars &&

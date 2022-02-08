@@ -4,14 +4,13 @@ import "../styles/DigitalMesh.css";
 import carIcon from "../map/car.png"
 import { Icon } from "@blueprintjs/core";
 
-
 // we can pass car locations through here for markers
 const hertz = [26.4194, -81.81055];
-const center = [26.696076, -82.0648247131];
+
 // test diff
 function HertzMap({ carCoordinates, selectedCar }) {
   return (
-    <MapContainer center={center} zoom={10}>
+    <MapContainer center={hertz} zoom={14}>
       <TileLayer
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
         url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
