@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
 import axios from "axios";
+const port = process.env.PORT || "3002";
 
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({});
   const [mileage, setMileage] = useState();
   const [counter, setCounter] = useState(0);
-  const [isOpen, setIsOpen]= useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
@@ -22,18 +23,20 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
 
   useEffect(() => {
     axios
-    .get("http://localhost:3002/vehicles", {
-      params: { cars: ["IBM_1", "IBM_2", "IBM_3"] },
-    })
+      .get(`http://127.0.0.1:${port}/vehicles`, {
+        params: { cars: ["IBM_1", "IBM_2", "IBM_3"] },
+      })
       .then(({ data }) => {
         const id = data.vid;
         setCars({ ...cars, [id]: { ...data } });
       })
       .then(
-        axios.get("http://localhost:3002/mileage-location").then(({ data }) => {
-          const id = data.vid;
-          setMileage({ ...mileage, [id]: { ...data } });
-        })
+        axios
+          .get(`http://127.0.0.1:${port}/mileage-location`)
+          .then(({ data }) => {
+            const id = data.vid;
+            setMileage({ ...mileage, [id]: { ...data } });
+          })
       );
   }, [counter]);
 
@@ -62,68 +65,69 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
               interactive={true}
               elevation={Elevation.One}
             >
-            <Button className="collapse-card-button" minimal={true} 
-            onClick={ () => {
-              handleClick()
-              setSelectedCar(car.vid)
-            }
-            }> 
-            <div className="collapse-card">
-            <div className="card-title-vin">
-              <Icon size={30} icon='drive-time'/>
-              <h2 style={{paddingLeft:"1rem"}}>IBM_1</h2>
-            </div> 
-            <div className="icon-collapse-card">
-              <Icon size={20} icon='chevron-down' />
-            </div>
-            </div> 
-            </Button>
-            <Collapse isOpen={isOpen}>
-              <div className="customer-details">
-                <div>
-                  <strong>IMEI: </strong>
-                  {car.imei || "N/A"}
+              <Button
+                className="collapse-card-button"
+                minimal={true}
+                onClick={() => {
+                  handleClick();
+                  setSelectedCar(car.vid);
+                }}
+              >
+                <div className="collapse-card">
+                  <div className="card-title-vin">
+                    <Icon size={30} icon="drive-time" />
+                    <h2 style={{ paddingLeft: "1rem" }}>IBM_1</h2>
+                  </div>
+                  <div className="icon-collapse-card">
+                    <Icon size={20} icon="chevron-down" />
+                  </div>
                 </div>
-                <div>
-                  <strong>Customer: </strong>IBM
+              </Button>
+              <Collapse isOpen={isOpen}>
+                <div className="customer-details">
+                  <div>
+                    <strong>IMEI: </strong>
+                    {car.imei || "N/A"}
+                  </div>
+                  <div>
+                    <strong>Customer: </strong>IBM
+                  </div>
+                  <div>
+                    <strong>Onboarded: </strong>
+                    {new Date(car.created_at).toLocaleString() || "N/A"}
+                  </div>
+                  <div>
+                    <strong>Last Active: </strong>
+                    {new Date(car.updated_at).toLocaleString() || "N/A"}
+                  </div>
+                  <div style={{ paddingTop: "10px" }}>
+                    <strong>Make: </strong>
+                    {car.make || "N/A"}
+                  </div>
+                  <div>
+                    <strong>Model: </strong>
+                    {car.model || "N/A"}
+                  </div>
+                  <strong>Color: </strong>
+                  {car.colour || "N/A"}
                 </div>
-                <div>
-                  <strong>Onboarded: </strong>
-                  {new Date(car.created_at).toLocaleString() || "N/A"}
+                <div className="location-details">
+                  <strong>Approx. Address: </strong>
+                  <div>
+                    <strong>Mileage: </strong>
+                    {carMileage.tracker_mileage || "N/A"} mi
+                  </div>
+                  <div>
+                    <strong>Lat: </strong>
+                    {carMileage.latitude.toFixed(3) || "N/A"}
+                  </div>
+                  <div>
+                    <strong>Long: </strong>
+                    {carMileage.longitude.toFixed(3) || "N/A"}
+                  </div>
                 </div>
-                <div>
-                  <strong>Last Active: </strong>
-                  {new Date(car.updated_at).toLocaleString() || "N/A"}
-                </div>
-                <div style={{ paddingTop: "10px" }}>
-                  <strong>Make: </strong>
-                  {car.make || "N/A"}
-                </div>
-                <div>
-                  <strong>Model: </strong>
-                  {car.model || "N/A"}
-                </div>
-                <strong>Color: </strong>
-                {car.colour || "N/A"}
-              </div>
-              <div className="location-details">
-                <strong>Approx. Address: </strong>
-                <div>
-                  <strong>Mileage: </strong>
-                  {carMileage.tracker_mileage || "N/A"} mi
-                </div>
-                <div>
-                  <strong>Lat: </strong>
-                  {carMileage.latitude.toFixed(3) || "N/A"}
-                </div>
-                <div>
-                  <strong>Long: </strong>
-                  {carMileage.longitude.toFixed(3) || "N/A"}
-                </div>
-              </div>
-            </Collapse>
+              </Collapse>
             </Card>
-
           );
         })}
     </div>
