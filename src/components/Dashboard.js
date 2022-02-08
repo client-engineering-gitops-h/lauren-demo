@@ -7,22 +7,25 @@ const Dashboard = () => {
   const [carCoordinates, setCarCoordinates] = useState();
   const [selectedCar, setSelectedCar] = useState();
 
-  useEffect(() => {
-    console.log("coordinates", carCoordinates);
-  }, [carCoordinates]);
-
   return (
     <div className="card-container">
       <div>
-        <h1 style={{marginTop:"15px", marginBottom:"25px"}}>Car Locations</h1>
-      <Card className="map-card">
-        <HertzMap selectedCar={selectedCar} carCoordinates={carCoordinates} />
-      </Card>
+        <h1 style={{ marginTop: "15px", marginBottom: "25px" }}>
+          Car Locations
+        </h1>
+        <Card className="map-card">
+          <HertzMap selectedCar={selectedCar} carCoordinates={carCoordinates} />
+        </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <h1 className="fleet-title-styling">Your Fleet 
-        <Button>Get Fleet</Button></h1>
-        <CarCard setSelectedCar={setSelectedCar} setCarCoordinates={setCarCoordinates}/>
+        <h1 className="fleet-title-styling">
+          Your Fleet
+          <Button>Get Fleet</Button>
+        </h1>
+        <CarCard
+          setSelectedCar={setSelectedCar}
+          setCarCoordinates={setCarCoordinates}
+        />
       </Card>
     </div>
   );
