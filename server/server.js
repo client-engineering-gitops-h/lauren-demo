@@ -14,6 +14,7 @@ server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
 });
 
+
 setTimeout(() => {
   app.use(cors());
   app.get("/vehicles", (req, res) => {
