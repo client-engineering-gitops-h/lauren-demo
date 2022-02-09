@@ -1,14 +1,12 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../styles/DigitalMesh.css";
-import carIcon from "../map/car.png"
+import carIcon from "../map/car.png";
 import { Icon } from "@blueprintjs/core";
 
-
-// we can pass car locations through here for markers
 const hertz = [26.4194, -81.81055];
 const center = [26.696076, -82.0648247131];
-// test diff
+
 function HertzMap({ carCoordinates, selectedCar }) {
   return (
     <MapContainer center={center} zoom={10}>
@@ -21,7 +19,7 @@ function HertzMap({ carCoordinates, selectedCar }) {
           const carLocation = carCoordinates[key];
           const carLatLong = [carLocation.latitude, carLocation.longitude];
           return (
-            <Marker key={i} position={carLatLong} >
+            <Marker key={i} position={carLatLong}>
               <Popup>{carLocation.vid}</Popup>
             </Marker>
           );
