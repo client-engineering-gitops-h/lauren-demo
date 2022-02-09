@@ -4,7 +4,6 @@ import axios from "axios";
 import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({
       "1G1FZ6S02M4108532": {

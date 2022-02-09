@@ -26,6 +26,8 @@
   margin-left: 10px;
   width: 33vw;
   padding: 0px;
+  max-height: 45rem;
+  overflow-y: scroll;
 }
 
 .fleet-title-styling {
@@ -41,8 +43,9 @@
 .car-card {
   border-radius: 0;
   /* box-shadow:#7476813a 0px 1px 0px; */
-  
 }
+
+
 
 .customer-details{
   padding-top: 1rem;
