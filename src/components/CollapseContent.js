@@ -4,6 +4,7 @@ import { Collapse, Button, Icon } from "@blueprintjs/core";
 const CollapseContent = ({car, setSelectedCar, carMileage }) => {
 
   console.log("check car data", car)
+  console.log("car mileage in content", carMileage)
 const [isOpen, setIsOpen] = useState(false);
 const handleClick = () => {
   setIsOpen(!isOpen);
@@ -11,6 +12,9 @@ const handleClick = () => {
 
 return(
   <div>
+    { car &&
+      carMileage &&
+    <>
     <Button
       className="collapse-card-button"
       minimal={true}
@@ -22,7 +26,7 @@ return(
       <div className="collapse-card">
         <div className="card-title-vin">
           <Icon size={30} icon="drive-time" />
-          <h2 style={{ paddingLeft: "1rem" }}>IBM_1</h2>
+          <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
         </div>
         <div className="icon-collapse-card">
           <Icon size={20} icon="chevron-down" />
@@ -59,7 +63,7 @@ return(
     </div>
     <div className="location-details">
       <div>
-        {/* <strong>Mileage: </strong>
+        <strong>Mileage: </strong>
         {carMileage.tracker_mileage || "N/A"} mi
       </div>
       <div>
@@ -68,10 +72,12 @@ return(
       </div>
       <div>
         <strong>Long: </strong>
-        {carMileage.longitude.toFixed(3) || "N/A"} */}
+        {carMileage.longitude.toFixed(3) || "N/A"}
       </div>
-    </div>
-  </Collapse>
+      </div>
+    </Collapse>
+  </>
+  }
   </div>
 )}
 

@@ -8,60 +8,50 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({
       "1G1FZ6S02M4108532": {
+        vid: "1G1FZ6S02M4108532",
         imei: "12310293819",
         make: null,
         model: null,
       },
-  
-
-      "1G1FZ6S09M4108222": {
-        imei: "12310293819",
-        make: null,
-        model: null
-},  
-  
 
       "WBXPA93415WD09324": {
+      vid: "WBXPA93415WD09324",
       imei: "12310",
       make: null, 
       model: null },
       
 
       "1J8HH48P17C686412" : {
+      vid: "1J8HH48P17C686412",
       imei: "12131",
       make: null,
       model: null
 },
-  
   });
 const [mileage, setMileage] = useState({
-  //     '1G1FZ6S02M4108532':{
-  //     "1G1FZ6S02M4108532": {
-  //       epm: "12310293819",
-  //       latitude: 26.402623,
-  //       longitude: -81.80928
-  // }},
+    "1G1FZ6S02M4108532": {
+        vid: "1G1FZ6S02M4108532",
+        epm: "12310293819",
+        latitude: 26.402623,
+        longitude: -81.80928,
+        tracker_mileage: 1231
+  },
   
-  // '1G1FZ6S09M4108222':{
-  //     "1G1FZ6S04L4109518": {
-  //       epm: "12310293819",
-  //       latitude: 26.402256,
-  //       longitude: -81.8123198
-  // }},  
+  "WBXPA93415WD09324": {
+      vid: "WBXPA93415WD09324",
+      epm: "12310293819",
+        latitude: 26.41103,
+        longitude: -81.812311,
+        tracker_mileage: 1231
+  },
   
-  // 'WBXPA93415WD09324': {
-  // "WBXPA93415WD09324": {
-  // epm: "12310293819",
-  //       latitude: 26.41103,
-  //       longitude: -81.812311
-  // }},
-  
-  // '1J8HH48P17C686412': {
-  // "1J8HH48P17C686412": {
-  //   epm: "12310293819",
-  //     latitude: 26.41126,
-  //     longitude: -81.8081235
-  // }},
+  "1J8HH48P17C686412": {
+    vid: "1J8HH48P17C686412",
+    epm: "12310293819",
+    latitude: 26.41126,
+    longitude: -81.8081235,
+    tracker_mileage: 1231
+  },
   
  });
   const [counter, setCounter] = useState(0);
@@ -75,36 +65,36 @@ const [mileage, setMileage] = useState({
   //   };
   // });
 
-  // useEffect(() => {
-  //   console.log("api key here", API_KEY);
-  //   axios
-  //     .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Authorization": API_KEY,
-  //       },
-  //     })
-  //     .then(({ data }) => {
-  //       const id = data.vid;
-  //       setCars({ ...cars, [id]: { ...data } });
-  //     })
-  //     .then(
-  //       axios
-  //         .get(
-  //           `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
-  //           {
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //               "X-Authorization": API_KEY,
-  //             },
-  //           }
-  //         )
-  //         .then(({ data }) => {
-  //           const id = data.vid;
-  //           setMileage({ ...mileage, [id]: { ...data } });
-  //         })
-  //     );
-  // }, [counter]);
+  useEffect(() => {
+    console.log("api key here", API_KEY);
+    axios
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": API_KEY,
+        },
+      })
+      .then(({ data }) => {
+        const id = data.vid;
+        setCars({ [id]: { ...data }, ...cars });
+      })
+      .then(
+        axios
+          .get(
+            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-Authorization": API_KEY,
+              },
+            }
+          )
+          .then(({ data }) => {
+            const id = data.vid;
+            setMileage({ ...mileage, [id]: { ...data } });
+          })
+      );
+  }, [counter]);
 
   useEffect(() => {
     for (const key in cars) {
@@ -125,6 +115,7 @@ const [mileage, setMileage] = useState({
     }
   }, []);
 
+  console.log("mileage", mileage)
 
   useEffect(() => {
     setCarCoordinates(mileage);
