@@ -1,13 +1,11 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../styles/DigitalMesh.css";
-import carIcon from "../map/car.png";
-import { Icon } from "@blueprintjs/core";
 
 const hertz = [26.4194, -81.81055];
 const center = [26.696076, -82.0648247131];
 
-function HertzMap({ carCoordinates, selectedCar }) {
+function HertzMap({ carCoordinates }) {
   return (
     <MapContainer center={hertz} zoom={14}>
       <TileLayer

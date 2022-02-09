@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
 import axios from "axios";
-const port = process.env.PORT || "3002";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({});
@@ -23,8 +23,11 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:${port}/vehicles`, {
-        params: { cars: ["IBM_1", "IBM_2", "IBM_3"] },
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": API_KEY,
+        },
       })
       .then(({ data }) => {
         const id = data.vid;
@@ -32,7 +35,15 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       })
       .then(
         axios
-          .get(`http://127.0.0.1:${port}/mileage-location`)
+          .get(
+            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-Authorization": API_KEY,
+              },
+            }
+          )
           .then(({ data }) => {
             const id = data.vid;
             setMileage({ ...mileage, [id]: { ...data } });

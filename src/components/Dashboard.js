@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
