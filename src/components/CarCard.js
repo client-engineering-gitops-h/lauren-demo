@@ -41,11 +41,6 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   }, [counter]);
 
   useEffect(() => {
-    console.log("updated", cars);
-  }, [cars]);
-
-  useEffect(() => {
-    console.log("updated mileage", mileage);
     setCarCoordinates(mileage);
   }, [mileage]);
 
@@ -55,9 +50,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
         mileage &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
-          console.log("car", car);
           const carMileage = mileage[key];
-          console.log("carMileage", carMileage);
           return (
             <Card
               key={i}
