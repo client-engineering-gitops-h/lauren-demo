@@ -22,6 +22,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   // });
 
   useEffect(() => {
+    console.log("api key here", API_KEY);
     axios
       .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
         headers: {
