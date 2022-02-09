@@ -5,7 +5,7 @@ const path = require("path");
 const axios = require("axios");
 const server = http.createServer(app);
 const cors = require("cors");
-const port = "3002";
+const port = process.env.PORT || "3002";
 const delay = 1000 * (process.env.DELAY || 0);
 const API_KEY = process.env.API_KEY;
 require("dotenv").config({ path: "../.env" });

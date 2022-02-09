@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
 import axios from "axios";
-const port = "3002";
+const port = process.env.PORT || "3002";
 
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [cars, setCars] = useState({});
