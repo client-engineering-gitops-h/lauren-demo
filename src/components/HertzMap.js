@@ -5,7 +5,7 @@ import "../styles/DigitalMesh.css";
 const hertz = [26.4194, -81.81055];
 const center = [26.696076, -82.0648247131];
 
-function HertzMap({ carCoordinates }) {
+function HertzMap({ carCoordinates, selectedCar }) {
   return (
     <MapContainer center={hertz} zoom={14}>
       <TileLayer

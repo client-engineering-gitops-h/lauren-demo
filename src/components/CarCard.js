@@ -1,16 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
 import axios from "axios";
+import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+
 const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
-  const [cars, setCars] = useState({});
-  const [mileage, setMileage] = useState();
+  const [cars, setCars] = useState({
+      "1G1FZ6S02M4108532": {
+        imei: "12310293819",
+        make: null,
+        model: null,
+      },
+  
+
+      "1G1FZ6S09M4108222": {
+        imei: "12310293819",
+        make: null,
+        model: null
+},  
+  
+
+      "WBXPA93415WD09324": {
+      imei: "12310",
+      make: null, 
+      model: null },
+      
+
+      "1J8HH48P17C686412" : {
+      imei: "12131",
+      make: null,
+      model: null
+},
+  
+  });
+const [mileage, setMileage] = useState({
+  //     '1G1FZ6S02M4108532':{
+  //     "1G1FZ6S02M4108532": {
+  //       epm: "12310293819",
+  //       latitude: 26.402623,
+  //       longitude: -81.80928
+  // }},
+  
+  // '1G1FZ6S09M4108222':{
+  //     "1G1FZ6S04L4109518": {
+  //       epm: "12310293819",
+  //       latitude: 26.402256,
+  //       longitude: -81.8123198
+  // }},  
+  
+  // 'WBXPA93415WD09324': {
+  // "WBXPA93415WD09324": {
+  // epm: "12310293819",
+  //       latitude: 26.41103,
+  //       longitude: -81.812311
+  // }},
+  
+  // '1J8HH48P17C686412': {
+  // "1J8HH48P17C686412": {
+  //   epm: "12310293819",
+  //     latitude: 26.41126,
+  //     longitude: -81.8081235
+  // }},
+  
+ });
   const [counter, setCounter] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
@@ -21,36 +75,56 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   //   };
   // });
 
+  // useEffect(() => {
+  //   console.log("api key here", API_KEY);
+  //   axios
+  //     .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "X-Authorization": API_KEY,
+  //       },
+  //     })
+  //     .then(({ data }) => {
+  //       const id = data.vid;
+  //       setCars({ ...cars, [id]: { ...data } });
+  //     })
+  //     .then(
+  //       axios
+  //         .get(
+  //           `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
+  //           {
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //               "X-Authorization": API_KEY,
+  //             },
+  //           }
+  //         )
+  //         .then(({ data }) => {
+  //           const id = data.vid;
+  //           setMileage({ ...mileage, [id]: { ...data } });
+  //         })
+  //     );
+  // }, [counter]);
+
   useEffect(() => {
-    console.log("api key here", API_KEY);
-    axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": API_KEY,
-        },
-      })
-      .then(({ data }) => {
-        const id = data.vid;
-        setCars({ ...cars, [id]: { ...data } });
-      })
-      .then(
+    for (const key in cars) {
+      if (!(cars[key].make || cars[key].model || cars[key].year)) {
         axios
           .get(
-            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "X-Authorization": API_KEY,
-              },
-            }
+            `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
           )
           .then(({ data }) => {
-            const id = data.vid;
-            setMileage({ ...mileage, [id]: { ...data } });
-          })
-      );
-  }, [counter]);
+            const make = data.Results[6].Value;
+            const model = data.Results[8].Value;
+            const year = data.Results[9].Value;
+            console.log("data from api", data, "make", make, "year", year);
+            const updatedMakeModel = { make: make, model: model, year: year };
+            setCars({ ...cars, [key]: { ...cars[key], ...updatedMakeModel } });
+          });
+      }
+    }
+  }, []);
+
 
   useEffect(() => {
     setCarCoordinates(mileage);
@@ -70,67 +144,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
               interactive={true}
               elevation={Elevation.One}
             >
-              <Button
-                className="collapse-card-button"
-                minimal={true}
-                onClick={() => {
-                  handleClick();
-                  setSelectedCar(car.vid);
-                }}
-              >
-                <div className="collapse-card">
-                  <div className="card-title-vin">
-                    <Icon size={30} icon="drive-time" />
-                    <h2 style={{ paddingLeft: "1rem" }}>IBM_1</h2>
-                  </div>
-                  <div className="icon-collapse-card">
-                    <Icon size={20} icon="chevron-down" />
-                  </div>
-                </div>
-              </Button>
-              <Collapse isOpen={isOpen}>
-                <div className="customer-details">
-                  <div>
-                    <strong>IMEI: </strong>
-                    {car.imei || "N/A"}
-                  </div>
-                  <div>
-                    <strong>Customer: </strong>IBM
-                  </div>
-                  <div>
-                    <strong>Onboarded: </strong>
-                    {new Date(car.created_at).toLocaleString() || "N/A"}
-                  </div>
-                  <div>
-                    <strong>Last Active: </strong>
-                    {new Date(car.updated_at).toLocaleString() || "N/A"}
-                  </div>
-                  <div style={{ paddingTop: "10px" }}>
-                    <strong>Make: </strong>
-                    {car.make || "N/A"}
-                  </div>
-                  <div>
-                    <strong>Model: </strong>
-                    {car.model || "N/A"}
-                  </div>
-                  <strong>Color: </strong>
-                  {car.colour || "N/A"}
-                </div>
-                <div className="location-details">
-                  <div>
-                    <strong>Mileage: </strong>
-                    {carMileage.tracker_mileage || "N/A"} mi
-                  </div>
-                  <div>
-                    <strong>Lat: </strong>
-                    {carMileage.latitude.toFixed(3) || "N/A"}
-                  </div>
-                  <div>
-                    <strong>Long: </strong>
-                    {carMileage.longitude.toFixed(3) || "N/A"}
-                  </div>
-                </div>
-              </Collapse>
+            <CollapseContent  setSelectedCar={setSelectedCar} car={car} carMileage={carMileage}/>
             </Card>
           );
         })}
