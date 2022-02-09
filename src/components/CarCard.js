@@ -105,7 +105,6 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
                   {car.colour || "N/A"}
                 </div>
                 <div className="location-details">
-                  <strong>Approx. Address: </strong>
                   <div>
                     <strong>Mileage: </strong>
                     {carMileage.tracker_mileage || "N/A"} mi
