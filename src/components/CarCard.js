@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation, Collapse, Button, Icon } from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 import axios from "axios";
 import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -13,7 +13,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       model: null,
     },
 
-    WBXPA93415WD09324: {
+    "WBXPA93415WD09324": {
       vid: "WBXPA93415WD09324",
       imei: "12310",
       make: null,
@@ -36,7 +36,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       tracker_mileage: 1231,
     },
 
-    WBXPA93415WD09324: {
+    "WBXPA93415WD09324": {
       vid: "WBXPA93415WD09324",
       epm: "12310293819",
       latitude: 26.41103,
@@ -59,13 +59,19 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       year: "",
     },
 
-    WBXPA93415WD09324: {
+    "WBXPA93415WD09324": {
       make: "",
       model: "",
       year: "",
     },
 
     "1J8HH48P17C686412": {
+      make: "",
+      model: "",
+      year: "",
+    },
+    
+    "IBM_1": {
       make: "",
       model: "",
       year: "",
@@ -115,7 +121,8 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   }, [counter]);
 
   useEffect(() => {
-    for (const key in makeModel) {
+    for (const key in cars) {
+      if (!(cars[key].make || cars[key].model || cars[key].year)) {
       axios
         .get(
           `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
@@ -124,21 +131,19 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
           const make = data.Results[6].Value;
           const model = data.Results[8].Value;
           const year = data.Results[9].Value;
-          const updatedMakeModel = {
-            [key]: { make: make, model: model, year: year },
-          };
-          setMakeModel({ ...makeModel, ...updatedMakeModel });
+          const updatedMakeModel = { make: make, model: model, year: year };
+          setCars({ ...cars, [key]: { ...cars[key], ...updatedMakeModel } });
+          setMakeModel( { ...makeModel, ...updatedMakeModel })
         });
-    }
-  }, []);
+    }}
+  }, [cars]);
 
-  console.log("mileage", mileage);
+  console.log(cars, "car details")
 
   useEffect(() => {
     setCarCoordinates(mileage);
   }, [mileage]);
 
-  console.log("makeModel", makeModel);
   return (
     <div>
       {cars &&

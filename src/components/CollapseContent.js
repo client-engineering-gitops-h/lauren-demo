@@ -51,14 +51,14 @@ const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel }) => {
               </div>
               <div style={{ paddingTop: "10px" }}>
                 <strong>Make: </strong>
-                {makeModel[vid].make || "N/A"}
+                {car.make || "N/A"}
               </div>
               <div>
                 <strong>Model: </strong>
-                {makeModel[vid].model || "N/A"}
+                {car.model || "N/A"}
               </div>
               <strong>Year: </strong>
-              {makeModel[vid].year || "N/A"}
+              {car.year || "N/A"}
             </div>
             <div className="location-details">
               <div>
