@@ -31,7 +31,7 @@ function HertzMap({ carCoordinates, selectedCar, mapCenter }) {
 
   return (
     <>
-      <MapContainer center={[26.4194, -81.81055]} zoom={14}>
+      <MapContainer center={[26.6594, -81.9055]} zoom={10}>
         <TileLayer
           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
