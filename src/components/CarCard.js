@@ -11,6 +11,36 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
 
   const [counter, setCounter] = useState(0);
 
+  const request1 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
+
+  const request2 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/vehicles/3C6UR5HL7FG663032`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
+
+  const request3 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/vehicles/3VWSW31C06M420720`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
+
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
   //     setCounter(counter + 1);
@@ -21,69 +51,46 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
   // });
 
   useEffect(() => {
-    let carData={}
-    axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": API_KEY,
-        },
+    let carData = {};
+    Promise.all([request1, request2, request3])
+      .then((values) => {
+        for (const car of values) {
+          carData = { ...carData, [car.data.vid]: { ...car.data } };
+        }
       })
-      .then(({ data }) => {
-        const id = data.vid;
-        carData= {...carData, [id]: {...data}}
-      })
-   axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/3C6UR5HL7FG663032`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": API_KEY,
-        },
-      })
-      .then(({ data }) => {
-        const id = data.vid;
-        carData= {...carData, [id]: {...data}}
-      })
-    axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/3VWSW31C06M420720`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": API_KEY,
-        },
-      })
-      .then(({ data }) => {
-        const id = data.vid;
-        carData= {...carData, [id]: {...data}}
-      })
-      .then(
-        axios
-          .get(
-            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "X-Authorization": API_KEY,
-              },
-            }
-          )
-          .then(({ data }) => {
-            const id = data.vid;
-            setMileage({ ...mileage, [id]: { ...data } });
-          })
-      );
+      .then(() => {
+        setCars(carData);
+      });
   }, [counter]);
 
   useEffect(() => {
-    console.log("mileage data", mileage)
-    console.log("car data", cars)
+    axios
+      .get(
+        `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": API_KEY,
+          },
+        }
+      )
+      .then(async ({ data }) => {
+        const id = data.vid;
+        await setMileage({ ...mileage, [id]: { ...data } });
+      });
+  }, [counter]);
+
+  useEffect(() => {
+    console.log("mileage data", mileage);
+    console.log("car data", cars);
     setCarCoordinates(mileage);
   }, [mileage, cars]);
 
   return (
     <div>
       {cars &&
-        mileage &&
-        makeModel &&
+        // mileage &&
+        // makeModel &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
           const carMileage = mileage[key];

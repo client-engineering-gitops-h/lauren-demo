@@ -1,26 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { Collapse, Button, Icon } from "@blueprintjs/core";
 
-const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel, setMapCenter }) => {
+const CollapseContent = ({
+  car,
+  setSelectedCar,
+  carMileage,
+  makeModel,
+  setMapCenter,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [carLastUpdated, setCarLastUpdated] = useState(
+    new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  );
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
   console.log("car", car);
   console.log(makeModel, "make and model in collapse");
-  const {vid, updated_at} = car;
-
+  const { vid, updated_at } = car;
 
   return (
     <div>
-      {car && carMileage && makeModel[vid] && (
+      {/* {car && carMileage && makeModel[vid] && ( */}
+      {car && carMileage && (
         <>
           <Button
             className="collapse-card-button"
             minimal={true}
             onClick={() => {
               handleClick();
-              setSelectedCar({vid, updated_at}); 
+              setSelectedCar({ vid, updated_at });
               // setMapCenter(carMileage);
             }}
           >
@@ -72,6 +84,10 @@ const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel, setMapCen
               <div>
                 <strong>Long: </strong>
                 {carMileage.longitude.toFixed(3) || "N/A"}
+              </div>
+              <div>
+                <strong>OEM Timestamp: </strong>
+                {carLastUpdated}
               </div>
             </div>
           </Collapse>
