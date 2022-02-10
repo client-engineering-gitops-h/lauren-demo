@@ -8,7 +8,6 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [makeModel, setMakeModel] = useState();
-
   const [counter, setCounter] = useState(0);
 
   const request1 = axios.get(
@@ -63,6 +62,50 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
       });
   }, [counter]);
 
+  // const request4 = axios.get(
+  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Authorization": API_KEY,
+  //     },
+  //   }
+  // );
+
+  // const request5 = axios.get(
+  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3C6UR5HL7FG663032/mileage-and-location`,
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Authorization": API_KEY,
+  //     },
+  //   }
+  // );
+
+  // const request6 = axios.get(
+  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3VWSW31C06M420720/mileage-and-location`,
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Authorization": API_KEY,
+  //     },
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   let carMileageData = {};
+  //   Promise.all([request4, request5, request6])
+  //     .then((values) => {
+  //       for (const carMileage of values) {
+  //         carMileageData = { ...carMileageData, [carMileage.data.vid]: { ...carMileage.data } };
+  //       }
+  //     })
+  //     .then(() => {
+  //        setMileage(carMileageData);
+  //  });
+  //     });
+  // }, [counter]);
+
   useEffect(() => {
     axios
       .get(
@@ -80,28 +123,8 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
       });
   }, [counter]);
 
-  // useEffect(() => {
-  //   for (const key in cars) {
-  //     if (!(cars[key].make || !cars[key].model)) {
-  //       axios
-  //         .get(
-  //           `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
-  //         )
-  //         .then(({ data }) => {
-  //           const make = data.Results[6].Value;
-  //           const model = data.Results[8].Value;
-  //           const year = data.Results[9].Value;
-  //           const updatedMakeModel = { make: make, model: model, year: year };
-  //           setCars({ ...cars, [key]: { ...cars[key], ...updatedMakeModel } });
-  //           setMakeModel({ ...makeModel, ...updatedMakeModel });
-  //         });
-  //     }
-  //   }
-  // }, [cars]);
-
+ 
   useEffect(() => {
-    console.log("mileage data", mileage);
-    console.log("car data", cars);
     setCarCoordinates(mileage);
   }, [mileage, cars]);
 

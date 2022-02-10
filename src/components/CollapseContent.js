@@ -24,7 +24,9 @@ const CollapseContent = ({
   return (
     <div>
       {/* {car && carMileage && makeModel[vid] && ( */}
-      {car && carMileage && (
+      {car && 
+     // carMileage && 
+      (
         <>
           <Button
             className="collapse-card-button"
@@ -72,7 +74,7 @@ const CollapseContent = ({
               </div>
             </div>
             <div className="location-details">
-              <div>
+              {/* <div>
                 <strong>Mileage: </strong>
                 {carMileage.tracker_mileage || "N/A"} mi
               </div>
@@ -83,7 +85,7 @@ const CollapseContent = ({
               <div>
                 <strong>Long: </strong>
                 {carMileage.longitude.toFixed(3) || "N/A"}
-              </div>
+              </div> */}
               <div>
                 <strong>OEM Timestamp: </strong>
                 {carLastUpdated}
