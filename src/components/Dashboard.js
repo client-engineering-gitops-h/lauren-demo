@@ -9,7 +9,7 @@ const Dashboard = () => {
     vid: " ",
     updated_at: " "
   });
-  // const [mapCenter, setMapCenter] = useState();
+  const [mapCenter, setMapCenter] = useState({});
 
   return (
     <div className="card-container">
@@ -18,9 +18,7 @@ const Dashboard = () => {
           Car Locations
         </h1>
         <Card className="map-card">
-          <HertzMap selectedCar={selectedCar}  carCoordinates={carCoordinates} 
-          // mapCenter={mapCenter}
-          />
+          <HertzMap selectedCar={selectedCar}  carCoordinates={carCoordinates} mapCenter={mapCenter}/>
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
@@ -31,7 +29,7 @@ const Dashboard = () => {
         <CarCard
           setSelectedCar={setSelectedCar}
           setCarCoordinates={setCarCoordinates}
-          // setMapCenter={setMapCenter}
+          setMapCenter={setMapCenter}
         />
       </Card>
     </div>

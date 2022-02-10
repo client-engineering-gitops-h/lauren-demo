@@ -7,7 +7,6 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
-  const [makeModel, setMakeModel] = useState();
   const [counter, setCounter] = useState(0);
 
   const request1 = axios.get(
@@ -62,77 +61,59 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
       });
   }, [counter]);
 
-  // const request4 = axios.get(
-  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-Authorization": API_KEY,
-  //     },
-  //   }
-  // );
+  const request4 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
 
-  // const request5 = axios.get(
-  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3C6UR5HL7FG663032/mileage-and-location`,
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-Authorization": API_KEY,
-  //     },
-  //   }
-  // );
+  const request5 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3C6UR5HL7FG663032/mileage-and-location`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
 
-  // const request6 = axios.get(
-  //   `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3VWSW31C06M420720/mileage-and-location`,
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-Authorization": API_KEY,
-  //     },
-  //   }
-  // );
+  const request6 = axios.get(
+    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3VWSW31C06M420720/mileage-and-location`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": API_KEY,
+      },
+    }
+  );
 
-  // useEffect(() => {
-  //   let carMileageData = {};
-  //   Promise.all([request4, request5, request6])
-  //     .then((values) => {
-  //       for (const carMileage of values) {
-  //         carMileageData = { ...carMileageData, [carMileage.data.vid]: { ...carMileage.data } };
-  //       }
-  //     })
-  //     .then(() => {
-  //        setMileage(carMileageData);
-  //  });
-  //     });
-  // }, [counter]);
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Authorization": API_KEY,
-          },
+useEffect(() => {
+    let carMileageData = {};
+    Promise.all([request4, request5, request6])
+      .then((values) => {
+        for (const carMileage of values) {
+          carMileageData = { ...carMileageData, [carMileage.data.vid]: { ...carMileage.data } };
         }
-      )
-      .then(async ({ data }) => {
-        const id = data.vid;
-        await setMileage({ ...mileage, [id]: { ...data } });
-      });
+      })
+      .then(() => {
+         setMileage(carMileageData);
+         console.log("setmileage", carMileageData)
+   });
   }, [counter]);
 
- 
   useEffect(() => {
     setCarCoordinates(mileage);
-  }, [mileage, cars]);
+    console.log("miles", mileage)
+  }, [mileage]);
 
   return (
     <div>
       {cars &&
-        // mileage &&
-        // makeModel &&
+        mileage &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
           const carMileage = mileage[key];
@@ -145,10 +126,9 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
             >
               <CollapseContent
                 setSelectedCar={setSelectedCar}
-                // setMapCenter={setMapCenter}
+                setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
-                makeModel={makeModel}
               />
             </Card>
           );

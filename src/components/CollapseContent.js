@@ -5,7 +5,6 @@ const CollapseContent = ({
   car,
   setSelectedCar,
   carMileage,
-  makeModel,
   setMapCenter,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,9 +22,7 @@ const CollapseContent = ({
 
   return (
     <div>
-      {/* {car && carMileage && makeModel[vid] && ( */}
-      {car && 
-     // carMileage && 
+      {car && carMileage && 
       (
         <>
           <Button
@@ -34,7 +31,7 @@ const CollapseContent = ({
             onClick={() => {
               handleClick();
               setSelectedCar({ vid, updated_at });
-              // setMapCenter(carMileage);
+              setMapCenter(carMileage);
             }}
           >
             <div className="collapse-card">
@@ -74,7 +71,7 @@ const CollapseContent = ({
               </div>
             </div>
             <div className="location-details">
-              {/* <div>
+              <div>
                 <strong>Mileage: </strong>
                 {carMileage.tracker_mileage || "N/A"} mi
               </div>
@@ -85,7 +82,7 @@ const CollapseContent = ({
               <div>
                 <strong>Long: </strong>
                 {carMileage.longitude.toFixed(3) || "N/A"}
-              </div> */}
+              </div>
               <div>
                 <strong>OEM Timestamp: </strong>
                 {carLastUpdated}
