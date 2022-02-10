@@ -4,18 +4,26 @@ import axios from "axios";
 import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
+const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
   const [cars, setCars] = useState({
     "1G1FZ6S02M4108532": {
       vid: "1G1FZ6S02M4108532",
       imei: "12310293819",
+      updated_at:"10:12:00",
       make: null,
       model: null,
     },
-
+    "1G1FZ6S04L4109518": {
+      vid: "1G1FZ6S04L4109518",
+      imei: "12310293819",
+      updated_at:"10:12:00",
+      make: null,
+      model: null,
+    },
     "WBXPA93415WD09324": {
       vid: "WBXPA93415WD09324",
       imei: "12310",
+      updated_at:"10:12:00",
       make: null,
       model: null,
     },
@@ -23,6 +31,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
     "1J8HH48P17C686412": {
       vid: "1J8HH48P17C686412",
       imei: "12131",
+      updated_at:"10:12:00",
       make: null,
       model: null,
     },
@@ -30,6 +39,13 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   const [mileage, setMileage] = useState({
     "1G1FZ6S02M4108532": {
       vid: "1G1FZ6S02M4108532",
+      epm: "12310293819",
+      latitude: 26.402623,
+      longitude: -81.80928,
+      tracker_mileage: 1231,
+    },
+    "1G1FZ6S04L4109518": {
+      vid: "1G1FZ6S04L4109518",
       epm: "12310293819",
       latitude: 26.402623,
       longitude: -81.80928,
@@ -71,7 +87,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
       year: "",
     },
     
-    "IBM_1": {
+    "1G1FZ6S04L4109518": {
       make: "",
       model: "",
       year: "",
@@ -89,40 +105,39 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
   //   };
   // });
 
-  useEffect(() => {
-    console.log("api key here", API_KEY);
-    axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": API_KEY,
-        },
-      })
-      .then(({ data }) => {
-        const id = data.vid;
-        setCars({ [id]: { ...data }, ...cars });
-      })
-      .then(
-        axios
-          .get(
-            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "X-Authorization": API_KEY,
-              },
-            }
-          )
-          .then(({ data }) => {
-            const id = data.vid;
-            setMileage({ ...mileage, [id]: { ...data } });
-          })
-      );
-  }, [counter]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "X-Authorization": API_KEY,
+  //       },
+  //     })
+  //     // .then(({ data }) => {
+  //     //   const id = data.vid;
+  //     //   setCars({ [id]: { ...data }, ...cars });
+  //     // })
+  //     .then(
+  //       axios
+  //         .get(
+  //           `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
+  //           {
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //               "X-Authorization": API_KEY,
+  //             },
+  //           }
+  //         )
+  //         .then(({ data }) => {
+  //           const id = data.vid;
+  //           setMileage({ ...mileage, [id]: { ...data } });
+  //         })
+  //     );
+  // }, [counter]);
 
   useEffect(() => {
     for (const key in cars) {
-      if (!(cars[key].make || cars[key].model || cars[key].year)) {
+      if (!(cars[key].make || cars[key].model)) {
       axios
         .get(
           `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
@@ -161,6 +176,7 @@ const CarCard = ({ setSelectedCar, setCarCoordinates }) => {
             >
               <CollapseContent
                 setSelectedCar={setSelectedCar}
+                // setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
                 makeModel={makeModel}

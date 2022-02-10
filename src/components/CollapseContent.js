@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Collapse, Button, Icon } from "@blueprintjs/core";
 
-const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel }) => {
+const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel, setMapCenter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
   console.log("car", car);
   console.log(makeModel, "make and model in collapse");
-  const vid = car.vid;
+  const {vid, updated_at} = car;
+
 
   return (
     <div>
@@ -19,7 +20,8 @@ const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel }) => {
             minimal={true}
             onClick={() => {
               handleClick();
-              setSelectedCar(car.vid);
+              setSelectedCar({vid, updated_at}); 
+              // setMapCenter(carMileage);
             }}
           >
             <div className="collapse-card">
@@ -57,8 +59,6 @@ const CollapseContent = ({ car, setSelectedCar, carMileage, makeModel }) => {
                 <strong>Model: </strong>
                 {car.model || "N/A"}
               </div>
-              <strong>Year: </strong>
-              {car.year || "N/A"}
             </div>
             <div className="location-details">
               <div>
