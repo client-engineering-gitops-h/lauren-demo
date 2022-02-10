@@ -80,6 +80,25 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
       });
   }, [counter]);
 
+  // useEffect(() => {
+  //   for (const key in cars) {
+  //     if (!(cars[key].make || !cars[key].model)) {
+  //       axios
+  //         .get(
+  //           `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
+  //         )
+  //         .then(({ data }) => {
+  //           const make = data.Results[6].Value;
+  //           const model = data.Results[8].Value;
+  //           const year = data.Results[9].Value;
+  //           const updatedMakeModel = { make: make, model: model, year: year };
+  //           setCars({ ...cars, [key]: { ...cars[key], ...updatedMakeModel } });
+  //           setMakeModel({ ...makeModel, ...updatedMakeModel });
+  //         });
+  //     }
+  //   }
+  // }, [cars]);
+
   useEffect(() => {
     console.log("mileage data", mileage);
     console.log("car data", cars);

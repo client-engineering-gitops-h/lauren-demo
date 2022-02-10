@@ -18,8 +18,7 @@ const CollapseContent = ({
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
-  console.log("car", car);
-  console.log(makeModel, "make and model in collapse");
+
   const { vid, updated_at } = car;
 
   return (
