@@ -5,94 +5,9 @@ import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
-  const [cars, setCars] = useState({
-    "1G1FZ6S02M4108532": {
-      vid: "1G1FZ6S02M4108532",
-      imei: "12310293819",
-      updated_at:"10:12:00",
-      make: null,
-      model: null,
-    },
-    "1G1FZ6S04L4109518": {
-      vid: "1G1FZ6S04L4109518",
-      imei: "12310293819",
-      updated_at:"10:12:00",
-      make: null,
-      model: null,
-    },
-    "WBXPA93415WD09324": {
-      vid: "WBXPA93415WD09324",
-      imei: "12310",
-      updated_at:"10:12:00",
-      make: null,
-      model: null,
-    },
-
-    "1J8HH48P17C686412": {
-      vid: "1J8HH48P17C686412",
-      imei: "12131",
-      updated_at:"10:12:00",
-      make: null,
-      model: null,
-    },
-  });
-  const [mileage, setMileage] = useState({
-    "1G1FZ6S02M4108532": {
-      vid: "1G1FZ6S02M4108532",
-      epm: "12310293819",
-      latitude: 26.402623,
-      longitude: -81.80928,
-      tracker_mileage: 1231,
-    },
-    "1G1FZ6S04L4109518": {
-      vid: "1G1FZ6S04L4109518",
-      epm: "12310293819",
-      latitude: 26.402623,
-      longitude: -81.80928,
-      tracker_mileage: 1231,
-    },
-
-    "WBXPA93415WD09324": {
-      vid: "WBXPA93415WD09324",
-      epm: "12310293819",
-      latitude: 26.41103,
-      longitude: -81.812311,
-      tracker_mileage: 1231,
-    },
-
-    "1J8HH48P17C686412": {
-      vid: "1J8HH48P17C686412",
-      epm: "12310293819",
-      latitude: 26.41126,
-      longitude: -81.8081235,
-      tracker_mileage: 1231,
-    },
-  });
-  const [makeModel, setMakeModel] = useState({
-    "1G1FZ6S02M4108532": {
-      make: "",
-      model: "",
-      year: "",
-    },
-
-    "WBXPA93415WD09324": {
-      make: "",
-      model: "",
-      year: "",
-    },
-
-    "1J8HH48P17C686412": {
-      make: "",
-      model: "",
-      year: "",
-    },
-    
-    "1G1FZ6S04L4109518": {
-      make: "",
-      model: "",
-      year: "",
-    },
-  });
+  const [cars, setCars] = useState();
+  const [mileage, setMileage] = useState();
+  const [makeModel, setMakeModel] = useState();
 
   const [counter, setCounter] = useState(0);
 
@@ -105,59 +20,64 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
   //   };
   // });
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Authorization": API_KEY,
-  //       },
-  //     })
-  //     // .then(({ data }) => {
-  //     //   const id = data.vid;
-  //     //   setCars({ [id]: { ...data }, ...cars });
-  //     // })
-  //     .then(
-  //       axios
-  //         .get(
-  //           `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-  //           {
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //               "X-Authorization": API_KEY,
-  //             },
-  //           }
-  //         )
-  //         .then(({ data }) => {
-  //           const id = data.vid;
-  //           setMileage({ ...mileage, [id]: { ...data } });
-  //         })
-  //     );
-  // }, [counter]);
+  useEffect(() => {
+    let carData={}
+    axios
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": API_KEY,
+        },
+      })
+      .then(({ data }) => {
+        const id = data.vid;
+        carData= {...carData, [id]: {...data}}
+      })
+   axios
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/3C6UR5HL7FG663032`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": API_KEY,
+        },
+      })
+      .then(({ data }) => {
+        const id = data.vid;
+        carData= {...carData, [id]: {...data}}
+      })
+    axios
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/3VWSW31C06M420720`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": API_KEY,
+        },
+      })
+      .then(({ data }) => {
+        const id = data.vid;
+        carData= {...carData, [id]: {...data}}
+      })
+      .then(
+        axios
+          .get(
+            `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-Authorization": API_KEY,
+              },
+            }
+          )
+          .then(({ data }) => {
+            const id = data.vid;
+            setMileage({ ...mileage, [id]: { ...data } });
+          })
+      );
+  }, [counter]);
 
   useEffect(() => {
-    for (const key in cars) {
-      if (!(cars[key].make || cars[key].model)) {
-      axios
-        .get(
-          `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${key}?format=json`
-        )
-        .then(({ data }) => {
-          const make = data.Results[6].Value;
-          const model = data.Results[8].Value;
-          const year = data.Results[9].Value;
-          const updatedMakeModel = { make: make, model: model, year: year };
-          setCars({ ...cars, [key]: { ...cars[key], ...updatedMakeModel } });
-          setMakeModel( { ...makeModel, ...updatedMakeModel })
-        });
-    }}
-  }, [cars]);
-
-  console.log(cars, "car details")
-
-  useEffect(() => {
+    console.log("mileage data", mileage)
+    console.log("car data", cars)
     setCarCoordinates(mileage);
-  }, [mileage]);
+  }, [mileage, cars]);
 
   return (
     <div>

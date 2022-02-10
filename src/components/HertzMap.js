@@ -21,7 +21,7 @@ function SetViewOnSelect({ animateRef, mapCenter, selectedCar }) {
 
 function HertzMap({ carCoordinates, selectedCar, mapCenter }) {
   const animateRef = useRef(true)
-  console.log("selectedCar", selectedCar)
+  // console.log("selectedCar", selectedCar)
   // const map= useRef()
 
   return (
