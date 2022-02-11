@@ -11,10 +11,7 @@ import "../styles/DigitalMesh.css";
 const hertz = [26.4194, -81.81055];
 
 function SetViewOnSelect({ animateRef, mapCenter, selectedCar }) {
-  console.log("map center", mapCenter)
-
   const map = useMapEvent("click", (e) => {
-    console.log("eLatLong", e.latlng);
     map.setView({lat: mapCenter.latitude, lng: mapCenter.longitude}, map.getZoom(), {
       animate: animateRef.current || false,
     });

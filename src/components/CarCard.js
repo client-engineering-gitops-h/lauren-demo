@@ -101,13 +101,11 @@ useEffect(() => {
       })
       .then(() => {
          setMileage(carMileageData);
-         console.log("setmileage", carMileageData)
    });
   }, [counter]);
 
   useEffect(() => {
     setCarCoordinates(mileage);
-    console.log("miles", mileage)
   }, [mileage]);
 
   return (
