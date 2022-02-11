@@ -6,7 +6,7 @@ import FleetButton from "./FleetButton";
 
 const Dashboard = () => {
   const [carCoordinates, setCarCoordinates] = useState();
-  const [selectedCar, setSelectedCar] = useState({});
+  const [selectedCars, setSelectedCar] = useState();
   const [mapCenter, setMapCenter] = useState({});
 
   return (
@@ -16,7 +16,7 @@ const Dashboard = () => {
           Car Locations
         </h1>
         <Card className="map-card">
-          <HertzMap selectedCar={selectedCar}  carCoordinates={carCoordinates} mapCenter={mapCenter}/>
+          <HertzMap selectedCars={selectedCars}  carCoordinates={carCoordinates} mapCenter={mapCenter}/>
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
@@ -26,7 +26,8 @@ const Dashboard = () => {
         </h1>
         <CarCard
           setSelectedCar={setSelectedCar}
-          selectedCar={selectedCar}
+          selectedCars={selectedCars}
+          carCoordinates={carCoordinates}
           setCarCoordinates={setCarCoordinates}
           setMapCenter={setMapCenter}
         />

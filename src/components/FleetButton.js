@@ -4,11 +4,10 @@ import "../styles/DigitalMesh.css";
 
 
 function FleetButton({ CarCoordinates, selectedCar}) {
-  return(
+    
+    return(
       <div>
-          <Button onClick={
-              //in here the get fleet button should set the carcoordinates  
-              }>Get Fleet</Button>
+          <Button>Get Fleet</Button>
       </div>
   );
 };

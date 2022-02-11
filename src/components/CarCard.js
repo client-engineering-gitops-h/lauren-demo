@@ -4,7 +4,7 @@ import axios from "axios";
 import CollapseContent from "./CollapseContent";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter }) => {
+const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter, selectedCars }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [counter, setCounter] = useState(0);
@@ -105,8 +105,17 @@ useEffect(() => {
   }, [counter]);
 
   useEffect(() => {
+    // let selectedMileageData = {};
+    // for(const selectedMileage of mileage){
+    //   selectedMileageData={...selectedMileageData, [selectedMileage.vid]: {...mileage.vid}};
+    // }
+
+    // console.log("selected car mileage", selectedMileageData)
+
     setCarCoordinates(mileage);
-  }, [mileage]);
+  }, []);
+
+
 
   return (
     <div>

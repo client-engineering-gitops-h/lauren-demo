@@ -4,10 +4,10 @@ import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
 const CollapseContent = ({
   car,
   setSelectedCar,
-  selectedCar,
+  selectedCars,
   carMileage,
   setMapCenter,
-  
+
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [carLastUpdated, setCarLastUpdated] = useState(
@@ -21,6 +21,8 @@ const CollapseContent = ({
   };
 
   const { vid, updated_at } = car;
+  const {latitude, longitude} = carMileage
+  
 
   return (
     <div>
@@ -39,7 +41,8 @@ const CollapseContent = ({
               <div className="checkbox-select">
               <div style={{paddingTop:"10px"}}>
               <Checkbox onChange={ () => {
-                setSelectedCar(...selectedCar, {vid, updated_at});
+                // need to be able to append multiple cars to the setSelectedCar state
+                setSelectedCar({vid, updated_at, latitude, longitude});
               }}></Checkbox>
               </div>
               <div className="card-title-vin">
