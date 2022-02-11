@@ -3,10 +3,12 @@ import { Button } from "@blueprintjs/core";
 import "../styles/DigitalMesh.css";
 
 
-function FleetButton({ carCoordinates, selectedCar}) {
+function FleetButton({ CarCoordinates, selectedCar}) {
   return(
       <div>
-          <Button onClick={}>Get Fleet</Button>
+          <Button onClick={
+              //in here the get fleet button should set the carcoordinates  
+              }>Get Fleet</Button>
       </div>
   );
 };

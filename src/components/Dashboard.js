@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
+import FleetButton from "./FleetButton";
 
 const Dashboard = () => {
   const [carCoordinates, setCarCoordinates] = useState();
@@ -21,6 +22,7 @@ const Dashboard = () => {
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
         <h1 className="fleet-title-styling">
           Your Fleet
+          {/* <FleetButton/> */}
         </h1>
         <CarCard
           setSelectedCar={setSelectedCar}
