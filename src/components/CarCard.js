@@ -127,6 +127,7 @@ useEffect(() => {
                 setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
+                
               />
             </Card>
           );

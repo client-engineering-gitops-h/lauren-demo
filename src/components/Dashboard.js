@@ -5,10 +5,7 @@ import CarCard from "./CarCard";
 
 const Dashboard = () => {
   const [carCoordinates, setCarCoordinates] = useState();
-  const [selectedCar, setSelectedCar] = useState( {
-    vid: " ",
-    updated_at: " "
-  });
+  const [selectedCar, setSelectedCar] = useState({});
   const [mapCenter, setMapCenter] = useState({});
 
   return (
@@ -24,10 +21,10 @@ const Dashboard = () => {
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
         <h1 className="fleet-title-styling">
           Your Fleet
-          {/* <Button>Get Fleet</Button> */}
         </h1>
         <CarCard
           setSelectedCar={setSelectedCar}
+          selectedCar={selectedCar}
           setCarCoordinates={setCarCoordinates}
           setMapCenter={setMapCenter}
         />

@@ -117,3 +117,8 @@
   background-color: #FFD50D;
   color: #FFD50D;
 }
+
+.checkbox-select{
+  display: flex;
+  align-items: center;
+}

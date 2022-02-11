@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Button, Icon } from "@blueprintjs/core";
+import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
 
 const CollapseContent = ({
   car,
   setSelectedCar,
+  selectedCar,
   carMileage,
   setMapCenter,
+  
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [carLastUpdated, setCarLastUpdated] = useState(
@@ -30,14 +32,20 @@ const CollapseContent = ({
             minimal={true}
             onClick={() => {
               handleClick();
-              setSelectedCar({ vid, updated_at });
               setMapCenter(carMileage);
             }}
           >
             <div className="collapse-card">
+              <div className="checkbox-select">
+              <div style={{paddingTop:"10px"}}>
+              <Checkbox onChange={ () => {
+                setSelectedCar(...selectedCar, {vid, updated_at});
+              }}></Checkbox>
+              </div>
               <div className="card-title-vin">
                 <Icon size={30} icon="drive-time" />
                 <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
+              </div>
               </div>
               <div className="icon-collapse-card">
                 <Icon size={20} icon="chevron-down" />
