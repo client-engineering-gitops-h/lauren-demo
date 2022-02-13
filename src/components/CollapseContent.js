@@ -24,10 +24,6 @@ const CollapseContent = ({
   const { vid, updated_at } = car;
   const {latitude, longitude, tracker_mileage} = carMileage;
 
-  console.log("vid", vid);
-  console.log("updated_at", updated_at)
-  
-
   return (
     <div>
       {car && carMileage && 
@@ -45,7 +41,6 @@ const CollapseContent = ({
               <div className="checkbox-select">
               <div style={{paddingTop:"10px"}}>
               <Checkbox key={car} onChange={ () => {
-                // need to be able to append multiple cars to the setSelectedCar state
                setSelectedCar({vid, updated_at, latitude, longitude, tracker_mileage});
               }}></Checkbox>
               </div>

@@ -119,8 +119,7 @@ useEffect(() => {
   // }, [mileage]);
 
   useEffect(() => {
-    carMarkerData={...carMarkerData, ...mileage}
-    console.log("marlercar", carMarkerData)
+    carMarkerData={...carMarkerData, [selectedCars.vid]:{...selectedCars}}
   }, [selectedCars]);
 
   return (

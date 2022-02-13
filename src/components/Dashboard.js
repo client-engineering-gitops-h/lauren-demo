@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
-import FleetButton from "./FleetButton";
 
 const Dashboard = () => {
   const [carCoordinates, setCarCoordinates] = useState();
-  const [selectedCars, setSelectedCar] = useState();
+  const [selectedCars, setSelectedCar] = useState({});
   const [mapCenter, setMapCenter] = useState({});
 
   return (
