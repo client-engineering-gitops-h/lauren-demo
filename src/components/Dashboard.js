@@ -20,10 +20,6 @@ const Dashboard = () => {
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <h1 className="fleet-title-styling">
-          Your Fleet
-          {/* <FleetButton/> */}
-        </h1>
         <CarCard
           setSelectedCar={setSelectedCar}
           selectedCars={selectedCars}

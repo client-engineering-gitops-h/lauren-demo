@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Button } from "@blueprintjs/core";
 import axios from "axios";
 import CollapseContent from "./CollapseContent";
+import { use } from "express/lib/application";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter, selectedCars }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [counter, setCounter] = useState(0);
+  let carMarkerData= {};
 
   const request1 = axios.get(
     `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
@@ -104,21 +106,32 @@ useEffect(() => {
    });
   }, [counter]);
 
+  // useEffect(() => {
+  //   // let selectedMileageData = {};
+  //   // for(const selectedMileage of mileage){
+  //   //   selectedMileageData={...selectedMileageData, [selectedMileage.vid]: {...mileage.vid}};
+  //   // }
+
+  //   // console.log("selected car mileage", selectedMileageData)
+
+  //   setCarCoordinates(mileage);
+  //   console.log("milease", mileage);
+  // }, [mileage]);
+
   useEffect(() => {
-    // let selectedMileageData = {};
-    // for(const selectedMileage of mileage){
-    //   selectedMileageData={...selectedMileageData, [selectedMileage.vid]: {...mileage.vid}};
-    // }
-
-    // console.log("selected car mileage", selectedMileageData)
-
-    setCarCoordinates(mileage);
-  }, []);
-
-
+    carMarkerData={...carMarkerData, ...mileage}
+    console.log("marlercar", carMarkerData)
+  }, [selectedCars]);
 
   return (
     <div>
+      <Card>
+      <h1 className="fleet-title-styling">
+          Your Fleet
+          <Button outlined={true} onClick={() => {setCarCoordinates(carMarkerData)}}>Get Fleet</Button>
+
+      </h1>
+      </Card>
       {cars &&
         mileage &&
         Object.keys(cars).map((key, i) => {
