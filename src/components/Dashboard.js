@@ -5,6 +5,7 @@ import CarCard from "./CarCard";
 
 const Dashboard = () => {
   const [mapCenter, setMapCenter] = useState({});
+  const [selectedCarMarkers, setSelectedCarMarkers] = useState();
 
   return (
     <div className="card-container">
@@ -13,11 +14,17 @@ const Dashboard = () => {
           Car Locations
         </h1>
         <Card className="map-card">
-          <HertzMap mapCenter={mapCenter} />
+          <HertzMap
+            mapCenter={mapCenter}
+            selectedCarMarkers={selectedCarMarkers}
+          />
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <CarCard setMapCenter={setMapCenter} />
+        <CarCard
+          setMapCenter={setMapCenter}
+          setSelectedCarMarkers={setSelectedCarMarkers}
+        />
       </Card>
     </div>
   );

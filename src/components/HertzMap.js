@@ -23,7 +23,7 @@ function SetViewOnSelect({ animateRef, mapCenter, selectedCars }) {
   return null;
 }
 
-function HertzMap({ selectedCars, mapCenter }) {
+function HertzMap({ selectedCars, mapCenter, selectedCarMarkers }) {
   const animateRef = useRef(true);
 
   return (
@@ -34,7 +34,7 @@ function HertzMap({ selectedCars, mapCenter }) {
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
         <SetViewOnSelect animateRef={animateRef} mapCenter={mapCenter} />
-        <Marker position={hertz}>
+        <Marker position={hertz} style={{ width: "100000px" }}>
           <Popup>Hertz Global Headquarters</Popup>
         </Marker>
 

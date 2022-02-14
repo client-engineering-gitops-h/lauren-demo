@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
-import axios from "axios";
 
 import {
   request1,
@@ -16,12 +15,15 @@ import CollapseContent from "./CollapseContent";
 const CarCard = ({ setMapCenter }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
+  const [initialCars, setInitialCars] = useState();
+  const [initialMileage, setInitialMileage] = useState();
   const [selectedCars, setSelectedCars] = useState();
 
   const handleClick = () => {
     const carVins = Object.keys(selectedCars);
     console.log("carVins", carVins);
     // string formatting for api requests
+    // update cars and mileage
   };
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const CarCard = ({ setMapCenter }) => {
       })
       .then(() => {
         setCars(carData);
+        setInitialCars(carData);
       });
   }, []);
 
@@ -50,6 +53,7 @@ const CarCard = ({ setMapCenter }) => {
       })
       .then(() => {
         setMileage(carMileageData);
+        setInitialMileage(carMileageData);
       });
   }, []);
 
