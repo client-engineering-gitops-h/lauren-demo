@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Collapse, Button, Icon, Checkbox, Card } from "@blueprintjs/core";
 
-
 const CollapseContent = ({
   car,
   setSelectedCars,
   selectedCars,
   carMileage,
   setMapCenter,
-
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [carLastUpdated, setCarLastUpdated] = useState(
@@ -22,12 +20,30 @@ const CollapseContent = ({
   };
 
   const { vid, updated_at } = car;
-  const {latitude, longitude, tracker_mileage} = carMileage;
+  const { latitude, longitude, tracker_mileage } = carMileage;
+
+  const handleOnChange = () => {
+    if (selectedCars && selectedCars.hasOwnProperty(vid)) {
+      let copy = Object.assign({}, selectedCars);
+      delete copy[vid];
+      setSelectedCars(copy);
+    } else {
+      setSelectedCars({
+        ...selectedCars,
+        [vid]: {
+          latitude,
+          longitude,
+          tracker_mileage,
+          updated_at,
+          vid,
+        },
+      });
+    }
+  };
 
   return (
     <div>
-      {car && carMileage && 
-      (
+      {car && carMileage && (
         <>
           <Button
             className="collapse-card-button"
@@ -39,15 +55,18 @@ const CollapseContent = ({
           >
             <div className="collapse-card">
               <div className="checkbox-select">
-              <div style={{paddingTop:"10px"}}>
-              <Checkbox key={car} onChange={ () => {
-               setSelectedCars(...selectedCars, ...car, ...carMileage);
-              }}></Checkbox>
-              </div>
-              <div className="card-title-vin">
-                <Icon size={30} icon="drive-time" />
-                <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
-              </div>
+                <div style={{ paddingTop: "10px" }}>
+                  <Checkbox
+                    key={car}
+                    onChange={() => {
+                      handleOnChange();
+                    }}
+                  ></Checkbox>
+                </div>
+                <div className="card-title-vin">
+                  <Icon size={30} icon="drive-time" />
+                  <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
+                </div>
               </div>
               <div className="icon-collapse-card">
                 <Icon size={20} icon="chevron-down" />

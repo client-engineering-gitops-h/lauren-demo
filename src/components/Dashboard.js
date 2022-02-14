@@ -4,8 +4,6 @@ import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
 
 const Dashboard = () => {
-  const [carCoordinates, setCarCoordinates] = useState();
-  const [selectedCars, setSelectedCars] = useState({});
   const [mapCenter, setMapCenter] = useState({});
 
   return (
@@ -15,17 +13,11 @@ const Dashboard = () => {
           Car Locations
         </h1>
         <Card className="map-card">
-          <HertzMap selectedCars={selectedCars}  carCoordinates={carCoordinates} mapCenter={mapCenter}/>
+          <HertzMap mapCenter={mapCenter} />
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <CarCard
-          setSelectedCars={setSelectedCars}
-          selectedCars={selectedCars}
-          carCoordinates={carCoordinates}
-          setCarCoordinates={setCarCoordinates}
-          setMapCenter={setMapCenter}
-        />
+        <CarCard setMapCenter={setMapCenter} />
       </Card>
     </div>
   );

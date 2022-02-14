@@ -1,54 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
-import axios from "axios";
-import CollapseContent from "./CollapseContent";
-import { use } from "express/lib/application";
-const API_KEY = process.env.REACT_APP_API_KEY;
+import {
+  request1,
+  request2,
+  request3,
+  request4,
+  request5,
+  request6,
+} from "../requests/requests";
 
-const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter, selectedCars }) => {
+import CollapseContent from "./CollapseContent";
+
+const CarCard = ({ setMapCenter }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
-  const [counter, setCounter] = useState(0);
-  let carMarkerData= {};
-
-  const request1 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-  const request2 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/vehicles/3C6UR5HL7FG663032`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-  const request3 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/vehicles/3VWSW31C06M420720`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 1500);
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // });
+  const [selectedCars, setSelectedCars] = useState();
 
   useEffect(() => {
     let carData = {};
@@ -61,69 +27,42 @@ const CarCard = ({ setSelectedCar, setCarCoordinates, setMapCenter, selectedCars
       .then(() => {
         setCars(carData);
       });
-  }, [counter]);
+  }, []);
 
-  const request4 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-  const request5 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3C6UR5HL7FG663032/mileage-and-location`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-  const request6 = axios.get(
-    `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3VWSW31C06M420720/mileage-and-location`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": API_KEY,
-      },
-    }
-  );
-
-useEffect(() => {
+  useEffect(() => {
     let carMileageData = {};
     Promise.all([request4, request5, request6])
       .then((values) => {
         for (const carMileage of values) {
-          carMileageData = { ...carMileageData, [carMileage.data.vid]: { ...carMileage.data } };
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.data.vid]: { ...carMileage.data },
+          };
         }
       })
       .then(() => {
-         setMileage(carMileageData);
-   });
-  }, [counter]);
-
-  // useEffect(() => {
-  //   setCarCoordinates(mileage);
-  //   console.log("milease", mileage);
-  // }, [mileage]);
+        setMileage(carMileageData);
+      });
+  }, []);
 
   useEffect(() => {
-    carMarkerData={...carMarkerData, [selectedCars.vid]:{...selectedCars}}
-    console.log("carmarkerdata", carMarkerData)
+    console.log("selectedCars", selectedCars);
   }, [selectedCars]);
 
   return (
     <div>
       <Card>
-      <h1 className="fleet-title-styling">
+        <h1 className="fleet-title-styling">
           Your Fleet
-          <Button outlined={true} onClick={() => {setCarCoordinates(carMarkerData)}}>Get Fleet</Button>
-
-      </h1>
+          <Button
+            outlined={true}
+            onClick={() => {
+              // use selected cars to pull from API
+            }}
+          >
+            Get Fleet
+          </Button>
+        </h1>
       </Card>
       {cars &&
         mileage &&
@@ -138,7 +77,7 @@ useEffect(() => {
               elevation={Elevation.One}
             >
               <CollapseContent
-                setSelectedCar={setSelectedCar}
+                setSelectedCars={setSelectedCars}
                 setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
