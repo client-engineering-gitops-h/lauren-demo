@@ -4,7 +4,7 @@ import { Collapse, Button, Icon, Checkbox, Card } from "@blueprintjs/core";
 
 const CollapseContent = ({
   car,
-  setSelectedCar,
+  setSelectedCars,
   selectedCars,
   carMileage,
   setMapCenter,
@@ -41,7 +41,7 @@ const CollapseContent = ({
               <div className="checkbox-select">
               <div style={{paddingTop:"10px"}}>
               <Checkbox key={car} onChange={ () => {
-               setSelectedCar({vid, updated_at, latitude, longitude, tracker_mileage});
+               setSelectedCars(...selectedCars, ...car, ...carMileage);
               }}></Checkbox>
               </div>
               <div className="card-title-vin">

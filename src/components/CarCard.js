@@ -107,19 +107,13 @@ useEffect(() => {
   }, [counter]);
 
   // useEffect(() => {
-  //   // let selectedMileageData = {};
-  //   // for(const selectedMileage of mileage){
-  //   //   selectedMileageData={...selectedMileageData, [selectedMileage.vid]: {...mileage.vid}};
-  //   // }
-
-  //   // console.log("selected car mileage", selectedMileageData)
-
   //   setCarCoordinates(mileage);
   //   console.log("milease", mileage);
   // }, [mileage]);
 
   useEffect(() => {
     carMarkerData={...carMarkerData, [selectedCars.vid]:{...selectedCars}}
+    console.log("carmarkerdata", carMarkerData)
   }, [selectedCars]);
 
   return (
@@ -148,7 +142,7 @@ useEffect(() => {
                 setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
-                
+                selectedCars={selectedCars}
               />
             </Card>
           );
