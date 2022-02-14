@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
+import axios from "axios";
+
 import {
   request1,
   request2,
@@ -15,6 +17,12 @@ const CarCard = ({ setMapCenter }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [selectedCars, setSelectedCars] = useState();
+
+  const handleClick = () => {
+    const carVins = Object.keys(selectedCars);
+    console.log("carVins", carVins);
+    // string formatting for api requests
+  };
 
   useEffect(() => {
     let carData = {};
@@ -57,7 +65,7 @@ const CarCard = ({ setMapCenter }) => {
           <Button
             outlined={true}
             onClick={() => {
-              // use selected cars to pull from API
+              handleClick();
             }}
           >
             Get Fleet

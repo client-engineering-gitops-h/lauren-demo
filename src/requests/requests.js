@@ -60,3 +60,13 @@ export const request6 = axios.get(
     },
   }
 );
+
+export const getFleetRequest = axios.get(
+  "https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles?vid=1G1FZ6S04L4109518&vid=3C6UR5HL7FG663032&vid=3VWSW31C06M420720",
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-Authorization": API_KEY,
+    },
+  }
+);
