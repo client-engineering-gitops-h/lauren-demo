@@ -78,9 +78,15 @@ const CarCard = ({ setMapCenter }) => {
       </Card>
       {cars &&
         mileage &&
+        initialCars && 
+        initialMileage &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
           const carMileage = mileage[key];
+          const initialTime= initialCars[key];
+          const initialLocation = initialMileage[key];
+
+          console.log("inital keys", initialLocation, initialTime)
           return (
             <Card
               key={i}
@@ -94,6 +100,8 @@ const CarCard = ({ setMapCenter }) => {
                 car={car}
                 carMileage={carMileage}
                 selectedCars={selectedCars}
+                initialTime={initialTime}
+                initialLocation={initialLocation}
               />
             </Card>
           );
