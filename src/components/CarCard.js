@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
 
 import {
@@ -8,11 +8,12 @@ import {
   request4,
   request5,
   request6,
+  getFleetRequest,
 } from "../requests/requests";
 
 import CollapseContent from "./CollapseContent";
 
-const CarCard = ({ setMapCenter }) => {
+const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [initialCars, setInitialCars] = useState();
@@ -20,10 +21,15 @@ const CarCard = ({ setMapCenter }) => {
   const [selectedCars, setSelectedCars] = useState();
 
   const handleClick = () => {
-    const carVins = Object.keys(selectedCars);
-    console.log("carVins", carVins);
-    // string formatting for api requests
-    // update cars and mileage
+    if (selectedCars && Object.keys(selectedCars).length > 0) {
+      const carVins = Object.keys(selectedCars);
+      // string formatting for api requests
+      const selectedCarsFormatted = carVins.join(",");
+      getFleetRequest(selectedCarsFormatted).then(({ data }) => {
+        console.log(data);
+        setSelectedCarMarkers(data);
+      });
+    }
   };
 
   useEffect(() => {
@@ -56,10 +62,6 @@ const CarCard = ({ setMapCenter }) => {
         setInitialMileage(carMileageData);
       });
   }, []);
-
-  useEffect(() => {
-    console.log("selectedCars", selectedCars);
-  }, [selectedCars]);
 
   return (
     <div>

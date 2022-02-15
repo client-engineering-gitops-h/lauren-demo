@@ -38,23 +38,19 @@ function HertzMap({ selectedCars, mapCenter, selectedCarMarkers }) {
           <Popup>Hertz Global Headquarters</Popup>
         </Marker>
 
-        {selectedCars &&
+        {selectedCarMarkers &&
           // needs to be the data we get back from the API
-          Object.keys(selectedCars).map((key, i) => {
-            const carLocation = selectedCars[key];
+          selectedCarMarkers.map((car, i) => {
             const carLatLong = {
-              lat: carLocation.latitude,
-              lng: carLocation.longitude,
+              lat: car.latitude,
+              lng: car.longitude,
             };
             return (
               <Marker key={i} position={carLatLong}>
                 <Popup>
-                  VIN: {carLocation.vid}
+                  VIN: {car.vid}
                   <br />
-                  Last Updated:{" "}
-                  {new Date(selectedCars.updated_at).toLocaleTimeString(
-                    "en-US"
-                  )}
+                  Last Updated: {new Date().toLocaleTimeString("en-US")}
                 </Popup>
               </Marker>
             );
