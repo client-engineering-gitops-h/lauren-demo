@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Collapse, Button, Icon, Checkbox, Card } from "@blueprintjs/core";
+import React, { useState } from "react";
+import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
 
 const CollapseContent = ({
   car,
@@ -8,7 +8,7 @@ const CollapseContent = ({
   carMileage,
   setMapCenter,
   initialLocation,
-  initialTime
+  initialTime,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
@@ -23,7 +23,6 @@ const CollapseContent = ({
 
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
-
 
   const handleOnChange = () => {
     if (selectedCars && selectedCars.hasOwnProperty(vid)) {

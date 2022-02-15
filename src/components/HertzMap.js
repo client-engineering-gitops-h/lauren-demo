@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -10,7 +10,7 @@ import "../styles/DigitalMesh.css";
 
 const hertz = [26.4194, -81.81055];
 
-function SetViewOnSelect({ animateRef, mapCenter, selectedCars }) {
+function SetViewOnSelect({ animateRef, mapCenter }) {
   const map = useMapEvent("click", (e) => {
     map.setView(
       { lat: mapCenter.latitude, lng: mapCenter.longitude },
@@ -23,7 +23,7 @@ function SetViewOnSelect({ animateRef, mapCenter, selectedCars }) {
   return null;
 }
 
-function HertzMap({ selectedCars, mapCenter, selectedCarMarkers }) {
+function HertzMap({ mapCenter, selectedCarMarkers }) {
   const animateRef = useRef(true);
 
   return (
@@ -39,18 +39,12 @@ function HertzMap({ selectedCars, mapCenter, selectedCarMarkers }) {
         </Marker>
 
         {selectedCarMarkers &&
-          // needs to be the data we get back from the API
           selectedCarMarkers.map((car, i) => {
             const carLatLong = {
               lat: car.latitude,
               lng: car.longitude,
             };
-            console.log(
-              "car values",
-              selectedCarMarkers,
-              carLocation,
-              carLatLong
-            );
+
             return (
               <Marker key={i} position={carLatLong}>
                 <Popup>

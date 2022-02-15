@@ -7,10 +7,9 @@
   background-color: #f3f4f8;
 }
 
-.map-and-cards{
+.map-and-cards {
   display: flex;
   flex-direction: row;
-  
 }
 .map-container {
   display: grid;
@@ -32,7 +31,7 @@
 
 .fleet-title-styling {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   padding-left: 12px;
   padding-right: 1rem;
   margin-bottom: 0px;
@@ -45,9 +44,7 @@
   /* box-shadow:#7476813a 0px 1px 0px; */
 }
 
-
-
-.customer-details{
+.customer-details {
   padding-top: 1rem;
 }
 
@@ -65,7 +62,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: solid 5px;
-  border-bottom-color: #FFD50D;
+  border-bottom-color: #ffd50d;
   background-color: #ffffff;
 }
 .logo {
@@ -84,41 +81,41 @@
   margin: 1rem;
 }
 
-.location-details{ 
+.location-details {
   padding-top: 10px;
 }
 
-.collapse-card{
+.collapse-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width:29vw;
+  width: 29vw;
 }
 
-.icon-collapse-card{
+.icon-collapse-card {
   padding-right: 1rem;
 }
 
 .bp3-card .bp3-minimal :hover {
   background-color: white;
-}  
+}
 
-.collapse-card-button{
+.collapse-card-button {
   padding: 0;
 }
 
-.card-title-vin{
+.card-title-vin {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.selected-car-marker{
-  background-color: #FFD50D;
-  color: #FFD50D;
+.selected-car-marker {
+  background-color: #ffd50d;
+  color: #ffd50d;
 }
 
-.checkbox-select{
+.checkbox-select {
   display: flex;
   align-items: center;
 }

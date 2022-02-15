@@ -22,10 +22,8 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const handleClick = () => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const carVins = Object.keys(selectedCars);
-      // string formatting for api requests
       const selectedCarsFormatted = carVins.join(",");
       getFleetRequest(selectedCarsFormatted).then(({ data }) => {
-        console.log(data);
         setSelectedCarMarkers(data);
       });
     }
@@ -87,7 +85,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
           const initialTime = initialCars[key];
           const initialLocation = initialMileage[key];
 
-          console.log("inital keys", initialLocation, initialTime);
           return (
             <Card
               key={i}
