@@ -36,20 +36,18 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const carVins = Object.keys(selectedCars);
       const selectedCarsFormatted = carVins.join(",");
-      getFleetRequest(selectedCarsFormatted)
-        .then(({ data }) => {
-          setSelectedCarMarkers(data);
-          for (const carMileage of data) {
-            console.log("data", carMileage);
-            carMileageData = {
-              ...carMileageData,
-              [carMileage.vid]: { ...carMileage },
-            };
-          }
-        })
-        .then(() => {
-          setMileage(...mileage, ...carMileageData);
-        });
+      getFleetRequest(selectedCarsFormatted).then(({ data }) => {
+        setSelectedCarMarkers(data);
+        for (const carMileage of data) {
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.vid]: { ...carMileage },
+          };
+        }
+      });
+      // .then(() => {
+      //   setMileage(Object.assign({}, mileage, carMileageData));
+      // });
 
       console.log("updated times and miles", initialMileage, mileage);
     }
