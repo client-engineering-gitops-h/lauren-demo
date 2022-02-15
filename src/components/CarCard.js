@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
-
 import {
   request1,
   request2,
@@ -12,7 +11,7 @@ import {
 
 import CollapseContent from "./CollapseContent";
 
-const CarCard = ({ setMapCenter }) => {
+const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [initialCars, setInitialCars] = useState();
@@ -59,6 +58,8 @@ const CarCard = ({ setMapCenter }) => {
 
   useEffect(() => {
     console.log("selectedCars", selectedCars);
+    setSelectedCarMarkers()
+
   }, [selectedCars]);
 
   return (
