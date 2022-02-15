@@ -21,6 +21,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const handleClick = () => {
     const carVins = Object.keys(selectedCars);
     console.log("carVins", carVins);
+    setSelectedCarMarkers(selectedCars)
     // string formatting for api requests
     // update cars and mileage
   };
@@ -56,11 +57,10 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       });
   }, []);
 
-  useEffect(() => {
-    console.log("selectedCars", selectedCars);
-    setSelectedCarMarkers()
+  // useEffect(() => {
+  //   console.log("selectedCars", selectedCars);
 
-  }, [selectedCars]);
+  // }, [selectedCars]);
 
   return (
     <div>
