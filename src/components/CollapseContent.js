@@ -102,6 +102,9 @@ const CollapseContent = ({
               </div>
             </div>
             <div className="location-details">
+            <>
+                    
+            </>
               <div>
                 <strong>Mileage: </strong>
                 {carMileage.tracker_mileage || "N/A"} mi

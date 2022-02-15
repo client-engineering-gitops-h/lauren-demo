@@ -55,7 +55,9 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     let carData = {};
-    Promise.all([request1, request2, request3])
+    Promise.all([request1, 
+      request2, request3
+    ])
       .then((values) => {
         for (const car of values) {
           carData = { ...carData, [car.data.vid]: { ...car.data } };
@@ -69,7 +71,9 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     let carMileageData = {};
-    Promise.all([request4, request5, request6])
+    Promise.all([request4,
+      request5, request6
+      ])
       .then((values) => {
         for (const carMileage of values) {
           carMileageData = {

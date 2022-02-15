@@ -25,18 +25,17 @@ function SetViewOnSelect({ animateRef, mapCenter }) {
 
 function HertzMap({ mapCenter, selectedCarMarkers }) {
   const animateRef = useRef(true);
-
   return (
     <div>
-      <MapContainer center={[26.6594, -81.9055]} zoom={10}>
+      <MapContainer center={[26.971, -82.305]} zoom={10}>
         <TileLayer
           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
         <SetViewOnSelect animateRef={animateRef} mapCenter={mapCenter} />
-        <Marker position={hertz} style={{ width: "100000px" }}>
+        {/* <Marker position={hertz} style={{ width: "100000px" }}>
           <Popup>Hertz Global Headquarters</Popup>
-        </Marker>
+        </Marker> */}
 
         {selectedCarMarkers &&
           selectedCarMarkers.map((car, i) => {
