@@ -18,27 +18,40 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [initialCars, setInitialCars] = useState();
   const [initialMileage, setInitialMileage] = useState();
   const [selectedCars, setSelectedCars] = useState();
-  const [toggleTrue, setToggleTrue]= useState(false);
+  const [toggle, setToggle] = useState(false);
   const [counter, setCounter] = useState(0);
 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
   //     setCounter(counter + 1);
-  //   }, 1500);
+  //   }, 15000);
+
   //   return () => {
   //     clearInterval(intervalCount);
   //   };
-  // },[toggle]);
+  // }, [counter]);
 
   const handleClick = () => {
+    let carMileageData = {};
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const carVins = Object.keys(selectedCars);
       const selectedCarsFormatted = carVins.join(",");
-      getFleetRequest(selectedCarsFormatted).then(({ data }) => {
-        setSelectedCarMarkers(data);
-      });
+      getFleetRequest(selectedCarsFormatted)
+        .then(({ data }) => {
+          setSelectedCarMarkers(data);
+          for (const carMileage of data) {
+            console.log("data", carMileage);
+            carMileageData = {
+              ...carMileageData,
+              [carMileage.vid]: { ...carMileage },
+            };
+          }
+        })
+        .then(() => {
+          setMileage(...mileage, ...carMileageData);
+        });
 
-    console.log("updated times and miles", initialMileage, mileage)
+      console.log("updated times and miles", initialMileage, mileage);
     }
   };
 
@@ -52,6 +65,36 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       })
       .then(() => {
         setCars(carData);
+        // setInitialCars(carData);
+      });
+  }, [counter]);
+
+  useEffect(() => {
+    let carMileageData = {};
+    Promise.all([request4, request5, request6])
+      .then((values) => {
+        for (const carMileage of values) {
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.data.vid]: { ...carMileage.data },
+          };
+        }
+      })
+      .then(() => {
+        setMileage(carMileageData);
+        // setInitialMileage(carMileageData);
+      });
+  }, [counter]);
+
+  useEffect(() => {
+    let carData = {};
+    Promise.all([request1, request2, request3])
+      .then((values) => {
+        for (const car of values) {
+          carData = { ...carData, [car.data.vid]: { ...car.data } };
+        }
+      })
+      .then(() => {
         setInitialCars(carData);
       });
   }, []);
@@ -68,25 +111,19 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
         }
       })
       .then(() => {
-        setMileage(carMileageData);
         setInitialMileage(carMileageData);
       });
   }, []);
+
+  useEffect(() => {
+    console.log("car mileage", mileage, initialCars);
+  }, [mileage]);
 
   return (
     <div>
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
-          <Switch
-          // checked={}
-          onChange={()=> {
-            if (toggleTrue) {
-              setToggleTrue(!toggleTrue)
-            }
-          }}
-          
-        />
           <Button
             outlined={true}
             onClick={() => {
@@ -96,6 +133,20 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
             Get Fleet
           </Button>
         </h1>
+        <Switch
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginLeft: "12px",
+            marginRight: "1rem",
+            marginBottom: "10px",
+            marginTop: "10px",
+          }}
+          checked={toggle}
+          onChange={() => {
+            setToggle(!toggle);
+          }}
+        />
       </Card>
       {cars &&
         mileage &&
