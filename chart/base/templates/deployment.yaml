@@ -61,6 +61,11 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  key: USER
+                  name: {{ include "lauren-demo.fullname" . }}
             # - name: CLIENT_CERT
             #   valueFrom:
             #     secretKeyRef:
