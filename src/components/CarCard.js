@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation, Button } from "@blueprintjs/core";
+import { Card, Elevation, Button, Switch } from "@blueprintjs/core";
 import {
   request1,
   request2,
@@ -18,6 +18,17 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [initialCars, setInitialCars] = useState();
   const [initialMileage, setInitialMileage] = useState();
   const [selectedCars, setSelectedCars] = useState();
+  const [toggleTrue, setToggleTrue]= useState(false);
+  const [counter, setCounter] = useState(0);
+
+  // useEffect(() => {
+  //   const intervalCount = setInterval(() => {
+  //     setCounter(counter + 1);
+  //   }, 1500);
+  //   return () => {
+  //     clearInterval(intervalCount);
+  //   };
+  // },[toggle]);
 
   const handleClick = () => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
@@ -26,6 +37,8 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       getFleetRequest(selectedCarsFormatted).then(({ data }) => {
         setSelectedCarMarkers(data);
       });
+
+    console.log("updated times and miles", initialMileage, mileage)
     }
   };
 
@@ -65,6 +78,15 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
+          <Switch
+          // checked={}
+          onChange={()=> {
+            if (toggleTrue) {
+              setToggleTrue(!toggleTrue)
+            }
+          }}
+          
+        />
           <Button
             outlined={true}
             onClick={() => {

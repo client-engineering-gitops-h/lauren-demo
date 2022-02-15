@@ -45,7 +45,7 @@ const CollapseContent = ({
 
   return (
     <div>
-      {car && carMileage && initialTime && (
+      {car && carMileage && initialTime && initialLocation && (
         <>
           <Button
             className="collapse-card-button"
@@ -118,6 +118,19 @@ const CollapseContent = ({
                 <strong>OEM Timestamp: </strong>
                 {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
               </div>
+              <div>
+              <strong>Mileage: </strong>
+                {initialLocation.tracker_mileage || "N/A"} mi
+              </div>
+              <div>
+                <strong>Lat: </strong>
+                {initialLocation.latitude.toFixed(3) || "N/A"}
+              </div>
+              <div>
+                <strong>Long: </strong>
+                {initialLocation.longitude.toFixed(3) || "N/A"}
+              </div>
+              <div></div>
             </div>
           </Collapse>
         </>
