@@ -45,6 +45,12 @@ function HertzMap({ selectedCars, mapCenter, selectedCarMarkers }) {
               lat: car.latitude,
               lng: car.longitude,
             };
+            console.log(
+              "car values",
+              selectedCarMarkers,
+              carLocation,
+              carLatLong
+            );
             return (
               <Marker key={i} position={carLatLong}>
                 <Popup>

@@ -7,20 +7,23 @@ const CollapseContent = ({
   selectedCars,
   carMileage,
   setMapCenter,
+  initialLocation,
+  initialTime
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [carLastUpdated, setCarLastUpdated] = useState(
-    new Date().toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  );
+  // const [carLastUpdated, setCarLastUpdated] = useState(
+  //   new Date().toLocaleTimeString("en-US", {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   })
+  // );
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
+
 
   const handleOnChange = () => {
     if (selectedCars && selectedCars.hasOwnProperty(vid)) {
@@ -43,7 +46,7 @@ const CollapseContent = ({
 
   return (
     <div>
-      {car && carMileage && (
+      {car && carMileage && initialTime && (
         <>
           <Button
             className="collapse-card-button"
@@ -114,7 +117,7 @@ const CollapseContent = ({
               </div>
               <div>
                 <strong>OEM Timestamp: </strong>
-                {carLastUpdated}
+                {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
               </div>
             </div>
           </Collapse>
