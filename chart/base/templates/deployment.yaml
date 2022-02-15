@@ -61,11 +61,11 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
-            - name: USER
-              valueFrom:
-                secretKeyRef:
-                  key: USER
-                  name: {{ include "lauren-demo.fullname" . }}
+#             - name: USER
+#               valueFrom:
+#                 secretKeyRef:
+#                   key: USER
+#                   name: {{ include "lauren-demo.fullname" . }}
             # - name: CLIENT_CERT
             #   valueFrom:
             #     secretKeyRef:
@@ -106,11 +106,11 @@ spec:
             #     secretKeyRef:
             #       name: lauren-demo
             #       key: DB_USER
-            # - name: HERE_API_KEY
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: lauren-demo
-            #       key: HERE_API_KEY
+            - name: REACT_APP_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lauren-demo
+                  key: REACT_APP_API_KEY
             # - name: APP_ID_CLIENT_ID
             #   valueFrom:
             #     secretKeyRef:
