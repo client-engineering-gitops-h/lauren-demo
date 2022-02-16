@@ -22,7 +22,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
   //     setCounter(counter + 1);
-  //   }, 15000);
+  //   }, 3000);
 
   //   return () => {
   //     clearInterval(intervalCount);
@@ -34,18 +34,19 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const carVins = Object.keys(selectedCars);
       const selectedCarsFormatted = carVins.join(",");
-      getSelectedMileageLocation(selectedCarsFormatted).then(({ data }) => {
-        setSelectedCarMarkers(data);
-        for (const carMileage of data) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.vid]: { ...carMileage },
-          };
-        }
-      });
-      // .then(() => {
-      //   setMileage(Object.assign({}, mileage, carMileageData));
-      // });
+      getSelectedMileageLocation(selectedCarsFormatted)
+        .then(({ data }) => {
+          setSelectedCarMarkers(data);
+          for (const carMileage of data) {
+            carMileageData = {
+              ...carMileageData,
+              [carMileage.vid]: { ...carMileage },
+            };
+          }
+        })
+        .then(() => {
+          setMileage({ ...mileage, ...carMileageData });
+        });
     }
   };
 
@@ -94,10 +95,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       });
   }, [vins]);
 
-  useEffect(() => {
-    console.log("mileage state update", mileage);
-  }, [mileage]);
-
   return (
     <div>
       <Card>
@@ -112,28 +109,12 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
             Get Fleet
           </Button>
         </h1>
-        <Switch
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginLeft: "12px",
-            marginRight: "1rem",
-            marginBottom: "10px",
-            marginTop: "10px",
-          }}
-          checked={toggle}
-          onChange={() => {
-            setToggle(!toggle);
-          }}
-        />
       </Card>
       {cars &&
         mileage &&
         // initialCars &&
         // initialMileage &&
         Object.keys(cars).map((key, i) => {
-          console.log("car", car);
-          console.log("keys", carMileage);
           const car = cars[key];
           const carMileage = mileage[key];
           // const initialTime = initialCars[key];
