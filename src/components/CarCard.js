@@ -17,8 +17,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [selectedCars, setSelectedCars] = useState();
   const [toggle, setToggle] = useState(false);
   const [counter, setCounter] = useState(0);
-  const [vins, setVins]= useState();
-  
+  const [vins, setVins] = useState();
 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
@@ -47,95 +46,57 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       // .then(() => {
       //   setMileage(Object.assign({}, mileage, carMileageData));
       // });
-
-      console.log("updated times and miles", initialMileage, mileage);
     }
   };
 
   useEffect(() => {
     let carData = {};
-    Promise.resolve(getFleetVinRequest)
+    getFleetVinRequest
       .then((res) => {
-        console.log("fleet values", res)
         for (const car of res.data) {
-          carData = { ...carData, [car.vid]: {...car} };
+          carData = { ...carData, [car.vid]: { ...car } };
         }
       })
       .then(() => {
         setVins(carData);
-        console.log("vins", vins)
         // setInitialCars(carData);
       });
   }, [counter]);
 
-  useEffect(()=>{
+  useEffect(() => {
     let carData = {};
-    if (vins){
+    if (vins) {
       getDetailRequest(Object.keys(vins))
-      .then((res)=> {
-        for (const car of res) {
-          carData = { ...carData, [car.data.vid]: {...car.data} };
+        .then((res) => {
+          for (const car of res) {
+            carData = { ...carData, [car.data.vid]: { ...car.data } };
+          }
+        })
+        .then(() => {
+          setCars(carData);
+        });
+    }
+  }, [vins]);
+
+  useEffect(() => {
+    let carMileageData = {};
+    getMileageLocationRequest()
+      .then((res) => {
+        for (const carMileage of res.data) {
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.vid]: { ...carMileage },
+          };
         }
-        console.log("carDdata", carData)
       })
-      .then(()=>{
-        setCars(carData)
-      })
-    } 
-  },[vins])
+      .then(() => {
+        setMileage(carMileageData);
+      });
+  }, [vins]);
 
-  
-  // useEffect(() => {
-  //   let carMileageData = {};
-  //   Promise.all([request4,
-  //     request5, request6
-  //     ])
-  //     .then((values) => {
-  //       for (const carMileage of values) {
-  //         carMileageData = {
-  //           ...carMileageData,
-  //           [carMileage.data.vid]: { ...carMileage.data },
-  //         };
-  //       }
-  //     })
-  //     .then(() => {
-  //       setMileage(carMileageData);
-  //       // setInitialMileage(carMileageData);
-  //     });
-  // }, [counter]);
-
-  // useEffect(() => {
-  //   let carData = {};
-  //   Promise.all([request1, request2, request3])
-  //     .then((values) => {
-  //       for (const car of values) {
-  //         carData = { ...carData, [car.data.vid]: { ...car.data } };
-  //       }
-  //     })
-  //     .then(() => {
-  //       setInitialCars(carData);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   let carMileageData = {};
-  //   Promise.all([request4, request5, request6])
-  //     .then((values) => {
-  //       for (const carMileage of values) {
-  //         carMileageData = {
-  //           ...carMileageData,
-  //           [carMileage.data.vid]: { ...carMileage.data },
-  //         };
-  //       }
-  //     })
-  //     .then(() => {
-  //       setInitialMileage(carMileageData);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("car mileage", mileage, initialCars);
-  // }, [mileage]);
+  useEffect(() => {
+    console.log("mileage state update", mileage);
+  }, [mileage]);
 
   return (
     <div>
@@ -168,13 +129,15 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       </Card>
       {cars &&
         mileage &&
-        initialCars &&
-        initialMileage &&
+        // initialCars &&
+        // initialMileage &&
         Object.keys(cars).map((key, i) => {
+          console.log("car", car);
+          console.log("keys", carMileage);
           const car = cars[key];
           const carMileage = mileage[key];
-          const initialTime = initialCars[key];
-          const initialLocation = initialMileage[key];
+          // const initialTime = initialCars[key];
+          // const initialLocation = initialMileage[key];
 
           return (
             <Card
@@ -189,8 +152,8 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
                 car={car}
                 carMileage={carMileage}
                 selectedCars={selectedCars}
-                initialTime={initialTime}
-                initialLocation={initialLocation}
+                // initialTime={initialTime}
+                // initialLocation={initialLocation}
               />
             </Card>
           );
