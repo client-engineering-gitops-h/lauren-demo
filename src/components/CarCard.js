@@ -15,7 +15,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [initialCars, setInitialCars] = useState();
   const [initialMileage, setInitialMileage] = useState();
   const [selectedCars, setSelectedCars] = useState();
-  const [toggle, setToggle] = useState(false);
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
