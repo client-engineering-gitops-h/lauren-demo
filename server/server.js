@@ -12,6 +12,7 @@ require("dotenv").config({ path: "../.env" });
 
 server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
+  console.log("api key here", API_KEY);
 });
 
 setTimeout(() => {
@@ -19,12 +20,15 @@ setTimeout(() => {
   app.get("/vehicles", (req, res) => {
     const carList = req.query.cars;
     axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": process.env.API_KEY,
-        },
-      })
+      .get(
+        `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": process.env.API_KEY,
+          },
+        }
+      )
       .then(({ data }) => {
         res.send(data);
       })
