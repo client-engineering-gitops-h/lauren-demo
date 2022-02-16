@@ -48,34 +48,34 @@ const CollapseContent = ({
       {/* initialTime && initialLocation */}
       {car && carMileage && (
         <>
-          <Button
-            className="collapse-card-button"
-            minimal={true}
-            onClick={() => {
-              handleClick();
-              setMapCenter(carMileage);
-            }}
-          >
-            <div className="collapse-card">
-              <div className="checkbox-select">
-                <div style={{ paddingTop: "10px" }}>
-                  <Checkbox
-                    key={car}
-                    onChange={() => {
-                      handleOnChange();
-                    }}
-                  ></Checkbox>
-                </div>
-                <div className="card-title-vin">
-                  <Icon size={30} icon="drive-time" />
-                  <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
-                </div>
+          <div className="collapse-card">
+            <div className="checkbox-select">
+              <div style={{ paddingTop: "10px" }}>
+                <Checkbox
+                  key={car}
+                  onChange={() => {
+                    handleOnChange();
+                  }}
+                ></Checkbox>
               </div>
-              <div className="icon-collapse-card">
-                <Icon size={20} icon="chevron-down" />
+              <div className="card-title-vin">
+                <Icon size={30} icon="drive-time" />
+                <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
               </div>
             </div>
-          </Button>
+            <div className="icon-collapse-card">
+              <Button
+                className="collapse-card-button"
+                minimal={true}
+                onClick={() => {
+                  handleClick();
+                  setMapCenter(carMileage);
+                }}
+              >
+                <Icon size={20} icon={isOpen ? "chevron-up" : "chevron-down"} />
+              </Button>
+            </div>
+          </div>
           <Collapse isOpen={isOpen}>
             <div className="customer-details">
               <div>
