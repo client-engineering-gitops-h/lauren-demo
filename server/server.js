@@ -4,55 +4,101 @@ const http = require("http");
 const path = require("path");
 const axios = require("axios");
 const server = http.createServer(app);
+var bodyParser = require("body-parser");
 const cors = require("cors");
-const port = process.env.PORT || "3002";
-const delay = 1000 * (process.env.DELAY || 0);
-const API_KEY = process.env.API_KEY;
+const port = process.env.PORT || "8080";
+const API_KEY = process.env.REACT_APP_API_KEY;
+// delete this line in prod
+require("dotenv").config({ path: "../.env" });
+
+app.use(cors());
+
+app.use(bodyParser.json());
 
 server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
-  console.log("process.env", process.env);
-  console.log("api key here", API_KEY);
+  console.log("api key here", process.env.REACT_APP_API_KEY);
 });
 
-setTimeout(() => {
-  app.use(cors());
-  app.get("/vehicles", (req, res) => {
-    const carList = req.query.cars;
-    axios
-      .get(
-        `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
-        {
+app.get("/vins", (req, res) => {
+  axios
+    .get(
+      `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/details`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": process.env.REACT_APP_API_KEY,
+        },
+      }
+    )
+    .then(({ data }) => {
+      res.send(data);
+    });
+});
+
+app.get("/vehicles", async (req, res) => {
+  const vins = JSON.parse(req.query.vins);
+
+  let vinArray = [];
+
+  if (vins) {
+    Object.keys(vins).forEach((vin) => {
+      vinArray.push(
+        axios.get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/${vin}`, {
           headers: {
             "Content-Type": "application/json",
-            "X-Authorization": process.env.API_KEY,
+            "X-Authorization": process.env.REACT_APP_API_KEY,
           },
-        }
-      )
-      .then(({ data }) => {
-        res.send(data);
-      })
-      .catch((error) => console.log("Rentalmatics", error));
-  });
+        })
+      );
+    });
 
-  app.get("/mileage-location", (req, res) => {
-    axios
-      .get(
-        `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Authorization": process.env.API_KEY,
-          },
-        }
-      )
-      .then(({ data }) => {
-        res.send(data);
+    let resultArr = [];
+    Promise.all(vinArray.map((p) => p.catch((e) => e)))
+      .then((values) => {
+        return values.filter((result) => !(result instanceof Error));
       })
-      .catch((error) => console.log("Rentalmatics", error));
-  });
+      .then((validResults) => {
+        validResults.filter((result) => {
+          resultArr.push(result.data);
+        });
+        res.json(resultArr);
+      });
+  }
+});
 
-  app.get("/ready", (req, res) => res.json({ status: "UP" }));
-  app.use(express.static(path.join(__dirname, "../build")));
-  console.log(`app is ready for ${process.env.NODE_ENV}`);
-}, delay);
+app.get("/mileage-location", (req, res) => {
+  axios
+    .get(`https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/`, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": process.env.REACT_APP_API_KEY,
+      },
+    })
+    .then(({ data }) => {
+      res.json(data);
+    });
+});
+
+app.get("/selected-vehicles-location", (req, res) => {
+  const vins = req.query.vins;
+
+  const selectedCarsFormatted = vins.join(",");
+  axios
+    .get(
+      `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles?vid=${selectedCarsFormatted}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Authorization": process.env.REACT_APP_API_KEY,
+        },
+      }
+    )
+    .then(({ data }) => {
+      res.json(data);
+    });
+});
+
+app.get("/ready", (req, res) => res.json({ status: "UP" }));
+app.use(express.static(path.join(__dirname, "../build")));
+console.log(`app is ready for ${process.env.NODE_ENV}`);
