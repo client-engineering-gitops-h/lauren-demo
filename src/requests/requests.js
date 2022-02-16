@@ -1,8 +1,8 @@
 import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const request1 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`,
+export const getFleetVinRequest = axios.get(
+  `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/details`,
   {
     headers: {
       "Content-Type": "application/json",
@@ -11,8 +11,30 @@ export const request1 = axios.get(
   }
 );
 
-export const request2 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/vehicles/3C6UR5HL7FG663032`,
+
+export const getDetailRequest = async(vins) => 
+ {
+   let vinArray= []
+     vins.forEach((vin)=>{
+       vinArray.push(axios.get(
+        `https://pds-us.rentalmatics.com/TRIALS/vehicles/${vin}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": API_KEY,
+          },
+        }
+      ))
+      }
+      )
+    const results = await Promise.all(vinArray.map(p => p.catch(e => e)));
+    const validResults = results.filter(result => !(result instanceof Error));
+    return validResults
+  }
+
+
+export const getMileageLocationRequest= () => axios.get(
+  `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/`,
   {
     headers: {
       "Content-Type": "application/json",
@@ -21,47 +43,8 @@ export const request2 = axios.get(
   }
 );
 
-export const request3 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/vehicles/3VWSW31C06M420720`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Authorization": API_KEY,
-    },
-  }
-);
 
-export const request4 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Authorization": API_KEY,
-    },
-  }
-);
-
-export const request5 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3C6UR5HL7FG663032/mileage-and-location`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Authorization": API_KEY,
-    },
-  }
-);
-
-export const request6 = axios.get(
-  `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/3VWSW31C06M420720/mileage-and-location`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Authorization": API_KEY,
-    },
-  }
-);
-
-export const getFleetRequest = (selectedCars) =>
+export const getSelectedMileageLocation = (selectedCars) =>
   axios.get(
     `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles?vid=${selectedCars}`,
     {

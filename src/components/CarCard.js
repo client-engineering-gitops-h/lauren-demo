@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button, Switch } from "@blueprintjs/core";
 import {
-  request1,
-  request2,
-  request3,
-  request4,
-  request5,
-  request6,
-  getFleetRequest,
+  getDetailRequest,
+  getFleetVinRequest,
+  getMileageLocationRequest,
+  getSelectedMileageLocation,
 } from "../requests/requests";
 
 import CollapseContent from "./CollapseContent";
@@ -20,6 +17,8 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [selectedCars, setSelectedCars] = useState();
   const [toggle, setToggle] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [vins, setVins]= useState();
+  
 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
@@ -36,7 +35,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const carVins = Object.keys(selectedCars);
       const selectedCarsFormatted = carVins.join(",");
-      getFleetRequest(selectedCarsFormatted).then(({ data }) => {
+      getSelectedMileageLocation(selectedCarsFormatted).then(({ data }) => {
         setSelectedCarMarkers(data);
         for (const carMileage of data) {
           carMileageData = {
@@ -55,71 +54,88 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     let carData = {};
-    Promise.all([request1, 
-      request2, request3
-    ])
-      .then((values) => {
-        for (const car of values) {
-          carData = { ...carData, [car.data.vid]: { ...car.data } };
+    Promise.resolve(getFleetVinRequest)
+      .then((res) => {
+        console.log("fleet values", res)
+        for (const car of res.data) {
+          carData = { ...carData, [car.vid]: {...car} };
         }
       })
       .then(() => {
-        setCars(carData);
+        setVins(carData);
+        console.log("vins", vins)
         // setInitialCars(carData);
       });
   }, [counter]);
 
-  useEffect(() => {
-    let carMileageData = {};
-    Promise.all([request4,
-      request5, request6
-      ])
-      .then((values) => {
-        for (const carMileage of values) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.data.vid]: { ...carMileage.data },
-          };
-        }
-      })
-      .then(() => {
-        setMileage(carMileageData);
-        // setInitialMileage(carMileageData);
-      });
-  }, [counter]);
-
-  useEffect(() => {
+  useEffect(()=>{
     let carData = {};
-    Promise.all([request1, request2, request3])
-      .then((values) => {
-        for (const car of values) {
-          carData = { ...carData, [car.data.vid]: { ...car.data } };
+    if (vins){
+      getDetailRequest(Object.keys(vins))
+      .then((res)=> {
+        for (const car of res) {
+          carData = { ...carData, [car.data.vid]: {...car.data} };
         }
+        console.log("carDdata", carData)
       })
-      .then(() => {
-        setInitialCars(carData);
-      });
-  }, []);
-
-  useEffect(() => {
-    let carMileageData = {};
-    Promise.all([request4, request5, request6])
-      .then((values) => {
-        for (const carMileage of values) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.data.vid]: { ...carMileage.data },
-          };
-        }
+      .then(()=>{
+        setCars(carData)
       })
-      .then(() => {
-        setInitialMileage(carMileageData);
-      });
-  }, []);
+    } 
+  },[vins])
 
-  useEffect(() => {
-    console.log("car mileage", mileage, initialCars);
-  }, [mileage]);
+  
+  // useEffect(() => {
+  //   let carMileageData = {};
+  //   Promise.all([request4,
+  //     request5, request6
+  //     ])
+  //     .then((values) => {
+  //       for (const carMileage of values) {
+  //         carMileageData = {
+  //           ...carMileageData,
+  //           [carMileage.data.vid]: { ...carMileage.data },
+  //         };
+  //       }
+  //     })
+  //     .then(() => {
+  //       setMileage(carMileageData);
+  //       // setInitialMileage(carMileageData);
+  //     });
+  // }, [counter]);
+
+  // useEffect(() => {
+  //   let carData = {};
+  //   Promise.all([request1, request2, request3])
+  //     .then((values) => {
+  //       for (const car of values) {
+  //         carData = { ...carData, [car.data.vid]: { ...car.data } };
+  //       }
+  //     })
+  //     .then(() => {
+  //       setInitialCars(carData);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   let carMileageData = {};
+  //   Promise.all([request4, request5, request6])
+  //     .then((values) => {
+  //       for (const carMileage of values) {
+  //         carMileageData = {
+  //           ...carMileageData,
+  //           [carMileage.data.vid]: { ...carMileage.data },
+  //         };
+  //       }
+  //     })
+  //     .then(() => {
+  //       setInitialMileage(carMileageData);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("car mileage", mileage, initialCars);
+  // }, [mileage]);
 
   return (
     <div>
