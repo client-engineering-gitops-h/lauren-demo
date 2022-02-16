@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
+  console.log("process.env", process.env.REACT_APP_API_KEY);
 });
 
 app.get("/vins", (req, res) => {
