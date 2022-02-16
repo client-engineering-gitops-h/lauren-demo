@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Button, Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 import HertzMap from "./HertzMap";
 import CarCard from "./CarCard";
 
 const Dashboard = () => {
-  const [carCoordinates, setCarCoordinates] = useState();
-  const [selectedCar, setSelectedCar] = useState();
+  const [mapCenter, setMapCenter] = useState({});
+  const [selectedCarMarkers, setSelectedCarMarkers] = useState();
 
   return (
     <div className="card-container">
@@ -14,17 +14,16 @@ const Dashboard = () => {
           Car Locations
         </h1>
         <Card className="map-card">
-          <HertzMap selectedCar={selectedCar} carCoordinates={carCoordinates} />
+          <HertzMap
+            mapCenter={mapCenter}
+            selectedCarMarkers={selectedCarMarkers}
+          />
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
-        <h1 className="fleet-title-styling">
-          Your Fleet
-          <Button>Get Fleet</Button>
-        </h1>
         <CarCard
-          setSelectedCar={setSelectedCar}
-          setCarCoordinates={setCarCoordinates}
+          setMapCenter={setMapCenter}
+          setSelectedCarMarkers={setSelectedCarMarkers}
         />
       </Card>
     </div>

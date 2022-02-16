@@ -19,7 +19,7 @@ setTimeout(() => {
   app.get("/vehicles", (req, res) => {
     const carList = req.query.cars;
     axios
-      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/IBM_1`, {
+      .get(`https://pds-us.rentalmatics.com/TRIALS/vehicles/1G1FZ6S04L4109518`, {
         headers: {
           "Content-Type": "application/json",
           "X-Authorization": process.env.API_KEY,
@@ -34,7 +34,7 @@ setTimeout(() => {
   app.get("/mileage-location", (req, res) => {
     axios
       .get(
-        `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/IBM_1/mileage-and-location`,
+        `https://pds-us.rentalmatics.com/TRIALS/rentalsystem/vehicles/1G1FZ6S04L4109518/mileage-and-location`,
         {
           headers: {
             "Content-Type": "application/json",
