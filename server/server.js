@@ -7,9 +7,8 @@ const server = http.createServer(app);
 var bodyParser = require("body-parser");
 const cors = require("cors");
 const port = process.env.PORT || "8080";
-const API_KEY = process.env.REACT_APP_API_KEY;
 // delete this line in prod
-require("dotenv").config({ path: "../.env" });
+// require("dotenv").config({ path: "../.env" });
 
 app.use(cors());
 
