@@ -25,7 +25,7 @@ const CollapseContent = ({
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
 
-  const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford'])
+  const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford', 'GMC', 'Buick', 'Cadillac', 'Lexus', 'Lincoln', 'Troller'])
 
 
   const handleOnChange = () => {
