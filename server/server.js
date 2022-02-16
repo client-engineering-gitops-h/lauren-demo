@@ -8,7 +8,6 @@ const cors = require("cors");
 const port = process.env.PORT || "3002";
 const delay = 1000 * (process.env.DELAY || 0);
 const API_KEY = process.env.API_KEY;
-require("dotenv").config({ path: "../.env" });
 
 server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
