@@ -11,6 +11,7 @@ const API_KEY = process.env.API_KEY;
 
 server.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
+  console.log("process.env", process.env);
   console.log("api key here", API_KEY);
 });
 
