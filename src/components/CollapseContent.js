@@ -7,8 +7,8 @@ const CollapseContent = ({
   selectedCars,
   carMileage,
   setMapCenter,
-  initialLocation,
-  initialTime,
+  // initialLocation,
+  // initialTime,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
@@ -45,36 +45,37 @@ const CollapseContent = ({
 
   return (
     <div>
-      {car && carMileage && initialTime && initialLocation && (
+      {/* initialTime && initialLocation */}
+      {car && carMileage && (
         <>
-          <Button
-            className="collapse-card-button"
-            minimal={true}
-            onClick={() => {
-              handleClick();
-              setMapCenter(carMileage);
-            }}
-          >
-            <div className="collapse-card">
-              <div className="checkbox-select">
-                <div style={{ paddingTop: "10px" }}>
-                  <Checkbox
-                    key={car}
-                    onChange={() => {
-                      handleOnChange();
-                    }}
-                  ></Checkbox>
-                </div>
-                <div className="card-title-vin">
-                  <Icon size={30} icon="drive-time" />
-                  <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
-                </div>
+          <div className="collapse-card">
+            <div className="checkbox-select">
+              <div style={{ paddingTop: "10px" }}>
+                <Checkbox
+                  key={car}
+                  onChange={() => {
+                    handleOnChange();
+                  }}
+                ></Checkbox>
               </div>
-              <div className="icon-collapse-card">
-                <Icon size={20} icon="chevron-down" />
+              <div className="card-title-vin">
+                <Icon size={30} icon="drive-time" />
+                <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
               </div>
             </div>
-          </Button>
+            <div className="icon-collapse-card">
+              <Button
+                className="collapse-card-button"
+                minimal={true}
+                onClick={() => {
+                  handleClick();
+                  setMapCenter(carMileage);
+                }}
+              >
+                <Icon size={20} icon={isOpen ? "chevron-up" : "chevron-down"} />
+              </Button>
+            </div>
+          </div>
           <Collapse isOpen={isOpen}>
             <div className="customer-details">
               <div>
@@ -102,22 +103,23 @@ const CollapseContent = ({
               </div>
             </div>
             <div className="location-details">
-            <>
-                    
-            </>
+              <></>
               <div>
                 <strong>Mileage: </strong>
-                {carMileage.tracker_mileage || "N/A"} mi
+                {carMileage.tracker_mileage
+                  ? carMileage.tracker_mileage
+                  : "N/A"}{" "}
+                mi
               </div>
               <div>
                 <strong>Lat: </strong>
-                {carMileage.latitude.toFixed(3) || "N/A"}
+                {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
               </div>
               <div>
                 <strong>Long: </strong>
-                {carMileage.longitude.toFixed(3) || "N/A"}
+                {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
               </div>
-              <div>
+              {/* <div>
                 <strong>OEM Timestamp: </strong>
                 {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
               </div>
@@ -132,7 +134,7 @@ const CollapseContent = ({
               <div>
                 <strong>Long: </strong>
                 {initialLocation.longitude.toFixed(3) || "N/A"}
-              </div>
+              </div> */}
               <div></div>
             </div>
           </Collapse>
