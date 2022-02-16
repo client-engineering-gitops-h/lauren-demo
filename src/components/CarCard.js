@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation, Button, Switch } from "@blueprintjs/core";
-import {
-  getDetailRequest,
-  getFleetVinRequest,
-  getMileageLocationRequest,
-  getSelectedMileageLocation,
-} from "../requests/requests";
+import { Card, Elevation, Button } from "@blueprintjs/core";
 
 import CollapseContent from "./CollapseContent";
+import axios from "axios";
 
 const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [cars, setCars] = useState();
@@ -31,9 +26,12 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const handleClick = () => {
     let carMileageData = {};
     if (selectedCars && Object.keys(selectedCars).length > 0) {
-      const carVins = Object.keys(selectedCars);
-      const selectedCarsFormatted = carVins.join(",");
-      getSelectedMileageLocation(selectedCarsFormatted)
+      const vins = Object.keys(selectedCars);
+
+      axios
+        .get("http://127.0.0.1:8080/selected-vehicles-location", {
+          params: { vins },
+        })
         .then(({ data }) => {
           setSelectedCarMarkers(data);
           for (const carMileage of data) {
@@ -50,26 +48,30 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   };
 
   useEffect(() => {
-    let carData = {};
-    getFleetVinRequest
-      .then((res) => {
-        for (const car of res.data) {
-          carData = { ...carData, [car.vid]: { ...car } };
+    let vinData = {};
+
+    axios
+      .get("http://127.0.0.1:8080/vins")
+      .then(({ data }) => {
+        for (const car of data) {
+          vinData = { ...vinData, [car.vid]: { ...car } };
         }
       })
       .then(() => {
-        setVins(carData);
+        setVins(vinData);
         // setInitialCars(carData);
       });
   }, [counter]);
 
   useEffect(() => {
     let carData = {};
+
     if (vins) {
-      getDetailRequest(Object.keys(vins))
-        .then((res) => {
-          for (const car of res) {
-            carData = { ...carData, [car.data.vid]: { ...car.data } };
+      axios
+        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+        .then(({ data }) => {
+          for (const car of data) {
+            carData = { ...carData, [car.vid]: { ...car } };
           }
         })
         .then(() => {
@@ -80,9 +82,11 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     let carMileageData = {};
-    getMileageLocationRequest()
-      .then((res) => {
-        for (const carMileage of res.data) {
+
+    axios
+      .get("http://127.0.0.1:8080/mileage-location")
+      .then(({ data }) => {
+        for (const carMileage of data) {
           carMileageData = {
             ...carMileageData,
             [carMileage.vid]: { ...carMileage },
