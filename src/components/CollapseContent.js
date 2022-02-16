@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
+import { set } from "express/lib/application";
 
 const CollapseContent = ({
   car,
@@ -23,6 +24,9 @@ const CollapseContent = ({
 
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
+
+  const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford'])
+
 
   const handleOnChange = () => {
     if (selectedCars && selectedCars.hasOwnProperty(vid)) {
@@ -77,33 +81,12 @@ const CollapseContent = ({
             </div>
           </div>
           <Collapse isOpen={isOpen}>
-            <div className="customer-details">
-              <div>
-                <strong>IMEI: </strong>
-                {car.imei || "N/A"}
-              </div>
-              <div>
-                <strong>Customer: </strong>IBM
-              </div>
-              <div>
-                <strong>Onboarded: </strong>
-                {new Date(car.created_at).toLocaleString() || "N/A"}
-              </div>
+            <div className="location-details">
+              <div className="rentalmatics-location">
               <div>
                 <strong>Last Active: </strong>
                 {new Date(car.updated_at).toLocaleString() || "N/A"}
               </div>
-              <div style={{ paddingTop: "10px" }}>
-                <strong>Make: </strong>
-                {car.make || "N/A"}
-              </div>
-              <div>
-                <strong>Model: </strong>
-                {car.model || "N/A"}
-              </div>
-            </div>
-            <div className="location-details">
-              <></>
               <div>
                 <strong>Mileage: </strong>
                 {carMileage.tracker_mileage
@@ -119,24 +102,48 @@ const CollapseContent = ({
                 <strong>Long: </strong>
                 {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
               </div>
-              {/* <div>
-                <strong>OEM Timestamp: </strong>
-                {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
               </div>
-              <div>
-              <strong>Mileage: </strong>
-                {initialLocation.tracker_mileage || "N/A"} mi
+                <div className="OEM-location">
+                <strong>OEM Timestamp: </strong>
+                {(car.updated_at && carMakes.has(car.make)) ? new Date(car.updated_at).toLocaleString() : "N/A"}
+                <div>
+                <strong>Mileage: </strong>
+                {(carMileage.tracker_mileage && carMakes.has(car.make)) 
+                  ? carMileage.tracker_mileage
+                  : "N/A"}{" "} mi
               </div>
               <div>
                 <strong>Lat: </strong>
-                {initialLocation.latitude.toFixed(3) || "N/A"}
+                {(carMileage.latitude && carMakes.has(car.make)) ? carMileage.latitude.toFixed(3) : "N/A"}
               </div>
               <div>
                 <strong>Long: </strong>
-                {initialLocation.longitude.toFixed(3) || "N/A"}
-              </div> */}
-              <div></div>
+                {(carMileage.longitude && carMakes.has(car.make)) ? carMileage.longitude.toFixed(3) : "N/A"}
+                </div>
+              </div>
+              </div>
+            <div className="customer-details">
+            <div style={{ paddingTop: "5px" }}>
+                <strong>Make: </strong>
+                {car.make || "N/A"}
+              </div>
+              <div>
+                <strong>Model: </strong>
+                {car.model || "N/A"}
+              </div>
+              <div style={{paddingTop: "10px"}}>
+                <strong>IMEI: </strong>
+                {car.imei || "N/A"}
+              </div>
+              <div>
+                <strong>Customer: </strong>IBM
+              </div>
+              <div>
+                <strong>Onboarded: </strong>
+                {new Date(car.created_at).toLocaleString() || "N/A"}
+              </div>
             </div>
+            
           </Collapse>
         </>
       )}
