@@ -82,9 +82,18 @@
 }
 
 .location-details {
+  display: flex;
   padding-top: 10px;
 }
 
+.rentalmatics-location{
+  max-width: 175px;
+  margin-right: 3rem;
+}
+
+.oem-location{
+  max-width: 175px;
+}
 .collapse-card {
   display: flex;
   justify-content: space-between;

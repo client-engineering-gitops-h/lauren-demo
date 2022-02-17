@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
+import { set } from "express/lib/application";
 
 const CollapseContent = ({
   car,
@@ -24,6 +25,9 @@ const CollapseContent = ({
 
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
+
+  const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford', 'GMC', 'Buick', 'Cadillac', 'Lexus', 'Lincoln', 'Troller'])
+
 
   const handleOnChange = () => {
     if (selectedCars && selectedCars.hasOwnProperty(vid)) {
@@ -77,8 +81,56 @@ const CollapseContent = ({
             </div>
           </div>
           <Collapse isOpen={isOpen}>
-            <div className="customer-details">
+            <div className="location-details">
+              <div className="rentalmatics-location">
               <div>
+                <strong>Last Active: </strong>
+                {new Date(car.updated_at).toLocaleString() || "N/A"}
+              </div>
+              <div>
+                <strong>Mileage: </strong>
+                {carMileage.tracker_mileage
+                  ? carMileage.tracker_mileage
+                  : "N/A"}{" "} mi
+              </div>
+              <div>
+                <strong>Lat: </strong>
+                {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
+              </div>
+              <div>
+                <strong>Long: </strong>
+                {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
+              </div>
+              </div>
+                <div className="OEM-location">
+                <strong>OEM Timestamp: </strong>
+                {(initialTime.updated_at && carMakes.has(car.make)) ? new Date(initialTime.updated_at).toLocaleString() : "N/A"}
+                <div>
+                <strong>Mileage: </strong>
+                {(initialLocation.tracker_mileage && carMakes.has(car.make)) 
+                  ? initialLocation.tracker_mileage
+                  : "N/A"}{" "} mi
+              </div>
+              <div>
+                <strong>Lat: </strong>
+                {(initialLocation.latitude && carMakes.has(car.make)) ? initialLocation.latitude.toFixed(3) : "N/A"}
+              </div>
+              <div>
+                <strong>Long: </strong>
+                {(initialLocation.longitude && carMakes.has(car.make)) ? initialLocation.longitude.toFixed(3) : "N/A"}
+                </div>
+              </div>
+              </div>
+            <div className="customer-details">
+            <div style={{ paddingTop: "5px" }}>
+                <strong>Make: </strong>
+                {car.make || "N/A"}
+              </div>
+              <div>
+                <strong>Model: </strong>
+                {car.model || "N/A"}
+              </div>
+              <div style={{paddingTop: "10px"}}>
                 <strong>IMEI: </strong>
                 {car.imei || "N/A"}
               </div>
@@ -89,54 +141,8 @@ const CollapseContent = ({
                 <strong>Onboarded: </strong>
                 {new Date(car.created_at).toLocaleString() || "N/A"}
               </div>
-              <div>
-                <strong>Last Active: </strong>
-                {new Date(car.updated_at).toLocaleString() || "N/A"}
-              </div>
-              <div style={{ paddingTop: "10px" }}>
-                <strong>Make: </strong>
-                {car.make || "N/A"}
-              </div>
-              <div>
-                <strong>Model: </strong>
-                {car.model || "N/A"}
-              </div>
             </div>
-            <div className="location-details">
-              <></>
-              <div>
-                <strong>Mileage: </strong>
-                {carMileage.tracker_mileage
-                  ? carMileage.tracker_mileage
-                  : "N/A"}{" "}
-                mi
-              </div>
-              <div>
-                <strong>Lat: </strong>
-                {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
-              </div>
-              <div>
-                <strong>Long: </strong>
-                {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
-              </div>
-              <div>
-                <strong>OEM Timestamp: </strong>
-                {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
-              </div>
-              <div>
-              <strong>Mileage: </strong>
-                {initialLocation.tracker_mileage || "N/A"} mi
-              </div>
-              <div>
-                <strong>Lat: </strong>
-                {initialLocation.latitude ? initialLocation.latitude.toFixed(3) : "N/A"}
-              </div>
-              <div>
-                <strong>Long: </strong>
-                {initialLocation.longitude ? initialLocation.longitude.toFixed(3) : "N/A"}
-              </div>
-              <div></div>
-            </div>
+            
           </Collapse>
         </>
       )}
