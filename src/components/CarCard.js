@@ -59,13 +59,11 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       })
       .then(() => {
         setVins(vinData);
-        // setInitialCars(carData);
       });
   }, [counter]);
 
   useEffect(() => {
     let carData = {};
-
     if (vins) {
       axios
         .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
@@ -98,6 +96,39 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       });
   }, [vins]);
 
+  useEffect(() => {
+    let carData = {};
+    if (vins) {
+      axios
+        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+        .then(({ data }) => {
+          for (const car of data) {
+            carData = { ...carData, [car.vid]: { ...car } };
+          }
+        })
+        .then(() => {
+          setInitialCars(carData);
+        });
+    }
+  }, [initialMileage && vins]);
+
+  useEffect(() => {
+    let carMileageData = {};
+    axios
+      .get("http://127.0.0.1:8080/mileage-location")
+      .then(({ data }) => {
+        for (const carMileage of data) {
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.vid]: { ...carMileage },
+          };
+        }
+      })
+      .then(() => {
+        setInitialMileage(carMileageData);
+      });
+  }, []);
+
   return (
     <div>
       <Card>
@@ -115,14 +146,13 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       </Card>
       {cars &&
         mileage &&
-        // initialCars &&
-        // initialMileage &&
+        initialCars &&
+        initialMileage &&
         Object.keys(cars).map((key, i) => {
           const car = cars[key];
           const carMileage = mileage[key];
-          // const initialTime = initialCars[key];
-          // const initialLocation = initialMileage[key];
-
+          const initialTime = initialCars[key];
+          const initialLocation = initialMileage[key];
           return (
             <Card
               key={i}
@@ -136,8 +166,8 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
                 car={car}
                 carMileage={carMileage}
                 selectedCars={selectedCars}
-                // initialTime={initialTime}
-                // initialLocation={initialLocation}
+                initialTime={initialTime}
+                initialLocation={initialLocation}
               />
             </Card>
           );

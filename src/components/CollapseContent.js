@@ -7,8 +7,8 @@ const CollapseContent = ({
   selectedCars,
   carMileage,
   setMapCenter,
-  // initialLocation,
-  // initialTime,
+  initialLocation,
+  initialTime,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
@@ -20,6 +20,7 @@ const CollapseContent = ({
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
 
   const { vid, updated_at } = car;
   const { latitude, longitude, tracker_mileage } = carMileage;
@@ -45,8 +46,7 @@ const CollapseContent = ({
 
   return (
     <div>
-      {/* initialTime && initialLocation */}
-      {car && carMileage && (
+      {car && carMileage && initialTime && initialLocation && (
         <>
           <div className="collapse-card">
             <div className="checkbox-select">
@@ -119,7 +119,7 @@ const CollapseContent = ({
                 <strong>Long: </strong>
                 {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
               </div>
-              {/* <div>
+              <div>
                 <strong>OEM Timestamp: </strong>
                 {new Date(initialTime.updated_at).toLocaleString() || "N/A"}
               </div>
@@ -129,12 +129,12 @@ const CollapseContent = ({
               </div>
               <div>
                 <strong>Lat: </strong>
-                {initialLocation.latitude.toFixed(3) || "N/A"}
+                {initialLocation.latitude ? initialLocation.latitude.toFixed(3) : "N/A"}
               </div>
               <div>
                 <strong>Long: </strong>
-                {initialLocation.longitude.toFixed(3) || "N/A"}
-              </div> */}
+                {initialLocation.longitude ? initialLocation.longitude.toFixed(3) : "N/A"}
+              </div>
               <div></div>
             </div>
           </Collapse>
