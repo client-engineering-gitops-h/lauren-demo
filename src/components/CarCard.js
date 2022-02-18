@@ -33,6 +33,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
           params: { vins },
         })
         .then(({ data }) => {
+          console.log("data", data);
           setSelectedCarMarkers(data);
           for (const carMileage of data) {
             carMileageData = {
