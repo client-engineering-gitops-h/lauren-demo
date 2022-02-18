@@ -101,7 +101,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     let carData = {};
     if (vins) {
       axios
-        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+        .get("/vehicles", { params: { vins } })
         .then(({ data }) => {
           for (const car of data) {
             carData = { ...carData, [car.vid]: { ...car } };
@@ -116,7 +116,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   useEffect(() => {
     let carMileageData = {};
     axios
-      .get("http://127.0.0.1:8080/mileage-location")
+      .get("/mileage-location")
       .then(({ data }) => {
         for (const carMileage of data) {
           carMileageData = {
