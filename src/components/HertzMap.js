@@ -11,15 +11,15 @@ import "../styles/DigitalMesh.css";
 const hertz = [26.4194, -81.81055];
 
 function SetViewOnSelect({ animateRef, mapCenter }) {
-  const map = useMapEvent("click", (e) => {
-    map.setView(
-      { lat: mapCenter.latitude, lng: mapCenter.longitude },
-      map.getZoom(),
-      {
-        animate: animateRef.current || false,
-      }
-    );
-  });
+  // const map = useMapEvent("click", (e) => {
+  //   map.setView(
+  //     { lat: mapCenter.latitude, lng: mapCenter.longitude },
+  //     map.getZoom(),
+  //     {
+  //       animate: animateRef.current || false,
+  //     }
+  //   );
+  // });
   return null;
 }
 
