@@ -6,7 +6,7 @@ const axios = require("axios");
 const server = http.createServer(app);
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const port = process.env.PORT || "8080";
+const port = process.env.PORT || 8080;
 // delete this line in prod
 require("dotenv").config({ path: "../.env" });
 

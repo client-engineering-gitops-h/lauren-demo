@@ -29,11 +29,10 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       const vins = Object.keys(selectedCars);
 
       axios
-        .get("/selected-vehicles-location", {
+        .get("http://127.0.0.1:8080/selected-vehicles-location", {
           params: { vins },
         })
         .then(({ data }) => {
-          console.log("data", data);
           setSelectedCarMarkers(data);
           for (const carMileage of data) {
             carMileageData = {
@@ -52,7 +51,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     let vinData = {};
 
     axios
-      .get("/vins")
+      .get("http://127.0.0.1:8080/vins")
       .then(({ data }) => {
         for (const car of data) {
           vinData = { ...vinData, [car.vid]: { ...car } };
@@ -67,7 +66,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     let carData = {};
     if (vins) {
       axios
-        .get("/vehicles", { params: { vins } })
+        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
         .then(({ data }) => {
           for (const car of data) {
             carData = { ...carData, [car.vid]: { ...car } };
@@ -83,7 +82,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     let carMileageData = {};
 
     axios
-      .get("/mileage-location")
+      .get("http://127.0.0.1:8080/mileage-location")
       .then(({ data }) => {
         for (const carMileage of data) {
           carMileageData = {
@@ -101,7 +100,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     let carData = {};
     if (vins) {
       axios
-        .get("/vehicles", { params: { vins } })
+        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
         .then(({ data }) => {
           for (const car of data) {
             carData = { ...carData, [car.vid]: { ...car } };
@@ -116,7 +115,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   useEffect(() => {
     let carMileageData = {};
     axios
-      .get("/mileage-location")
+      .get("http://127.0.0.1:8080/mileage-location")
       .then(({ data }) => {
         for (const carMileage of data) {
           carMileageData = {
