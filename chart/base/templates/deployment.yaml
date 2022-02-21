@@ -105,7 +105,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: REACT_APP_API_KEY
-                  name: lauren-demo-secret
+                  name: lauren-demo-api-key
             # - name: APP_ID_CLIENT_ID
             #   valueFrom:
             #     secretKeyRef:
