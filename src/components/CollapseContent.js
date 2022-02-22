@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
 
+const carMakes = new Set([
+  "Chevrolet",
+  "Toyota",
+  "Ford",
+  "GMC",
+  "Buick",
+  "Cadillac",
+  "Lexus",
+  "Lincoln",
+  "Troller",
+]);
+
 const CollapseContent = ({
   car,
   setSelectedCars,
@@ -12,31 +24,15 @@ const CollapseContent = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const carMakes = new Set([
-    "Chevrolet",
-    "Toyota",
-    "Ford",
-    "GMC",
-    "Buick",
-    "Cadillac",
-    "Lexus",
-    "Lincoln",
-    "Troller",
-  ]);
-
-  const handleOnChange = async (car) => {
+  const handleOnChange = (car) => {
     const vid = car.vid;
 
     if (selected) {
       let copy = Object.assign({}, selectedCars);
       delete copy[vid];
-      await setSelectedCars(copy);
+      setSelectedCars(copy);
     } else {
-      await setSelectedCars({
+      setSelectedCars({
         ...selectedCars,
         [vid]: { ...car },
       });
@@ -52,11 +48,11 @@ const CollapseContent = ({
           <div style={{ paddingTop: "10px" }}>
             <Checkbox
               key={car}
-              onChange={async () => {
-                await handleOnChange(car);
+              onChange={() => {
+                handleOnChange(car);
               }}
               value={selected}
-            ></Checkbox>
+            />
           </div>
           <div className="card-title-vin">
             <Icon size={30} icon="drive-time" />
@@ -68,7 +64,7 @@ const CollapseContent = ({
             className="collapse-card-button"
             minimal={true}
             onClick={() => {
-              handleClick();
+              setIsOpen(!isOpen);
             }}
           >
             <Icon size={20} icon={isOpen ? "chevron-up" : "chevron-down"} />
