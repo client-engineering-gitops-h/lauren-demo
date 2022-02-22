@@ -12,14 +12,49 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
-  useEffect(() => {
-    const intervalCount = setInterval(() => {
-      setCounter(counter + 1);
-    }, 3000);
-    return () => {
-      clearInterval(intervalCount);
-    };
-  }, [counter]);
+  // useEffect(() => {
+  //   const intervalCount = setInterval(() => {
+  //     setCounter(counter + 1);
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(intervalCount);
+  //   };
+  // }, [counter]);
+
+  const getOEMCarData = () => {
+    let carData = {};
+    if (vins) {
+      axios
+        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+        .then(({ data }) => {
+          for (const car of data) {
+            carData = { ...carData, [car.vid]: { ...car } };
+          }
+        })
+        .then(() => {
+          console.log("OEM Initial carData", carData);
+          setInitialCars(carData);
+        });
+    }
+  };
+
+  const getOEMMileageData = () => {
+    let carMileageData = {};
+    axios
+      .get("http://127.0.0.1:8080/mileage-location")
+      .then(({ data }) => {
+        for (const carMileage of data) {
+          carMileageData = {
+            ...carMileageData,
+            [carMileage.vid]: { ...carMileage },
+          };
+        }
+      })
+      .then(() => {
+        console.log("OEM Initial carMileageData", carMileageData);
+        setInitialMileage(carMileageData);
+      });
+  };
 
   const handleCarMarkers = () => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
@@ -61,6 +96,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
           }
         })
         .then(() => {
+          console.log("polling carData", carData);
           setCars(carData);
         });
     }
@@ -79,41 +115,19 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
         }
       })
       .then(() => {
+        console.log("polling carMileage", carMileageData);
         setMileage(carMileageData);
       });
   }, [counter]);
 
   useEffect(() => {
-    let carData = {};
-    if (vins) {
-      axios
-        .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
-        .then(({ data }) => {
-          for (const car of data) {
-            carData = { ...carData, [car.vid]: { ...car } };
-          }
-        })
-        .then(() => {
-          setInitialCars(carData);
-        });
+    if (vins && counter === 0) {
+      getOEMCarData();
     }
   }, [initialMileage && vins]);
 
   useEffect(() => {
-    let carMileageData = {};
-    axios
-      .get("http://127.0.0.1:8080/mileage-location")
-      .then(({ data }) => {
-        for (const carMileage of data) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.vid]: { ...carMileage },
-          };
-        }
-      })
-      .then(() => {
-        setInitialMileage(carMileageData);
-      });
+    getOEMMileageData();
   }, []);
 
   useEffect(() => {
@@ -125,13 +139,18 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
-          <Button outlined={true} onClick={() => {}}>
+          <Button
+            outlined={true}
+            onClick={() => {
+              getOEMCarData();
+              getOEMMileageData();
+            }}
+          >
             Get OEM
           </Button>
         </h1>
       </Card>
-      {cars &&
-        mileage &&
+      {mileage &&
         initialCars &&
         initialMileage &&
         Object.keys(cars).map((key, i) => {
