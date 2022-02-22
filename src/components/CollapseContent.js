@@ -6,12 +6,11 @@ const CollapseContent = ({
   setSelectedCars,
   selectedCars,
   carMileage,
-  setMapCenter,
   initialLocation,
   initialTime,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [selected, setSelected] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
   //   new Date().toLocaleTimeString("en-US", {
   //     hour: "2-digit",
@@ -37,7 +36,7 @@ const CollapseContent = ({
   const handleOnChange = async (car) => {
     const vid = car.vid;
 
-    if (checked) {
+    if (selected) {
       let copy = Object.assign({}, selectedCars);
       delete copy[vid];
       await setSelectedCars(copy);
@@ -48,7 +47,7 @@ const CollapseContent = ({
       });
     }
 
-    setChecked(!checked);
+    setSelected(!selected);
   };
 
   return (
@@ -63,7 +62,7 @@ const CollapseContent = ({
                   onChange={async () => {
                     await handleOnChange(car);
                   }}
-                  value={checked}
+                  value={selected}
                 ></Checkbox>
               </div>
               <div className="card-title-vin">
@@ -77,7 +76,6 @@ const CollapseContent = ({
                 minimal={true}
                 onClick={() => {
                   handleClick();
-                  setMapCenter(carMileage);
                 }}
               >
                 <Icon size={20} icon={isOpen ? "chevron-up" : "chevron-down"} />
