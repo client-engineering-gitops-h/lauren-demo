@@ -16,7 +16,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     const intervalCount = setInterval(() => {
       setCounter(counter + 1);
     }, 3000);
-    console.log("counter", counter)
     return () => {
       clearInterval(intervalCount);
     };
@@ -29,9 +28,11 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
         .get("http://127.0.0.1:8080/selected-vehicles-location", {
           params: { vins },
         })
-        .then(({ data }) => {
-          setSelectedCarMarkers(data);
-        })
+        .then(async ({ data }) => {
+          await setSelectedCarMarkers(data);
+        });
+    } else {
+      setSelectedCarMarkers([]);
     }
   };
 
@@ -70,7 +71,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
     axios
       .get("http://127.0.0.1:8080/mileage-location")
       .then(({ data }) => {
-        console.log("mileage location", data)
         for (const carMileage of data) {
           carMileageData = {
             ...carMileageData,
@@ -116,17 +116,16 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       });
   }, []);
 
+  useEffect(() => {
+    handleCarMarkers();
+  }, [selectedCars]);
+
   return (
     <div>
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
-          <Button
-            outlined={true}
-            onClick={() => {
-              
-            }}
-          >
+          <Button outlined={true} onClick={() => {}}>
             Get OEM
           </Button>
         </h1>

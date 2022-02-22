@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Collapse, Button, Icon, Checkbox } from "@blueprintjs/core";
-import { set } from "express/lib/application";
 
 const CollapseContent = ({
   car,
@@ -10,9 +9,9 @@ const CollapseContent = ({
   setMapCenter,
   initialLocation,
   initialTime,
-  handleCarMarkers
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
   //   new Date().toLocaleTimeString("en-US", {
   //     hour: "2-digit",
@@ -23,30 +22,33 @@ const CollapseContent = ({
     setIsOpen(!isOpen);
   };
 
+  const carMakes = new Set([
+    "Chevrolet",
+    "Toyota",
+    "Ford",
+    "GMC",
+    "Buick",
+    "Cadillac",
+    "Lexus",
+    "Lincoln",
+    "Troller",
+  ]);
 
-  const { vid, updated_at } = car;
-  const { latitude, longitude, tracker_mileage } = carMileage;
+  const handleOnChange = async (car) => {
+    const vid = car.vid;
 
-  const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford', 'GMC', 'Buick', 'Cadillac', 'Lexus', 'Lincoln', 'Troller'])
-
-  
-  const handleOnChange = () => {
-    if (selectedCars && selectedCars.hasOwnProperty(vid)) {
+    if (checked) {
       let copy = Object.assign({}, selectedCars);
       delete copy[vid];
-      setSelectedCars(copy);
+      await setSelectedCars(copy);
     } else {
-      setSelectedCars({
+      await setSelectedCars({
         ...selectedCars,
-        [vid]: {
-          latitude,
-          longitude,
-          tracker_mileage,
-          updated_at,
-          vid,
-        },
+        [vid]: { ...car },
       });
     }
+
+    setChecked(!checked);
   };
 
   return (
@@ -58,10 +60,10 @@ const CollapseContent = ({
               <div style={{ paddingTop: "10px" }}>
                 <Checkbox
                   key={car}
-                  onChange={() => {
-                    handleOnChange();
-                    handleCarMarkers();
+                  onChange={async () => {
+                    await handleOnChange(car);
                   }}
+                  value={checked}
                 ></Checkbox>
               </div>
               <div className="card-title-vin">
@@ -85,46 +87,56 @@ const CollapseContent = ({
           <Collapse isOpen={isOpen}>
             <div className="location-details">
               <div className="rentalmatics-location">
-              <div>
-                <strong>Last Active: </strong>
-                {new Date(car.updated_at).toLocaleString() || "N/A"}
-              </div>
-              <div>
-                <strong>Mileage: </strong>
-                {carMileage.tracker_mileage
-                  ? carMileage.tracker_mileage
-                  : "N/A"}{" "} mi
-              </div>
-              <div>
-                <strong>Lat: </strong>
-                {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
-              </div>
-              <div>
-                <strong>Long: </strong>
-                {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
-              </div>
-              </div>
-                <div className="OEM-location">
-                <strong>OEM Timestamp: </strong>
-                {(initialTime.updated_at && carMakes.has(car.make)) ? new Date(initialTime.updated_at).toLocaleString() : "N/A"}
                 <div>
-                <strong>Mileage: </strong>
-                {(initialLocation.tracker_mileage && carMakes.has(car.make)) 
-                  ? initialLocation.tracker_mileage
-                  : "N/A"}{" "} mi
-              </div>
-              <div>
-                <strong>Lat: </strong>
-                {(initialLocation.latitude && carMakes.has(car.make)) ? initialLocation.latitude.toFixed(3) : "N/A"}
-              </div>
-              <div>
-                <strong>Long: </strong>
-                {(initialLocation.longitude && carMakes.has(car.make)) ? initialLocation.longitude.toFixed(3) : "N/A"}
+                  <strong>Last Active: </strong>
+                  {new Date(car.updated_at).toLocaleString() || "N/A"}
+                </div>
+                <div>
+                  <strong>Mileage: </strong>
+                  {carMileage.tracker_mileage
+                    ? carMileage.tracker_mileage
+                    : "N/A"}{" "}
+                  mi
+                </div>
+                <div>
+                  <strong>Lat: </strong>
+                  {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
+                </div>
+                <div>
+                  <strong>Long: </strong>
+                  {carMileage.longitude
+                    ? carMileage.longitude.toFixed(3)
+                    : "N/A"}
                 </div>
               </div>
+              <div className="OEM-location">
+                <strong>OEM Timestamp: </strong>
+                {initialTime.updated_at && carMakes.has(car.make)
+                  ? new Date(initialTime.updated_at).toLocaleString()
+                  : "N/A"}
+                <div>
+                  <strong>Mileage: </strong>
+                  {initialLocation.tracker_mileage && carMakes.has(car.make)
+                    ? initialLocation.tracker_mileage
+                    : "N/A"}{" "}
+                  mi
+                </div>
+                <div>
+                  <strong>Lat: </strong>
+                  {initialLocation.latitude && carMakes.has(car.make)
+                    ? initialLocation.latitude.toFixed(3)
+                    : "N/A"}
+                </div>
+                <div>
+                  <strong>Long: </strong>
+                  {initialLocation.longitude && carMakes.has(car.make)
+                    ? initialLocation.longitude.toFixed(3)
+                    : "N/A"}
+                </div>
               </div>
+            </div>
             <div className="customer-details">
-            <div style={{ paddingTop: "5px" }}>
+              <div style={{ paddingTop: "5px" }}>
                 <strong>Make: </strong>
                 {car.make || "N/A"}
               </div>
@@ -132,7 +144,7 @@ const CollapseContent = ({
                 <strong>Model: </strong>
                 {car.model || "N/A"}
               </div>
-              <div style={{paddingTop: "10px"}}>
+              <div style={{ paddingTop: "10px" }}>
                 <strong>IMEI: </strong>
                 {car.imei || "N/A"}
               </div>
@@ -144,7 +156,6 @@ const CollapseContent = ({
                 {new Date(car.created_at).toLocaleString() || "N/A"}
               </div>
             </div>
-            
           </Collapse>
         </>
       )}

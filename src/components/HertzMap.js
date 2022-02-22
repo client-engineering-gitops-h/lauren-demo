@@ -1,14 +1,6 @@
 import React, { useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvent,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../styles/DigitalMesh.css";
-
-const hertz = [26.4194, -81.81055];
 
 function SetViewOnSelect({ animateRef, mapCenter }) {
   // const map = useMapEvent("click", (e) => {
@@ -24,6 +16,7 @@ function SetViewOnSelect({ animateRef, mapCenter }) {
 }
 
 function HertzMap({ mapCenter, selectedCarMarkers }) {
+  console.log("selectedCarMarkers", selectedCarMarkers);
   const animateRef = useRef(true);
   return (
     <div>
@@ -33,9 +26,6 @@ function HertzMap({ mapCenter, selectedCarMarkers }) {
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
         <SetViewOnSelect animateRef={animateRef} mapCenter={mapCenter} />
-        {/* <Marker position={hertz} style={{ width: "100000px" }}>
-          <Popup>Hertz Global Headquarters</Popup>
-        </Marker> */}
 
         {selectedCarMarkers &&
           selectedCarMarkers.map((car, i) => {
