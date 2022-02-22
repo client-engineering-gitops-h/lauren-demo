@@ -13,6 +13,7 @@ const carMakes = new Set([
   "Troller",
 ]);
 
+// accept currPosition
 const CollapseContent = ({
   car,
   setSelectedCars,
@@ -87,11 +88,13 @@ const CollapseContent = ({
             </div>
             <div>
               <strong>Lat: </strong>
-              {carMileage.latitude ? carMileage.latitude.toFixed(3) : "N/A"}
+              {/* needs to reference currPosition.latitude */}
+              {carMileage.latitude ? carMileage.latitude.toFixed(6) : "N/A"}
             </div>
             <div>
+              {/* needs to reference currPosition.longitude */}
               <strong>Long: </strong>
-              {carMileage.longitude ? carMileage.longitude.toFixed(3) : "N/A"}
+              {carMileage.longitude ? carMileage.longitude.toFixed(6) : "N/A"}
             </div>
           </div>
           <div className="OEM-location">
@@ -109,13 +112,13 @@ const CollapseContent = ({
             <div>
               <strong>Lat: </strong>
               {initialLocation.latitude && carMakes.has(car.make)
-                ? initialLocation.latitude.toFixed(3)
+                ? initialLocation.latitude.toFixed(6)
                 : "N/A"}
             </div>
             <div>
               <strong>Long: </strong>
               {initialLocation.longitude && carMakes.has(car.make)
-                ? initialLocation.longitude.toFixed(3)
+                ? initialLocation.longitude.toFixed(6)
                 : "N/A"}
             </div>
           </div>

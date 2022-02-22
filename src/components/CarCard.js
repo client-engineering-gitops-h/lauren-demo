@@ -84,6 +84,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
               interactive={true}
               elevation={Elevation.One}
             >
+              {/* pass in currentPosition */}
               <CollapseContent
                 setSelectedCars={setSelectedCars}
                 setMapCenter={setMapCenter}
