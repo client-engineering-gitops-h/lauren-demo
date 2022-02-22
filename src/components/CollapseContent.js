@@ -10,6 +10,7 @@ const CollapseContent = ({
   setMapCenter,
   initialLocation,
   initialTime,
+  handleCarMarkers
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [carLastUpdated, setCarLastUpdated] = useState(
@@ -28,7 +29,7 @@ const CollapseContent = ({
 
   const carMakes = new Set(['Chevrolet', 'Toyota', 'Ford', 'GMC', 'Buick', 'Cadillac', 'Lexus', 'Lincoln', 'Troller'])
 
-
+  
   const handleOnChange = () => {
     if (selectedCars && selectedCars.hasOwnProperty(vid)) {
       let copy = Object.assign({}, selectedCars);
@@ -59,6 +60,7 @@ const CollapseContent = ({
                   key={car}
                   onChange={() => {
                     handleOnChange();
+                    handleCarMarkers();
                   }}
                 ></Checkbox>
               </div>

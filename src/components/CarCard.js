@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
-
 import CollapseContent from "./CollapseContent";
 import axios from "axios";
 
@@ -13,43 +12,31 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 3000);
+  useEffect(() => {
+    const intervalCount = setInterval(() => {
+      setCounter(counter + 1);
+    }, 3000);
+    console.log("counter", counter)
+    return () => {
+      clearInterval(intervalCount);
+    };
+  }, [counter]);
 
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // }, [counter]);
-
-  const handleClick = () => {
-    let carMileageData = {};
+  const handleCarMarkers = () => {
     if (selectedCars && Object.keys(selectedCars).length > 0) {
       const vins = Object.keys(selectedCars);
-
       axios
         .get("http://127.0.0.1:8080/selected-vehicles-location", {
           params: { vins },
         })
         .then(({ data }) => {
           setSelectedCarMarkers(data);
-          for (const carMileage of data) {
-            carMileageData = {
-              ...carMileageData,
-              [carMileage.vid]: { ...carMileage },
-            };
-          }
         })
-        .then(() => {
-          setMileage({ ...mileage, ...carMileageData });
-        });
     }
   };
 
   useEffect(() => {
     let vinData = {};
-
     axios
       .get("http://127.0.0.1:8080/vins")
       .then(({ data }) => {
@@ -80,10 +67,10 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     let carMileageData = {};
-
     axios
       .get("http://127.0.0.1:8080/mileage-location")
       .then(({ data }) => {
+        console.log("mileage location", data)
         for (const carMileage of data) {
           carMileageData = {
             ...carMileageData,
@@ -94,7 +81,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
       .then(() => {
         setMileage(carMileageData);
       });
-  }, [vins]);
+  }, [counter]);
 
   useEffect(() => {
     let carData = {};
@@ -137,10 +124,10 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
           <Button
             outlined={true}
             onClick={() => {
-              handleClick();
+              
             }}
           >
-            Get Fleet
+            Get OEM
           </Button>
         </h1>
       </Card>
@@ -168,6 +155,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
                 selectedCars={selectedCars}
                 initialTime={initialTime}
                 initialLocation={initialLocation}
+                handleCarMarkers={handleCarMarkers}
               />
             </Card>
           );
