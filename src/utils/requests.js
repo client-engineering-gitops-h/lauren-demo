@@ -7,7 +7,6 @@ export const getOEMCar = (vins, setInitialCars) => {
       .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
       .then(({ data }) => {
         for (const car of data) {
-          console.log("car here", car);
           carData = { ...carData, [car.registration]: { ...car } };
         }
       })
@@ -57,7 +56,6 @@ export const getVins = (setVins) => {
     .get("http://127.0.0.1:8080/vins")
     .then(({ data }) => {
       for (const car of data) {
-        console.log("car here", car);
         vinData = { ...vinData, [car.registration]: { ...car } };
       }
     })

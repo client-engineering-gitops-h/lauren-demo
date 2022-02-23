@@ -51,7 +51,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     handleCarMarkers(selectedCars, setSelectedCarMarkers);
-  }, [selectedCars]);
+  }, [selectedCars, counter]);
 
   return (
     <div>
