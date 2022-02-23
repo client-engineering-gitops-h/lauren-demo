@@ -21,14 +21,14 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // }, [counter]);
+  useEffect(() => {
+    const intervalCount = setInterval(() => {
+      setCounter(counter + 1);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCount);
+    };
+  }, [counter]);
 
   useEffect(() => {
     getVins(setVins);
@@ -51,7 +51,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     handleCarMarkers(selectedCars, setSelectedCarMarkers);
-  }, [selectedCars]);
+  }, [selectedCars, mileage]);
 
   return (
     <div>
@@ -65,7 +65,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
               getOEMMileage(setInitialMileage);
             }}
           >
-            Get OEM
+            OEM
           </Button>
         </h1>
       </Card>
