@@ -21,7 +21,7 @@ function HertzMap({ selectedCarMarkers }) {
             return (
               <Marker key={i} position={carLatLong}>
                 <Popup>
-                  VIN: {car.vid}
+                  VIN: {car.registration}
                   <br />
                   Last Updated: {new Date().toLocaleTimeString("en-US")}
                 </Popup>
