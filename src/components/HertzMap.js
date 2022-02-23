@@ -20,7 +20,7 @@ const coordinates = [
     lng: -82.305314,
   },
   {
-    lat: 26.9707,
+    lat: 26.970737,
     lng: -82.305432,
   },
   {
@@ -78,6 +78,23 @@ function HertzMap({ selectedCarMarkers }) {
             Last Updated: {new Date().toLocaleTimeString("en-US")}
           </Popup>
         </Marker>
+        {/* {selectedCarMarkers &&
+          selectedCarMarkers.map((car, i) => {
+            const carLatLong = {
+              lat: car.latitude,
+              lng: car.longitude,
+            };
+
+            return (
+              <Marker key={i} position={carLatLong}>
+                <Popup>
+                  VIN: {car.registration}
+                  <br />
+                  Last Updated: {new Date().toLocaleTimeString("en-US")}
+                </Popup>
+              </Marker>
+            );
+          })} */}
       </MapContainer>
     </div>
   );

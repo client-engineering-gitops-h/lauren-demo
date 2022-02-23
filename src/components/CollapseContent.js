@@ -26,16 +26,16 @@ const CollapseContent = ({
   const [selected, setSelected] = useState(false);
 
   const handleOnChange = (car) => {
-    const vid = car.vid;
+    const registration = car.registration;
 
     if (selected) {
       let copy = Object.assign({}, selectedCars);
-      delete copy[vid];
+      delete copy[registration];
       setSelectedCars(copy);
     } else {
       setSelectedCars({
         ...selectedCars,
-        [vid]: { ...car },
+        [registration]: { ...car },
       });
     }
 
@@ -57,7 +57,7 @@ const CollapseContent = ({
           </div>
           <div className="card-title-vin">
             <Icon size={30} icon="drive-time" />
-            <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.vid}</h2>
+            <h2 style={{ paddingLeft: "1rem" }}>VIN: {car.registration}</h2>
           </div>
         </div>
         <div className="icon-collapse-card">
