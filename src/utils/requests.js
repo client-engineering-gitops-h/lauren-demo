@@ -4,14 +4,13 @@ export const getOEMCar = (vins, setInitialCars) => {
   let carData = {};
   if (vins) {
     axios
-      .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+      .get("/vehicles", { params: { vins } })
       .then(({ data }) => {
         for (const car of data) {
           carData = { ...carData, [car.registration]: { ...car } };
         }
       })
       .then(() => {
-        console.log("OEM Initial carData", carData);
         setInitialCars(carData);
       });
   }
@@ -20,7 +19,7 @@ export const getOEMCar = (vins, setInitialCars) => {
 export const getOEMMileage = (setInitialMileage) => {
   let carMileageData = {};
   axios
-    .get("http://127.0.0.1:8080/mileage-location")
+    .get("/mileage-location")
     .then(({ data }) => {
       for (const carMileage of data) {
         carMileageData = {
@@ -30,7 +29,6 @@ export const getOEMMileage = (setInitialMileage) => {
       }
     })
     .then(() => {
-      console.log("OEM Initial carMileageData", carMileageData);
       setInitialMileage(carMileageData);
     });
 };
@@ -39,7 +37,7 @@ export const handleCarMarkers = (selectedCars, setSelectedCarMarkers) => {
   if (selectedCars && Object.keys(selectedCars).length > 0) {
     const vins = Object.keys(selectedCars);
     axios
-      .get("http://127.0.0.1:8080/selected-vehicles-location", {
+      .get("/selected-vehicles-location", {
         params: { vins },
       })
       .then(({ data }) => {
@@ -53,7 +51,7 @@ export const handleCarMarkers = (selectedCars, setSelectedCarMarkers) => {
 export const getVins = (setVins) => {
   let vinData = {};
   axios
-    .get("http://127.0.0.1:8080/vins")
+    .get("/vins")
     .then(({ data }) => {
       for (const car of data) {
         vinData = { ...vinData, [car.registration]: { ...car } };
@@ -68,7 +66,7 @@ export const getCars = (vins, setCars) => {
   let carData = {};
   if (vins) {
     axios
-      .get("http://127.0.0.1:8080/vehicles", { params: { vins } })
+      .get("/vehicles", { params: { vins } })
       .then(({ data }) => {
         for (const car of data) {
           carData = { ...carData, [car.registration]: { ...car } };
@@ -83,7 +81,7 @@ export const getCars = (vins, setCars) => {
 export const getMileage = (setMileage) => {
   let carMileageData = {};
   axios
-    .get("http://127.0.0.1:8080/mileage-location")
+    .get("/mileage-location")
     .then(({ data }) => {
       for (const carMileage of data) {
         carMileageData = {

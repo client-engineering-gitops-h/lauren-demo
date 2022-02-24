@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../styles/DigitalMesh.css";
 
 function HertzMap({ selectedCarMarkers }) {
-  console.log(selectedCarMarkers)
   return (
     <div>
       <MapContainer center={[26.971, -82.305]} zoom={10}>
