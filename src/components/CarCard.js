@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Card, Elevation, Button } from "@blueprintjs/core";
 
 import CollapseContent from "./CollapseContent";
-import axios from "axios";
+
+import {
+  getOEMMileage,
+  getOEMCar,
+  handleCarMarkers,
+  getVins,
+  getCars,
+  getMileage,
+} from "../utils/requests";
 
 const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [cars, setCars] = useState();
@@ -17,118 +25,34 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   //   const intervalCount = setInterval(() => {
   //     setCounter(counter + 1);
   //   }, 3000);
-
   //   return () => {
   //     clearInterval(intervalCount);
   //   };
   // }, [counter]);
 
-  const handleClick = () => {
-    let carMileageData = {};
-    if (selectedCars && Object.keys(selectedCars).length > 0) {
-      const vins = Object.keys(selectedCars);
-
-      axios
-        .get("/selected-vehicles-location", {
-          params: { vins },
-        })
-        .then(({ data }) => {
-          console.log("data", data);
-          setSelectedCarMarkers(data);
-          for (const carMileage of data) {
-            carMileageData = {
-              ...carMileageData,
-              [carMileage.vid]: { ...carMileage },
-            };
-          }
-        })
-        .then(() => {
-          setMileage({ ...mileage, ...carMileageData });
-        });
-    }
-  };
-
   useEffect(() => {
-    let vinData = {};
-
-    axios
-      .get("/vins")
-      .then(({ data }) => {
-        for (const car of data) {
-          vinData = { ...vinData, [car.vid]: { ...car } };
-        }
-      })
-      .then(() => {
-        setVins(vinData);
-      });
+    getVins(setVins);
+    getMileage(setMileage);
   }, [counter]);
 
   useEffect(() => {
-    let carData = {};
-    if (vins) {
-      axios
-        .get("/vehicles", { params: { vins } })
-        .then(({ data }) => {
-          for (const car of data) {
-            carData = { ...carData, [car.vid]: { ...car } };
-          }
-        })
-        .then(() => {
-          setCars(carData);
-        });
-    }
+    getCars(vins, setCars);
   }, [vins]);
 
   useEffect(() => {
-    let carMileageData = {};
-
-    axios
-      .get("/mileage-location")
-      .then(({ data }) => {
-        for (const carMileage of data) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.vid]: { ...carMileage },
-          };
-        }
-      })
-      .then(() => {
-        setMileage(carMileageData);
-      });
-  }, [vins]);
-
-  useEffect(() => {
-    let carData = {};
-    if (vins) {
-      axios
-        .get("/vehicles", { params: { vins } })
-        .then(({ data }) => {
-          for (const car of data) {
-            carData = { ...carData, [car.vid]: { ...car } };
-          }
-        })
-        .then(() => {
-          setInitialCars(carData);
-        });
+    if (vins && counter === 0) {
+      getOEMCar(vins, setInitialCars);
     }
   }, [initialMileage && vins]);
 
   useEffect(() => {
-    let carMileageData = {};
-    axios
-      .get("/mileage-location")
-      .then(({ data }) => {
-        for (const carMileage of data) {
-          carMileageData = {
-            ...carMileageData,
-            [carMileage.vid]: { ...carMileage },
-          };
-        }
-      })
-      .then(() => {
-        setInitialMileage(carMileageData);
-      });
+    getOEMMileage(setInitialMileage);
   }, []);
+
+  useEffect(() => {
+    handleCarMarkers(selectedCars, setSelectedCarMarkers);
+    console.log("selected car mileage", selectedCars);
+  }, [selectedCars, counter]);
 
   return (
     <div>
@@ -138,15 +62,15 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
           <Button
             outlined={true}
             onClick={() => {
-              handleClick();
+              getOEMCar(vins, setInitialCars);
+              getOEMMileage(setInitialMileage);
             }}
           >
-            Get Fleet
+            OEM
           </Button>
         </h1>
       </Card>
-      {cars &&
-        mileage &&
+      {mileage &&
         initialCars &&
         initialMileage &&
         Object.keys(cars).map((key, i) => {
@@ -169,6 +93,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
                 selectedCars={selectedCars}
                 initialTime={initialTime}
                 initialLocation={initialLocation}
+                handleCarMarkers={handleCarMarkers}
               />
             </Card>
           );
