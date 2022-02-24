@@ -18,16 +18,14 @@ const Dashboard = ({currPosition, setCurrPosition}) => {
           <HertzMap 
              selectedCarMarkers={selectedCarMarkers} 
              currPosition={currPosition}
-             setCurrPosition={setCurrPosition}
                  />
         </Card>
       </div>
       <Card className="fleet-card" interactive={true} elevation={Elevation.TWO}>
         {/* pass in currPosition */}
         <CarCard 
-         setSelectedCarMarkers={setSelectedCarMarkers}
-         currPosition={currPosition}
-         setCurrPosition={setCurrPosition}
+           setSelectedCarMarkers={setSelectedCarMarkers}
+           currPosition={currPosition}
          />
       </Card>
     </div>

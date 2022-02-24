@@ -49,7 +49,7 @@ import "../styles/DigitalMesh.css";
 //   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 // };
 // accept current position
-function HertzMap({ selectedCarMarkers }) {
+function HertzMap({ currPosition }) {
   // needs to move to carCard
   // const [currPosition, setCurrPosition] = useState(coordinates[0]);
   // needs to move to carCard
@@ -72,7 +72,7 @@ function HertzMap({ selectedCarMarkers }) {
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
 
-        <Marker position={selectedCarMarkers}>
+        <Marker position={currPosition}>
           <Popup>
             <br />
             Last Updated: {new Date().toLocaleTimeString("en-US")}
