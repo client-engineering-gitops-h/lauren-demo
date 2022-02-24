@@ -57,7 +57,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [selectedCars, setSelectedCars] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
-  // needs to move to carCard
   const [currPosition, setCurrPosition] = useState(coordinates[0]);
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
@@ -68,12 +67,10 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   //   };
   // }, [counter]);
 
-
-  // needs to move to carCard
 const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
- // needs to move to carCard
+
  const moveCar = async () => {
   for (let i = 0; i < coordinates.length; i++) {
     await sleep(1000);
