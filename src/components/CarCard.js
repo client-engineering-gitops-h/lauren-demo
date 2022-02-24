@@ -49,7 +49,9 @@ const coordinates = [
     lng: -82.305915,
   },
 ];
-const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
+
+
+const CarCard = ({ setSelectedCarMarkers, setCurrPosition, currPosition }) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [initialCars, setInitialCars] = useState();
@@ -57,7 +59,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
   const [selectedCars, setSelectedCars] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
-  const [currPosition, setCurrPosition] = useState(coordinates[0]);
+ 
   // useEffect(() => {
   //   const intervalCount = setInterval(() => {
   //     setCounter(counter + 1);
@@ -140,7 +142,6 @@ const sleep = (milliseconds) => {
               {/* pass in currentPosition */}
               <CollapseContent
                 setSelectedCars={setSelectedCars}
-                setMapCenter={setMapCenter}
                 car={car}
                 carMileage={carMileage}
                 selectedCars={selectedCars}
