@@ -75,7 +75,6 @@ export const getCars = (vins, setCars) => {
         }
       })
       .then(() => {
-        console.log("polling carData", carData);
         setCars(carData);
       });
   }
@@ -94,7 +93,6 @@ export const getMileage = (setMileage) => {
       }
     })
     .then(() => {
-      console.log("polling carMileage", carMileageData);
       setMileage(carMileageData);
     });
 };

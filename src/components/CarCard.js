@@ -65,7 +65,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
               getOEMMileage(setInitialMileage);
             }}
           >
-            Get OEM
+            OEM
           </Button>
         </h1>
       </Card>
