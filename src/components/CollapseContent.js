@@ -21,6 +21,7 @@ const CollapseContent = ({
   carMileage,
   initialLocation,
   initialTime,
+  currPosition,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
@@ -38,7 +39,7 @@ const CollapseContent = ({
         [vid]: { ...car },
       });
     }
-
+    console.log("currPosition",currPosition)
     setSelected(!selected);
   };
 
@@ -89,12 +90,14 @@ const CollapseContent = ({
             <div>
               <strong>Lat: </strong>
               {/* needs to reference currPosition.latitude */}
-              {carMileage.latitude ? carMileage.latitude.toFixed(6) : "N/A"}
+              {/* {carMileage.latitude ? carMileage.latitude.toFixed(6) : "N/A"} */}
+              {currPosition.lat ? currPosition.lat.toFixed(6) : "N/A"}
             </div>
             <div>
               {/* needs to reference currPosition.longitude */}
               <strong>Long: </strong>
-              {carMileage.longitude ? carMileage.longitude.toFixed(6) : "N/A"}
+              {/* {carMileage.longitude ? carMileage.longitude.toFixed(6) : "N/A"} */}
+              {currPosition.lng ? currPosition.lng.toFixed(6) : "N/A"}
             </div>
           </div>
           <div className="OEM-location">
