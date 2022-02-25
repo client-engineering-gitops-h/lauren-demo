@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation, Button } from "@blueprintjs/core";
+import { Card, Elevation, Button, Toaster, Toast } from "@blueprintjs/core";
 
 import CollapseContent from "./CollapseContent";
 
@@ -26,15 +26,37 @@ const CarCard = ({
   const [mileage, setMileage] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
+  const [clicked, setClicked] = useState(false);
+  
+  let toaster
+  const refHandlers = {
+    toaster: (ref) => (toaster = ref)
+  }
 
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // }, [counter]);
+  const showAlertToast = () => {
+    toaster.show({ message: 'Your car is moving without being turned on' })
+  }
+
+  useEffect(()=>{
+    if (clicked) {
+      for (let carMileage of mileage) {
+        const registration = carMileage.registration
+        if ((carMileage[registration].latitude !== initialMileage[registration].latitude) || (carMileage[registration].longitude !== initialMileage[registration].longitude)) {
+          showAlertToast();
+        }
+      }
+      
+    }
+  },[])
+
+  useEffect(() => {
+    const intervalCount = setInterval(() => {
+      setCounter(counter + 1);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCount);
+    };
+  }, [counter]);
 
   useEffect(() => {
     getVins(setVins);
@@ -61,6 +83,7 @@ const CarCard = ({
 
   return (
     <div>
+      <Toaster usePortal={false} ref={refHandlers.toaster} />
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
@@ -69,6 +92,7 @@ const CarCard = ({
             onClick={() => {
               getOEMCar(vins, setInitialCars);
               getOEMMileage(setInitialMileage);
+              setClicked(true);
             }}
           >
             OEM

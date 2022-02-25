@@ -4,7 +4,7 @@ export const getOEMCar = (vins, setInitialCars) => {
   let carData = {};
   if (vins) {
     axios
-      .get("/vehicles", { params: { vins } })
+      .get("http://localhost:8080/vehicles", { params: { vins } })
       .then(({ data }) => {
         for (const car of data) {
           carData = { ...carData, [car.registration]: { ...car } };
@@ -19,7 +19,7 @@ export const getOEMCar = (vins, setInitialCars) => {
 export const getOEMMileage = (setInitialMileage) => {
   let carMileageData = {};
   axios
-    .get("/mileage-location")
+    .get("http://localhost:8080/mileage-location")
     .then(({ data }) => {
       for (const carMileage of data) {
         carMileageData = {
@@ -37,7 +37,7 @@ export const handleCarMarkers = (selectedCars, setSelectedCarMarkers) => {
   if (selectedCars && Object.keys(selectedCars).length > 0) {
     const vins = Object.keys(selectedCars);
     axios
-      .get("/selected-vehicles-location", {
+      .get("http://localhost:8080/selected-vehicles-location", {
         params: { vins },
       })
       .then(({ data }) => {
@@ -51,7 +51,7 @@ export const handleCarMarkers = (selectedCars, setSelectedCarMarkers) => {
 export const getVins = (setVins) => {
   let vinData = {};
   axios
-    .get("/vins")
+    .get("http://localhost:8080/vins")
     .then(({ data }) => {
       for (const car of data) {
         vinData = { ...vinData, [car.registration]: { ...car } };
@@ -66,7 +66,7 @@ export const getCars = (vins, setCars) => {
   let carData = {};
   if (vins) {
     axios
-      .get("/vehicles", { params: { vins } })
+      .get("http://localhost:8080/vehicles", { params: { vins } })
       .then(({ data }) => {
         for (const car of data) {
           carData = { ...carData, [car.registration]: { ...car } };
@@ -81,7 +81,7 @@ export const getCars = (vins, setCars) => {
 export const getMileage = (setMileage) => {
   let carMileageData = {};
   axios
-    .get("/mileage-location")
+    .get("http://localhost:8080/mileage-location")
     .then(({ data }) => {
       for (const carMileage of data) {
         carMileageData = {

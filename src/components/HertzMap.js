@@ -21,8 +21,10 @@ function HertzMap({ selectedCars, selectedCarMarkers, initialMileage, initialCar
           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
-
+        
         {selectedCarMarkers &&
+          initialCars &&
+          initialMileage &&
           selectedCarMarkers.map((car, i) => {
             const carLatLong = {
               lat: car.latitude,
@@ -30,14 +32,33 @@ function HertzMap({ selectedCars, selectedCarMarkers, initialMileage, initialCar
             };
             
             const registration= car.registration
+            const OEMLatLong = {
+              lat: initialMileage[registration].latitude,
+              lng: initialMileage[registration].longitude,
+            };
+
             return (
+              <div>
               <Marker key={i} position={carLatLong}>
                 <Popup>
-                  VIN: {car.registration}
+                  VIN: {registration}
                   <br />
-                  Last Updated: {new Date(selectedCars[registration].updated_at).toLocaleString()}
+                  Data Source: Rentalmatics
+                  <br />
+                  Last Updated: {new Date(car.updated_at).toLocaleString()}
                 </Popup>
               </Marker>
+
+              <Marker key={registration} position={OEMLatLong}>
+              <Popup>
+                VIN: {registration}
+                <br />
+                Data Source: OEM
+                <br />
+                Last Updated: {new Date(initialCars[registration].updated_at).toLocaleString()}
+              </Popup>
+            </Marker>
+            </div>
             );
           })}
       </MapContainer>

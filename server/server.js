@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 const cors = require("cors");
 const port = process.env.PORT || 8080;
 // delete this line in prod
-// require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "../.env" });
 
 app.use(cors());
 
