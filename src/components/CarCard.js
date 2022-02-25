@@ -27,14 +27,14 @@ const CarCard = ({
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
-  useEffect(() => {
-    const intervalCount = setInterval(() => {
-      setCounter(counter + 1);
-    }, 3000);
-    return () => {
-      clearInterval(intervalCount);
-    };
-  }, [counter]);
+  // useEffect(() => {
+  //   const intervalCount = setInterval(() => {
+  //     setCounter(counter + 1);
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(intervalCount);
+  //   };
+  // }, [counter]);
 
   useEffect(() => {
     getVins(setVins);

@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app: {{ .Release.Name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.service.type }} #clusterip
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.port }}
