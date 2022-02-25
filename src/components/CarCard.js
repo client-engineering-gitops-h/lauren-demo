@@ -12,51 +12,55 @@ import {
   getMileage,
 } from "../utils/requests";
 
-const CarCard = ({ 
-  setMapCenter, 
-  setSelectedCarMarkers, 
-  initialMileage, 
-  setInitialMileage, 
+const CarCard = ({
+  setMapCenter,
+  setSelectedCarMarkers,
+  initialMileage,
+  setInitialMileage,
   initialCars,
-  setInitialCars, 
-  setSelectedCars, 
-  selectedCars }) => {
-
+  setInitialCars,
+  setSelectedCars,
+  selectedCars,
+}) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
   const [clicked, setClicked] = useState(false);
-  
-  let toaster
+
+  let toaster;
   const refHandlers = {
-    toaster: (ref) => (toaster = ref)
-  }
+    toaster: (ref) => (toaster = ref),
+  };
 
   const showAlertToast = () => {
-    toaster.show({ message: 'Your car is moving without being turned on' })
-  }
+    toaster.show({ message: "Your car is moving without being turned on" });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (clicked) {
       for (let carMileage of mileage) {
-        const registration = carMileage.registration
-        if ((carMileage[registration].latitude !== initialMileage[registration].latitude) || (carMileage[registration].longitude !== initialMileage[registration].longitude)) {
+        const registration = carMileage.registration;
+        if (
+          carMileage[registration].latitude !==
+            initialMileage[registration].latitude ||
+          carMileage[registration].longitude !==
+            initialMileage[registration].longitude
+        ) {
           showAlertToast();
         }
       }
-      
     }
-  },[])
+  }, [mileage]);
 
-  useEffect(() => {
-    const intervalCount = setInterval(() => {
-      setCounter(counter + 1);
-    }, 3000);
-    return () => {
-      clearInterval(intervalCount);
-    };
-  }, [counter]);
+  // useEffect(() => {
+  //   const intervalCount = setInterval(() => {
+  //     setCounter(counter + 1);
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(intervalCount);
+  //   };
+  // }, [counter]);
 
   useEffect(() => {
     getVins(setVins);
