@@ -11,7 +11,6 @@ export const getOEMCar = (vins, setInitialCars) => {
         }
       })
       .then(() => {
-        console.log("OEM Initial carData", carData);
         setInitialCars(carData);
       });
   }
@@ -30,7 +29,6 @@ export const getOEMMileage = (setInitialMileage) => {
       }
     })
     .then(() => {
-      console.log("OEM Initial carMileageData", carMileageData);
       setInitialMileage(carMileageData);
     });
 };
@@ -75,7 +73,6 @@ export const getCars = (vins, setCars) => {
         }
       })
       .then(() => {
-        console.log("polling carData", carData);
         setCars(carData);
       });
   }
@@ -94,7 +91,6 @@ export const getMileage = (setMileage) => {
       }
     })
     .then(() => {
-      console.log("polling carMileage", carMileageData);
       setMileage(carMileageData);
     });
 };

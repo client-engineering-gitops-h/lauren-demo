@@ -1,9 +1,19 @@
 import React, { useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../styles/DigitalMesh.css";
+const carMakes = new Set([
+  "Chevrolet",
+  "Toyota",
+  "Ford",
+  "GMC",
+  "Buick",
+  "Cadillac",
+  "Lexus",
+  "Lincoln",
+  "Troller",
+]);
 
-function HertzMap({ selectedCarMarkers }) {
-  console.log(selectedCarMarkers)
+function HertzMap({ selectedCars, selectedCarMarkers, initialMileage, initialCars }) {
   return (
     <div>
       <MapContainer center={[26.971, -82.305]} zoom={10}>
@@ -18,13 +28,14 @@ function HertzMap({ selectedCarMarkers }) {
               lat: car.latitude,
               lng: car.longitude,
             };
-
+            
+            const registration= car.registration
             return (
               <Marker key={i} position={carLatLong}>
                 <Popup>
                   VIN: {car.registration}
                   <br />
-                  Last Updated: {new Date().toLocaleTimeString("en-US")}
+                  Last Updated: {new Date(selectedCars[registration].updated_at).toLocaleString()}
                 </Popup>
               </Marker>
             );

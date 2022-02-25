@@ -12,12 +12,18 @@ import {
   getMileage,
 } from "../utils/requests";
 
-const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
+const CarCard = ({ 
+  setMapCenter, 
+  setSelectedCarMarkers, 
+  initialMileage, 
+  setInitialMileage, 
+  initialCars,
+  setInitialCars, 
+  setSelectedCars, 
+  selectedCars }) => {
+
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
-  const [initialCars, setInitialCars] = useState();
-  const [initialMileage, setInitialMileage] = useState();
-  const [selectedCars, setSelectedCars] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
 
@@ -51,7 +57,6 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   useEffect(() => {
     handleCarMarkers(selectedCars, setSelectedCarMarkers);
-    console.log("selected car mileage", selectedCars);
   }, [selectedCars, counter]);
 
   return (
