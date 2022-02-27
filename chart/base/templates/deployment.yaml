@@ -101,11 +101,11 @@ spec:
             #     secretKeyRef:
             #       name: lauren-demo
             #       key: DB_USER
-            - name: REACT_APP_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: REACT_APP_API_KEY
-                  name: lauren-demo-api-key
+            # - name: REACT_APP_API_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: REACT_APP_API_KEY
+            #       name: lauren-demo-api-key
             # - name: APP_ID_CLIENT_ID
             #   valueFrom:
             #     secretKeyRef:
