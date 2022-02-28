@@ -4,14 +4,16 @@ import "../styles/DigitalMesh.css";
 
 import * as L from "leaflet";
 
-// const LeafIcon = L.Icon.extend({
-//   options: {},
-// });
+const LeafIcon = L.Icon.extend({
+  options: {},
+});
 
-// const blueIcon = new LeafIcon({
-//   iconUrl:
-//     "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF",
-// });
+const blueIcon = new LeafIcon({
+  iconUrl:
+  "http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png",
+  iconSize: [35, 35], 
+  iconAnchor:[12,30]
+});
 
 const carMakes = new Set([
   "Chevrolet",
@@ -33,13 +35,14 @@ function HertzMap({
 }) {
   return (
     <div>
-      <MapContainer center={[26.971, -82.305]} zoom={10}>
+      <MapContainer center={[26.971, -82.305]} zoom={15}>
         <TileLayer
           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=09kOwvflRhlbJpyDLsaQ"
         />
 
         {selectedCarMarkers &&
+          selectedCars && 
           initialCars &&
           initialMileage &&
           selectedCarMarkers.map((car, i) => {
@@ -62,14 +65,15 @@ function HertzMap({
                     <br />
                     Data Source: Rentalmatics
                     <br />
-                    Last Updated: {new Date(car.updated_at).toLocaleString()}
+                    Last Updated: {selectedCars[registration] ? new Date(selectedCars[registration].updated_at).toLocaleString(): "N/A"}
                   </Popup>
                 </Marker>
 
                 <Marker
                   key={registration}
                   position={OEMLatLong}
-                  // icon={blueIcon}
+                  icon={blueIcon}
+                  className="custom-marker-move"
                 >
                   <Popup>
                     VIN: {registration}

@@ -11,6 +11,7 @@ import {
   getCars,
   getMileage,
 } from "../utils/requests";
+import { set } from "express/lib/application";
 
 const CarCard = ({
   setMapCenter,
@@ -39,28 +40,28 @@ const CarCard = ({
 
   useEffect(() => {
     if (clicked) {
-      for (let carMileage of mileage) {
-        const registration = carMileage.registration;
+      for (const registration in mileage) {
         if (
-          carMileage[registration].latitude !==
+          mileage[registration].latitude !==
             initialMileage[registration].latitude ||
-          carMileage[registration].longitude !==
+          mileage[registration].longitude !==
             initialMileage[registration].longitude
         ) {
           showAlertToast();
+          setClicked(false)
         }
       }
     }
   }, [mileage]);
 
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // }, [counter]);
+  useEffect(() => {
+    const intervalCount = setInterval(() => {
+      setCounter(counter + 1);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCount);
+    };
+  }, [counter]);
 
   useEffect(() => {
     getVins(setVins);
