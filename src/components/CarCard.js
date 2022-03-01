@@ -11,7 +11,7 @@ import {
   getCars,
   getMileage,
 } from "../utils/requests";
-import { set } from "express/lib/application";
+
 
 const CarCard = ({
   setMapCenter,
