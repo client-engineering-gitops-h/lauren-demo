@@ -11,7 +11,7 @@ import {
   getCars,
   getMileage,
 } from "../utils/requests";
-import { set } from "express/lib/application";
+
 
 const CarCard = ({
   setMapCenter,
@@ -35,7 +35,7 @@ const CarCard = ({
   };
 
   const showAlertToast = () => {
-    toaster.show({ message: "Your car is moving without being turned on" });
+    toaster.show({ message: "Potential Theft in Progress" });
   };
 
   useEffect(() => {
