@@ -128,3 +128,15 @@
   display: flex;
   align-items: center;
 }
+
+.leaflet-marker-icon .leaflet-zoom-animated .leaflet-interactive {
+  margin-top: -41px;
+  margin-left: -12px;
+}
+
+.custom-marker-move{
+  margin-top: -41px;
+  margin-left: -12px;
+  width: 10px; 
+  height: 10px;
+}

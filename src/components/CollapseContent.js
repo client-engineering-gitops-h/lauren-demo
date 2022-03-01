@@ -87,11 +87,11 @@ const CollapseContent = ({
             </div>
             <div>
               <strong>Lat: </strong>
-              {carMileage.latitude ? carMileage.latitude.toFixed(6) : "N/A"}
+              {carMileage.latitude ? carMileage.latitude : "N/A"}
             </div>
             <div>
               <strong>Long: </strong>
-              {carMileage.longitude ? carMileage.longitude.toFixed(6) : "N/A"}
+              {carMileage.longitude ? carMileage.longitude : "N/A"}
             </div>
           </div>
           <div className="OEM-location">
@@ -109,13 +109,13 @@ const CollapseContent = ({
             <div>
               <strong>Lat: </strong>
               {initialLocation.latitude && carMakes.has(car.make)
-                ? initialLocation.latitude.toFixed(6)
+                ? initialLocation.latitude
                 : "N/A"}
             </div>
             <div>
               <strong>Long: </strong>
               {initialLocation.longitude && carMakes.has(car.make)
-                ? initialLocation.longitude.toFixed(6)
+                ? initialLocation.longitude
                 : "N/A"}
             </div>
           </div>

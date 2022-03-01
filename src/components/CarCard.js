@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Elevation, Button } from "@blueprintjs/core";
+import { Card, Elevation, Button, Toaster, Toast } from "@blueprintjs/core";
 
 import CollapseContent from "./CollapseContent";
 
@@ -11,24 +11,57 @@ import {
   getCars,
   getMileage,
 } from "../utils/requests";
+import { set } from "express/lib/application";
 
-const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
+const CarCard = ({
+  setMapCenter,
+  setSelectedCarMarkers,
+  initialMileage,
+  setInitialMileage,
+  initialCars,
+  setInitialCars,
+  setSelectedCars,
+  selectedCars,
+}) => {
   const [cars, setCars] = useState();
   const [mileage, setMileage] = useState();
-  const [initialCars, setInitialCars] = useState();
-  const [initialMileage, setInitialMileage] = useState();
-  const [selectedCars, setSelectedCars] = useState();
   const [counter, setCounter] = useState(0);
   const [vins, setVins] = useState();
+  const [clicked, setClicked] = useState(false);
 
-  // useEffect(() => {
-  //   const intervalCount = setInterval(() => {
-  //     setCounter(counter + 1);
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(intervalCount);
-  //   };
-  // }, [counter]);
+  let toaster;
+  const refHandlers = {
+    toaster: (ref) => (toaster = ref),
+  };
+
+  const showAlertToast = () => {
+    toaster.show({ message: "Your car is moving without being turned on" });
+  };
+
+  useEffect(() => {
+    if (clicked) {
+      for (const registration in mileage) {
+        if (
+          mileage[registration].latitude !==
+            initialMileage[registration].latitude ||
+          mileage[registration].longitude !==
+            initialMileage[registration].longitude
+        ) {
+          showAlertToast();
+          setClicked(false)
+        }
+      }
+    }
+  }, [mileage]);
+
+  useEffect(() => {
+    const intervalCount = setInterval(() => {
+      setCounter(counter + 1);
+    }, 3000);
+    return () => {
+      clearInterval(intervalCount);
+    };
+  }, [counter]);
 
   useEffect(() => {
     getVins(setVins);
@@ -55,6 +88,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
 
   return (
     <div>
+      <Toaster usePortal={false} ref={refHandlers.toaster} />
       <Card>
         <h1 className="fleet-title-styling">
           Your Fleet
@@ -63,6 +97,7 @@ const CarCard = ({ setMapCenter, setSelectedCarMarkers }) => {
             onClick={() => {
               getOEMCar(vins, setInitialCars);
               getOEMMileage(setInitialMileage);
+              setClicked(true);
             }}
           >
             OEM
