@@ -35,7 +35,7 @@ const CarCard = ({
   };
 
   const showAlertToast = () => {
-    toaster.show({ message: "Your car is moving without being turned on" });
+    toaster.show({ message: "Potential Theft in Progress" });
   };
 
   useEffect(() => {
